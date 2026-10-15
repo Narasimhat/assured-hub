@@ -41,12 +41,24 @@ if (fs.existsSync(academyDist)) {
   console.log('✓ Copied apps/academy-ui/dist to dist/academy');
 }
 
-// Static-host fallback; Vercel and the local preview redirect at the server.
+// Two entry points: the experiment workspace and the learning area.
 const homeHtml = `<!doctype html>
 <html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="0;url=./studio/">
-<title>Assured Genome Studio</title></head>
-<body><a href="./studio/">Open Assured Genome Studio</a></body></html>`;
+<meta name="description" content="Genome Studio for genome editing experiments. Academy for teaching, training, and learning.">
+<title>ASSURED — Genome Studio &amp; Academy</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0f172a;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;line-height:1.6}header,main,footer{max-width:1100px;margin:auto;padding:28px}header{font-weight:750;letter-spacing:.06em}main{padding-top:65px;padding-bottom:80px}.eyebrow{color:#94a3b8;font-size:14px;letter-spacing:.12em;text-transform:uppercase}h1{font-size:clamp(36px,6vw,60px);line-height:1.12;letter-spacing:-.04em;max-width:800px;margin:18px 0}p{color:#94a3b8}.intro{font-size:18px;max-width:650px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:45px}article{background:#1e293b;border:1px solid #334155;border-radius:20px;padding:32px;display:flex;flex-direction:column}h2{font-size:28px;margin:12px 0}.label{color:#38bdf8;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}.learn .label{color:#6ee7b7}.action{display:inline-block;align-self:flex-start;margin-top:auto;padding:12px 20px;border-radius:10px;background:#38bdf8;color:#082f49;text-decoration:none;font-weight:700}.learn .action{background:#6ee7b7;color:#064e3b}article p{margin-bottom:28px}a:focus-visible{outline:3px solid #f8fafc;outline-offset:4px}a:hover{filter:brightness(1.1)}footer{border-top:1px solid #334155;color:#64748b;font-size:13px}@media(max-width:650px){.choices{grid-template-columns:1fr}main{padding-top:30px}article{padding:24px}}
+</style></head><body>
+<header>ASSURED</header>
+<main><div class="eyebrow">Genome engineering · Experiment &amp; learn</div>
+<h1>Your workspace. Your learning space.</h1>
+<p class="intro">Choose Genome Studio to work on an experiment, or Academy to explore teaching, training, and learning.</p>
+<section class="choices" aria-label="Choose your workspace">
+<article><span class="label">Experiments</span><h2>Genome Studio</h2><p>Design your edit, plan reagents, analyse Sanger traces, and review clones in one workspace.</p><a class="action" href="./studio/">Open Genome Studio →</a></article>
+<article class="learn"><span class="label">Teaching · Training · Learning</span><h2>Academy</h2><p>Explore the learning overview for genome editing concepts, guided practice, and teaching.</p><a class="action" href="./academy/">Explore Academy →</a></article>
+</section></main>
+<footer>ASSURED · Genome Studio &amp; Academy</footer>
+</body></html>`;
 fs.writeFileSync(path.join(distDir, 'index.html'), homeHtml, 'utf8');
-console.log('✓ Created Studio home redirect');
+console.log('✓ Created Genome Studio and Academy landing page');

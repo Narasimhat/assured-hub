@@ -67,3 +67,11 @@ Each Design request now has a Fetch gene reference button under Sequence input. 
 Confirmed the old root-relative demo URL returned HTTP 404 with a 79-byte error body, while the actual `/studio/demo_traces/` file returned HTTP 200 with 73,748 bytes. All three sample loaders now resolve their trace and spec assets beneath Vite's base. HTTP errors and non-ABIF/truncated responses are rejected during loading, and the dataset is committed only after its design spec also loads successfully. Replacing a dataset clears the preceding analysis and figure.
 
 Validation: 19 Studio tests pass and its build succeeds. Downloaded the live synthetic control and three edited traces from the correct deployed paths, parsed and analysed all three clones; also downloaded and parsed the live APOE and MYD88 control traces.
+
+## Landing and Academy purpose
+
+The landing page now offers exactly two destinations: Genome Studio for experiments and Academy for teaching, training, and learning. Removed the root-to-Studio redirect. Design and QC remain in Studio's More tools menu, which also includes Home.
+
+At the user's request, Academy is now a simple learning overview for foundations, guided examples and teaching/assessment. Its runtime no longer imports the duplicated five-stage workbench, mode switcher, embedded Studio, progress scores, or production tools. The overview explicitly says curriculum/training activities are being reorganized. Prior lesson/simulation source and saved learner data are retained for future curriculum work.
+
+Validation: full hub build and Academy's existing 55-component smoke check pass. Server-rendered the new overview and confirmed its learning areas and Studio link are present, with no workbench, iframe, or Pro Mode in the rendered page.

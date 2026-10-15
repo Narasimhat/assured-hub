@@ -27,12 +27,6 @@ const port = process.env.PORT || 3000;
 const server = http.createServer((req, res) => {
   let reqPath = decodeURIComponent(req.url.split('?')[0]);
 
-  if (reqPath === '/') {
-    res.writeHead(302, { Location: '/studio/' });
-    res.end();
-    return;
-  }
-
   if (reqPath === '/qc' || reqPath === '/design' || reqPath === '/studio' || reqPath === '/academy') {
     res.writeHead(301, { Location: `${reqPath}/` });
     res.end();

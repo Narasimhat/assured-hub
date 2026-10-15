@@ -1,166 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { ExternalLink } from 'lucide-react';
-import { TabType, RareDiseaseMission, WorkspaceMode } from './types';
-import { Navbar } from './components/layout/Navbar';
-import { Footer } from './components/layout/Footer';
-import { AcademyHub } from './components/academy/AcademyHub';
-import { VirtualLab } from './components/simulator/VirtualLab';
-import { FrugalLabConfig } from './components/frugal/FrugalLabConfig';
-import { RareDiseaseHub } from './components/missions/RareDiseaseHub';
-import { ToolLaunchpad } from './components/tools/ToolLaunchpad';
-import { CertificateModal } from './components/certificate/CertificateModal';
-import { UnifiedPipeline } from './components/pipeline/UnifiedPipeline';
+import React from 'react';
+import { BookOpen, GraduationCap, FlaskConical, ArrowRight } from 'lucide-react';
 
-export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('workbench');
-  const [workspaceMode, setWorkspaceMode] = useState<WorkspaceMode>(() => {
-    const saved = localStorage.getItem('assured_workspace_mode');
-    return (saved === 'pro' || saved === 'guided') ? (saved as WorkspaceMode) : 'guided';
-  });
+const learningAreas = [
+  { title: 'Learn the foundations', icon: BookOpen, text: 'Understand the concepts behind genome editing, experimental controls, and interpreting evidence.' },
+  { title: 'Train with guided examples', icon: FlaskConical, text: 'Build confidence through worked examples and practice scenarios before moving to your own experiments.' },
+  { title: 'Teach and assess', icon: GraduationCap, text: 'Support structured teaching with learning objectives, discussion topics, and opportunities to check understanding.' },
+];
 
-  // Persisted state in localStorage
-  const [masteryPoints, setMasteryPoints] = useState<number>(() => {
-    const saved = localStorage.getItem('assured_mastery_pts');
-    return saved ? Number(saved) : 150; // Starter points for onboarding
-  });
-
-  const [completedLessons, setCompletedLessons] = useState<string[]>(() => {
-    const saved = localStorage.getItem('assured_completed_lessons');
-    return saved ? JSON.parse(saved) : ['lesson-1-1'];
-  });
-
-  const [showCertificate, setShowCertificate] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('assured_workspace_mode', workspaceMode);
-  }, [workspaceMode]);
-
-  useEffect(() => {
-    localStorage.setItem('assured_mastery_pts', String(masteryPoints));
-  }, [masteryPoints]);
-
-  useEffect(() => {
-    localStorage.setItem('assured_completed_lessons', JSON.stringify(completedLessons));
-  }, [completedLessons]);
-
-  const handlePassQuiz = (lessonId: string, pointsAwarded: number) => {
-    if (!completedLessons.includes(lessonId)) {
-      setCompletedLessons(prev => [...prev, lessonId]);
-      setMasteryPoints(prev => prev + pointsAwarded);
-    }
-  };
-
-  const handleAwardMastery = (points: number) => {
-    setMasteryPoints(prev => prev + points);
-  };
-
-  const handleSelectMissionForLab = (_mission: RareDiseaseMission) => {
-    setActiveTab('simulator');
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
-      
-      {/* Navigation */}
-      <Navbar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        workspaceMode={workspaceMode}
-        setWorkspaceMode={setWorkspaceMode}
-        masteryPoints={masteryPoints}
-        totalQuizzesPassed={completedLessons.length}
-        onOpenCertificate={() => setShowCertificate(true)}
-      />
-
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'workbench' && (
-          <UnifiedPipeline workspaceMode={workspaceMode} />
-        )}
-
-        {activeTab === 'academy' && (
-          <AcademyHub
-            completedLessons={completedLessons}
-            onPassQuiz={handlePassQuiz}
-            onNavigateToSimulator={() => setActiveTab('simulator')}
-          />
-        )}
-
-        {activeTab === 'simulator' && (
-          <VirtualLab
-            onAwardMastery={handleAwardMastery}
-          />
-        )}
-
-        {activeTab === 'frugal' && (
-          <FrugalLabConfig />
-        )}
-
-        {activeTab === 'missions' && (
-          <RareDiseaseHub
-            onSelectMissionForLab={handleSelectMissionForLab}
-          />
-        )}
-
-        {activeTab === 'suite' && (
-          <ToolLaunchpad />
-        )}
-
-        {activeTab === 'studio' && (
-          <div className="space-y-4 animate-in fade-in duration-300">
-            <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/60 via-slate-900 to-slate-900 border border-purple-800/60 shadow-xl flex flex-wrap items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                    Standalone Production Studio
-                  </span>
-                  <span className="text-xs text-slate-400 font-mono">End-to-End CRISPR Genome Engineering</span>
-                </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Assured Studio
-                </h1>
-                <p className="text-xs text-slate-300 max-w-2xl">
-                  Unified CRISPR workspace: in-silico SpCas9 design, vendor order sheets, in-silico gel electrophoresis, Star Protocols wet-lab execution, and 96-well Sanger QC deconvolution.
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <a
-                  href="/studio/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/25 transition-all"
-                >
-                  <span>Open in Full Window</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-
-            <div className="w-full h-[750px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
-              <iframe
-                src="/studio/"
-                title="Assured Studio"
-                className="w-full h-full border-0"
-              />
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Certificate Modal */}
-      {showCertificate && (
-        <CertificateModal
-          onClose={() => setShowCertificate(false)}
-          masteryPoints={masteryPoints}
-          totalQuizzesPassed={completedLessons.length}
-        />
-      )}
-
-    </div>
-  );
-};
+export const App: React.FC = () => (
+  <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
+    <header className="border-b border-slate-800">
+      <nav aria-label="Main navigation" className="max-w-6xl mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+        <a href="../" className="font-bold text-lg text-white focus-visible:outline focus-visible:outline-cyan-400">ASSURED</a>
+        <div className="flex items-center gap-6 text-sm">
+          <span aria-current="page" className="text-emerald-300">Academy</span>
+          <a href="../studio/" className="text-slate-300 hover:text-white focus-visible:outline focus-visible:outline-cyan-400">Genome Studio</a>
+        </div>
+      </nav>
+    </header>
+    <main className="max-w-6xl mx-auto px-6 py-14 sm:py-20">
+      <p className="text-sm font-semibold tracking-widest uppercase text-emerald-300">Teaching · Training · Learning</p>
+      <h1 className="mt-5 text-4xl sm:text-6xl font-bold tracking-tight">Assured Academy</h1>
+      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">A learning space for understanding genome editing and building experimental judgment.</p>
+      <div className="mt-10 p-5 rounded-2xl border border-emerald-900 bg-emerald-950/30 max-w-2xl">
+        <h2 className="font-semibold text-emerald-200">Learning overview</h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-300">Academy's curriculum and training activities are being reorganized around the learning areas below. This page is an overview for now.</p>
+      </div>
+      <section aria-label="Learning areas" className="mt-12 grid md:grid-cols-3 gap-6">
+        {learningAreas.map(({ title, icon: Icon, text }) => (
+          <article key={title} className="rounded-2xl border border-slate-800 bg-slate-900 p-7">
+            <Icon aria-hidden="true" className="w-7 h-7 text-emerald-300" />
+            <h2 className="mt-5 text-xl font-semibold">{title}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{text}</p>
+          </article>
+        ))}
+      </section>
+      <section className="mt-14 border-t border-slate-800 pt-8">
+        <h2 className="text-xl font-semibold">Ready to work on an experiment?</h2>
+        <p className="mt-2 text-slate-400">Use Genome Studio for design, reagent planning, trace QC, and clone review.</p>
+        <a href="../studio/" className="inline-flex items-center gap-2 mt-5 text-cyan-300 hover:text-cyan-200 focus-visible:outline focus-visible:outline-cyan-400">Open Genome Studio <ArrowRight aria-hidden="true" className="w-4 h-4" /></a>
+      </section>
+    </main>
+    <footer className="border-t border-slate-800 px-6 py-6 text-center text-sm text-slate-500">ASSURED Academy · Teaching, training, and learning</footer>
+  </div>
+);
 
 export default App;
