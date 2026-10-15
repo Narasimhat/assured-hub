@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { classifyFiles, buildPairs, readDesign, planTasks, runPool } from "./quick.js";
 import { parseCodingFields } from "./coding.js";
 import { parseAbif } from "./abif.js";
@@ -22,7 +22,7 @@ const download = (name, data, type) => { const url = URL.createObjectURL(new Blo
 const arrayBufferOf = (file) => file.arrayBuffer();
 const interval = (iv) => (iv ? `${iv[0]}-${iv[1]}%` : "");
 
-export default function QuickStart() {
+export default function QuickStart({ initialDesign = null, onResults } = {}) {
   const filePicker = useRef(null); const folderPicker = useRef(null); const designPicker = useRef(null);
   const files = useRef(new Map()); const buffers = useRef(new Map());
   const [traceNames, setTraceNames] = useState([]); const [sheetText, setSheetText] = useState(""); const [designText, setDesignText] = useState(""); const [designName, setDesignName] = useState(""); const [geneText, setGeneText] = useState(""); const [geneName, setGeneName] = useState(""); const [regionsText, setRegionsText] = useState(""); const [epitopeText, setEpitopeText] = useState("");
@@ -33,12 +33,25 @@ export default function QuickStart() {
   const [dragging, setDragging] = useState(false);
   const [designIndex, setDesignIndex] = useState(0);
 
+  useEffect(() => {
+    if ((initialDesign?.text || "") === designText) return;
+    setDesignText(initialDesign?.text || ""); setDesignName(initialDesign ? initialDesign.name || "Bench design" : ""); setDesignIndex(0);
+    files.current.clear(); buffers.current.clear();
+    setTraceNames([]); setPairsEdit({}); setOutcome(null); setError("");
+  }, [initialDesign]);
+  const previousOutcome = useRef(null);
+  useEffect(() => {
+    if (!outcome && previousOutcome.current && onResults) onResults({ results: [] });
+    previousOutcome.current = outcome;
+    if (outcome && onResults) onResults({ results: withRecommendations(outcome.results, panel ? { panel } : {}), designText, designName });
+  }, [outcome, panel, onResults]);
+
   const addFiles = async (list) => {
     if (running) return;
     try {
       setError("");
       const selected = Array.from(list || []);
-      setImportStatus("Reading selected filesÖ");
+      setImportStatus("Reading selected files‚Ä¶");
       const expanded = await expandImportFiles(selected);
       const duplicates = [];
       const seen = new Set(files.current.keys());
@@ -122,7 +135,7 @@ export default function QuickStart() {
       </div>
       {importStatus && <p role="status" className="note">{importStatus}</p>}
       <input ref={designPicker} hidden style={{ display: "none" }} id="q-design" aria-label="Design report file" type="file" accept=".html,.htm,.json,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
-      {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or enter guides manually under ìGuides, donor, nuclease, goalî.</p>}
+      {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or enter guides manually under ‚ÄúGuides, donor, nuclease, goal‚Äù.</p>}
       {designName && <div role="status">
         <p><b>{design.error ? "Design needs attention:" : "Design loaded:"}</b> {designName} <button type="button" disabled={running} onClick={() => designPicker.current.click()}>Replace design</button> <button type="button" disabled={running} onClick={() => { setDesignName(""); setDesignText(""); setDesignIndex(0); setOutcome(null); setError(""); }}>Remove design</button></p>
         {design.error ? <p className="error">{design.error} Replace or remove this file to continue.</p> : design.kind === "report" ? <>

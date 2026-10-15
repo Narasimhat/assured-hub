@@ -186,14 +186,13 @@ export function App() {
           />
         )}
 
-        {activeStep === "qc" && (
+        <div hidden={activeStep !== "qc"}>
           <QcView
             key={currentProject.id}
             currentProject={currentProject}
             onUpdateProject={handleUpdateProject}
-            onBackToDesign={() => setActiveStep("design")}
           />
-        )}
+        </div>
 
         {activeStep === "decision" && (
           <DecisionView currentProject={currentProject} />
