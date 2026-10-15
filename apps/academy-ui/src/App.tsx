@@ -35,6 +35,20 @@ export const App: React.FC = () => (
           </article>
         ))}
       </section>
+      <section aria-labelledby="standalone-tools" className="mt-14 border-t border-slate-800 pt-8">
+        <h2 id="standalone-tools" className="text-2xl font-semibold">Standalone tools</h2>
+        <p className="mt-2 text-slate-400">Explore design and trace analysis separately for demonstrations and practice.</p>
+        <div className="mt-6 grid sm:grid-cols-2 gap-6">
+          <a href="../design/" className="rounded-2xl border border-slate-800 bg-slate-900 p-6 hover:border-cyan-600 focus-visible:outline focus-visible:outline-cyan-400">
+            <h3 className="text-lg font-semibold text-cyan-300">Standalone Design →</h3>
+            <p className="mt-2 text-sm text-slate-400">Explore guide selection, donor design, and design reports.</p>
+          </a>
+          <a href="../qc/" className="rounded-2xl border border-slate-800 bg-slate-900 p-6 hover:border-emerald-600 focus-visible:outline focus-visible:outline-emerald-400">
+            <h3 className="text-lg font-semibold text-emerald-300">Standalone QC →</h3>
+            <p className="mt-2 text-sm text-slate-400">Explore Sanger trace analysis and review sequencing results.</p>
+          </a>
+        </div>
+      </section>
       <section className="mt-14 border-t border-slate-800 pt-8">
         <h2 className="text-xl font-semibold">Ready to work on an experiment?</h2>
         <p className="mt-2 text-slate-400">Use Genome Studio for design, reagent planning, trace QC, and clone review.</p>

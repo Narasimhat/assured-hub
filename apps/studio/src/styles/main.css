@@ -406,28 +406,3 @@ tr:hover td {
 .project-context span { flex-basis: 100%; }
 .stepper-container { flex-wrap: wrap; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-
-.tools-menu { position: relative; }
-.tools-menu summary {
-  cursor: pointer;
-  padding: 0.45rem 0.85rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-}
-.tools-menu nav {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 0.5rem);
-  min-width: 190px;
-  padding: 0.4rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px #0005;
-  z-index: 60;
-}
-.tools-menu a { display: block; padding: 0.6rem; color: var(--text-main); text-decoration: none; border-radius: 4px; }
-.tools-menu a:hover, .tools-menu a:focus-visible { background: var(--bg-card-hover); }
-.tools-menu summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }

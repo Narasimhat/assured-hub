@@ -26,7 +26,7 @@ export function Header({
           <Dna size={20} />
         </div>
         <div>
-          <span className="brand-title">Assured Genome Studio</span>
+          <a className="brand-title" href="../" title="ASSURED home" style={{ textDecoration: "none" }}>Assured Genome Studio</a>
           <span className="brand-badge">v1.0</span>
         </div>
       </div>
@@ -48,15 +48,6 @@ export function Header({
 
       {/* Project Controls */}
       <div className="project-controls">
-        <details className="tools-menu">
-          <summary>More tools</summary>
-          <nav aria-label="Other Assured tools">
-            <a href="../">Home</a>
-            <a href="../design/">Standalone Design</a>
-            <a href="../qc/">Standalone QC</a>
-            <a href="../academy/">Academy</a>
-          </nav>
-        </details>
         <button
           className="btn btn-secondary"
           onClick={onOpenProtocol}
