@@ -37,7 +37,7 @@ export function parseProject(text) {
       (value.designResult != null && (typeof value.designResult !== "object" || Array.isArray(value.designResult))) ||
       (value.options != null && (typeof value.options !== "object" || Array.isArray(value.options))) ||
       ["id", "name", "mutation", "tag", "genbankRaw"].some(key => value[key] != null && typeof value[key] !== "string")) {
-    throw new Error("Choose an Assured Studio experiment exported with the Export button.");
+    throw new Error("Choose an ASSURED Bench experiment exported with the Export button.");
   }
   const defaults = createProject();
   return { ...defaults, ...value, id: value.id || defaults.id,

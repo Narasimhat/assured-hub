@@ -292,7 +292,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       design: demoSpec?.design?.label || `${gene} Genome Edit`,
       results: analysisResults,
       notes: [
-        "100% client-side trace deconvolution computed by Assured Studio.",
+        "100% client-side trace deconvolution computed by ASSURED Bench.",
         "Sanger traces cannot exclude large deletions on the unamplified allele; protein loss/gain must be verified downstream."
       ]
     });

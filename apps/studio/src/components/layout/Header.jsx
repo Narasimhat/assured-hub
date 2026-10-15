@@ -26,7 +26,7 @@ export function Header({
           <Dna size={20} />
         </div>
         <div>
-          <a className="brand-title" href="../" title="ASSURED home" style={{ textDecoration: "none" }}>Assured Genome Studio</a>
+          <a className="brand-title" href="../" title="ASSURED home" style={{ textDecoration: "none" }}>ASSURED Bench</a>
           <span className="brand-badge">v1.0</span>
         </div>
       </div>

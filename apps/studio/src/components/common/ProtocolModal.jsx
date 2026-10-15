@@ -375,7 +375,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                   Day 14 — Colony Direct PCR & Gel Screening
                 </div>
                 <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.25rem", lineHeight: "1.5" }}>
-                  Pick 1/4 of each colony into 20 µL lysis buffer. Retain 3/4 in culture. Perform 35-cycle PCR with Assured Studio primers. Run 5 µL on a 2.0% agarose gel and compare band migration against the <strong>In-Silico Gel Simulator</strong>.
+                  Pick 1/4 of each colony into 20 µL lysis buffer. Retain 3/4 in culture. Perform 35-cycle PCR with ASSURED Bench primers. Run 5 µL on a 2.0% agarose gel and compare band migration against the <strong>In-Silico Gel Simulator</strong>.
                 </div>
               </div>
             </div>

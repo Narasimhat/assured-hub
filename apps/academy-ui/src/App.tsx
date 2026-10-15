@@ -15,7 +15,7 @@ export const App: React.FC = () => (
         <a href="../" className="font-bold text-lg text-white focus-visible:outline focus-visible:outline-cyan-400">ASSURED</a>
         <div className="flex items-center gap-6 text-sm">
           <span aria-current="page" className="text-emerald-300">Academy</span>
-          <a href="../studio/" className="text-slate-300 hover:text-white focus-visible:outline focus-visible:outline-cyan-400">Genome Studio</a>
+          <a href="../studio/" className="text-slate-300 hover:text-white focus-visible:outline focus-visible:outline-cyan-400">ASSURED Bench</a>
         </div>
       </nav>
     </header>
@@ -53,8 +53,8 @@ export const App: React.FC = () => (
       </section>
       <section className="mt-14 border-t border-slate-800 pt-8">
         <h2 className="text-xl font-semibold">Ready to work on an experiment?</h2>
-        <p className="mt-2 text-slate-400">Use Genome Studio for design, reagent planning, trace QC, and clone review.</p>
-        <a href="../studio/" className="inline-flex items-center gap-2 mt-5 text-cyan-300 hover:text-cyan-200 focus-visible:outline focus-visible:outline-cyan-400">Open Genome Studio <ArrowRight aria-hidden="true" className="w-4 h-4" /></a>
+        <p className="mt-2 text-slate-400">Use ASSURED Bench for design, reagent planning, trace QC, and clone review.</p>
+        <a href="../studio/" className="inline-flex items-center gap-2 mt-5 text-cyan-300 hover:text-cyan-200 focus-visible:outline focus-visible:outline-cyan-400">Open ASSURED Bench <ArrowRight aria-hidden="true" className="w-4 h-4" /></a>
       </section>
     </main>
     <footer className="border-t border-slate-800 px-6 py-6 text-center text-sm text-slate-500">ASSURED Academy · Teaching, training, and learning</footer>
