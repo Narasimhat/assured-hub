@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "test": "npm test -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy && npm run test:contract",
-    "test:contract": "node --test tests/contract/",
+    "test:contract": "node --test tests/contract/*.test.js",
+    "build": "npm run build:qc && npm run build:design",
     "build:qc": "npm run build -w assured-qc",
     "build:design": "npm run build -w assured-crispr-designer"
   }
