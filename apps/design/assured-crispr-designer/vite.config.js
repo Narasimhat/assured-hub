@@ -202,7 +202,7 @@ export default defineConfig(({ command }) => ({
     __BUILD_SHA__: JSON.stringify(resolveBuildSha()),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
   },
-  base: command === "build" && process.env.GITHUB_PAGES === "1" ? GITHUB_PAGES_BASE : "/",
+  base: command === "build" && process.env.GITHUB_PAGES === "1" ? GITHUB_PAGES_BASE : (process.env.VITE_BASE || "./"),
   build: {
     rollupOptions: {
       output: {

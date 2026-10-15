@@ -6,7 +6,7 @@ const GITHUB_PAGES_BASE = process.env.GITHUB_PAGES_BASE || "/Assured_QC/";
 
 export default defineConfig(({ command }) => ({
   plugins: [react()],
-  base: command === "build" && process.env.GITHUB_PAGES === "1" ? GITHUB_PAGES_BASE : "/",
+  base: command === "build" && process.env.GITHUB_PAGES === "1" ? GITHUB_PAGES_BASE : (process.env.VITE_BASE || "./"),
   worker: { format: "es" },
   server: { host: true, port: 5174 },
 }));

@@ -14,6 +14,7 @@
     "test:contract": "node --test tests/contract/*.test.js",
     "build": "npm run build:qc && npm run build:design && node scripts/build-hub.mjs",
     "build:qc": "npm run build -w assured-qc",
-    "build:design": "npm run build -w assured-crispr-designer"
+    "build:design": "npm run build -w assured-crispr-designer",
+    "preview": "node scripts/serve-hub.mjs"
   }
 }
