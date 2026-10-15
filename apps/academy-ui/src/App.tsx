@@ -1,3 +1,4 @@
+import { CurriculumSection } from "./components/academy/CurriculumSection";
 import React from 'react';
 import { BookOpen, GraduationCap, FlaskConical, ArrowRight } from 'lucide-react';
 
@@ -23,8 +24,8 @@ export const App: React.FC = () => (
       <h1 className="mt-5 text-4xl sm:text-6xl font-bold tracking-tight">Assured Academy</h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">A learning space for understanding genome editing and building experimental judgment.</p>
       <div className="mt-10 p-5 rounded-2xl border border-emerald-900 bg-emerald-950/30 max-w-2xl">
-        <h2 className="font-semibold text-emerald-200">Learning overview</h2>
-        <p className="mt-2 text-sm leading-relaxed text-slate-300">Academy's curriculum and training activities are being reorganized around the learning areas below. This page is an overview for now.</p>
+        <h2 className="font-semibold text-emerald-200">Start learning</h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-300">Explore 12 lessons across four curriculum tracks. Each lesson includes explanations, key takeaways, and a quiz.</p>
       </div>
       <section aria-label="Learning areas" className="mt-12 grid md:grid-cols-3 gap-6">
         {learningAreas.map(({ title, icon: Icon, text }) => (
@@ -35,6 +36,7 @@ export const App: React.FC = () => (
           </article>
         ))}
       </section>
+      <CurriculumSection />
       <section aria-labelledby="standalone-tools" className="mt-14 border-t border-slate-800 pt-8">
         <h2 id="standalone-tools" className="text-2xl font-semibold">Standalone tools</h2>
         <p className="mt-2 text-slate-400">Explore design and trace analysis separately for demonstrations and practice.</p>

@@ -35,7 +35,7 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800/60">
-              Interactive Masterclass
+              Lesson
             </span>
             <div className="flex items-center gap-1 text-xs text-slate-400">
               <Clock className="w-3.5 h-3.5" />
@@ -52,7 +52,7 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
           {isCompleted && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/70 text-emerald-300 text-xs font-semibold">
               <CheckCircle className="w-4 h-4 text-emerald-400" />
-              <span>Mastery Verified</span>
+              <span>Quiz completed</span>
             </div>
           )}
 
@@ -62,7 +62,7 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold shadow-lg shadow-cyan-500/20 transition-all hover:scale-102"
             >
               <HelpCircle className="w-4 h-4" />
-              <span>{isCompleted ? 'Retake Quiz' : 'Take Quiz (+50 pts)'}</span>
+              <span>{isCompleted ? 'Retake Quiz' : 'Take Quiz'}</span>
             </button>
           )}
         </div>
@@ -144,7 +144,7 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
       <div className="flex items-center justify-between pt-6 border-t border-slate-800/80">
         <div className="flex items-center gap-2 text-xs text-slate-400">
           <FlaskConical className="w-4 h-4 text-cyan-400" />
-          <span>Ready to practice on the virtual bench? Head to the Virtual Lab simulator.</span>
+          <span>Use the standalone tools below for demonstrations and practice.</span>
         </div>
 
         {onNextLesson && (
