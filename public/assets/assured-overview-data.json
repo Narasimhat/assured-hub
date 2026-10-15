@@ -1,0 +1,203 @@
+{
+  "description": "Landing banner source data. Original processed AB1 channels are shown, not synthetic chromatograms. Fitted allele shares are sequence-level estimates.",
+  "generator": "node scripts/build-overview-banner.mjs",
+  "designFile": "/studio/drive_data/spec_BIHi005-A_wt_1172_EF74668951.ab1.json",
+  "controlFile": "/studio/drive_data/myd88/BIHi005-A_wt_1172_EF74668951.ab1",
+  "traceExcerpt": {
+    "firstBaseIndex": 75,
+    "lastBaseIndexExclusive": 110,
+    "scaling": "Each read scaled independently to its maximum processed-channel intensity."
+  },
+  "guides": [
+    {
+      "name": "MYD88_g1",
+      "spacer": "AGGTGCCAGGCAGGACATCG",
+      "pam": "CGG",
+      "strand": "-",
+      "cut": 99,
+      "protospacerStart": 96,
+      "protospacerEnd": 116,
+      "index": 1
+    },
+    {
+      "name": "MYD88_g2",
+      "spacer": "AAGGCCACGGGGTGGGTGCG",
+      "pam": "TGG",
+      "strand": "+",
+      "cut": 179,
+      "protospacerStart": 162,
+      "protospacerEnd": 182,
+      "index": 2
+    }
+  ],
+  "results": [
+    {
+      "name": "cl1_MYD88_KO_1172_EF74878421.ab1",
+      "traceFile": "/studio/drive_data/myd88/cl1_MYD88_KO_1172_EF74878421.ab1",
+      "dominantAllele": {
+        "label": "Deletion between cuts (79 bp)",
+        "kind": "deletion_between_cuts",
+        "size": -79,
+        "fraction": 0.9628,
+        "indistinguishable": 0,
+        "alsoConsistentWith": []
+      },
+      "summary": {
+        "wtPct": 0,
+        "editedPct": 100,
+        "indelPct": 100,
+        "betweenCutsPct": 100,
+        "intendedEditPct": 0,
+        "partialConversionPct": 0,
+        "partialWithIntendedPct": 0,
+        "koScorePct": 100,
+        "unexplainedPct": 0
+      },
+      "quality": {
+        "upstreamRms": 0.0434,
+        "upstreamBackground": 0.0351,
+        "r2": 0.999,
+        "noiseFraction": 0.036,
+        "rawSum": 1,
+        "windowLength": 255,
+        "positionsUsed": 255,
+        "candidates": 822,
+        "columns": 814,
+        "discordanceBefore": 0.049,
+        "discordanceNearCut": 0.034,
+        "discordanceAfter": 0.743,
+        "patches": 0
+      },
+      "genotype": {
+        "category": "homozygous_indel",
+        "call": "homozygous",
+        "summary": "Homozygous for deletion between cuts (79 bp)",
+        "flags": [
+          "Sanger traces cannot tell homozygous from hemizygous: a large deletion on the other allele would not appear."
+        ],
+        "alleles": [
+          {
+            "label": "Deletion between cuts (79 bp)",
+            "kind": "deletion_between_cuts",
+            "size": -79,
+            "fraction": 0.963
+          }
+        ]
+      }
+    },
+    {
+      "name": "cl3_MYD88_KO_1172_EF74878423.ab1",
+      "traceFile": "/studio/drive_data/myd88/cl3_MYD88_KO_1172_EF74878423.ab1",
+      "dominantAllele": {
+        "label": "Deletion between cuts (77 bp)",
+        "kind": "deletion_between_cuts",
+        "size": -77,
+        "fraction": 0.5023,
+        "indistinguishable": 0,
+        "alsoConsistentWith": []
+      },
+      "summary": {
+        "wtPct": 0,
+        "editedPct": 100,
+        "indelPct": 100,
+        "betweenCutsPct": 100,
+        "intendedEditPct": 0,
+        "partialConversionPct": 0,
+        "partialWithIntendedPct": 0,
+        "koScorePct": 100,
+        "unexplainedPct": 0
+      },
+      "quality": {
+        "upstreamRms": 0.44,
+        "upstreamBackground": 0.4598,
+        "r2": 0.986,
+        "noiseFraction": 0.044,
+        "rawSum": 1,
+        "windowLength": 255,
+        "positionsUsed": 255,
+        "candidates": 822,
+        "columns": 814,
+        "discordanceBefore": 0.458,
+        "discordanceNearCut": 0.149,
+        "discordanceAfter": 0.767,
+        "patches": 0
+      },
+      "genotype": {
+        "category": "compound_heterozygous",
+        "call": "two alleles",
+        "summary": "Compound heterozygous: deletion between cuts (77 bp) and deletion between cuts (79 bp)",
+        "flags": [
+          "A heterozygous call assumes the two alleles are the only ones; a large deletion on one allele cannot be excluded from the trace."
+        ],
+        "alleles": [
+          {
+            "label": "Deletion between cuts (77 bp)",
+            "kind": "deletion_between_cuts",
+            "size": -77,
+            "fraction": 0.502
+          },
+          {
+            "label": "Deletion between cuts (79 bp)",
+            "kind": "deletion_between_cuts",
+            "size": -79,
+            "fraction": 0.498
+          }
+        ]
+      }
+    },
+    {
+      "name": "cl4_MYD88_KO_1172_EF74878424.ab1",
+      "traceFile": "/studio/drive_data/myd88/cl4_MYD88_KO_1172_EF74878424.ab1",
+      "dominantAllele": {
+        "label": "Deletion between cuts (78 bp)",
+        "kind": "deletion_between_cuts",
+        "size": -78,
+        "fraction": 0.9736,
+        "indistinguishable": 0,
+        "alsoConsistentWith": []
+      },
+      "summary": {
+        "wtPct": 0,
+        "editedPct": 100,
+        "indelPct": 100,
+        "betweenCutsPct": 100,
+        "intendedEditPct": 0,
+        "partialConversionPct": 0,
+        "partialWithIntendedPct": 0,
+        "koScorePct": 100,
+        "unexplainedPct": 0
+      },
+      "quality": {
+        "upstreamRms": 0.051,
+        "upstreamBackground": 0.051,
+        "r2": 0.999,
+        "noiseFraction": 0.048,
+        "rawSum": 1,
+        "windowLength": 255,
+        "positionsUsed": 255,
+        "candidates": 822,
+        "columns": 814,
+        "discordanceBefore": 0.06,
+        "discordanceNearCut": 0.042,
+        "discordanceAfter": 0.693,
+        "patches": 0
+      },
+      "genotype": {
+        "category": "homozygous_indel",
+        "call": "homozygous",
+        "summary": "Homozygous for deletion between cuts (78 bp)",
+        "flags": [
+          "Sanger traces cannot tell homozygous from hemizygous: a large deletion on the other allele would not appear."
+        ],
+        "alleles": [
+          {
+            "label": "Deletion between cuts (78 bp)",
+            "kind": "deletion_between_cuts",
+            "size": -78,
+            "fraction": 0.974
+          }
+        ]
+      }
+    }
+  ]
+}
