@@ -66,6 +66,7 @@ const homeHtml = `<!doctype html>
 <nav class="contact-links" aria-label="Contact and research profiles">
 <a href="https://scholar.google.com/citations?user=nN8TOfMAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar ↗</a>
 <a href="https://www.linkedin.com/in/narasimha-telugu-phd-b8386b26" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+<a href="https://github.com/Narasimhat" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 <a href="mailto:narasimhaswamy.telugu@gmail.com">narasimhaswamy.telugu@gmail.com</a>
 <a href="https://wa.me/4917669336478" target="_blank" rel="noopener noreferrer">WhatsApp · +49 176 69336478 ↗</a>
 </nav>
