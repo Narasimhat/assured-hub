@@ -1,3 +1,5 @@
+import { parseQcDesign } from "../../services/qcDesignImport.js";
+import { validateDesignSpec } from "../../engine/qc/designSpec.js";
 import { fetchTraceAsset, fetchQcSpecAsset } from "../../services/qcAssets.js";
 import React, { useState } from "react";
 import { parseAbif } from "../../engine/qc/abif.js";
@@ -13,7 +15,8 @@ import { UploadCloud, CheckCircle, AlertTriangle, XCircle, FileText, Download, P
 
 export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [demoSpec, setDemoSpec] = useState(null);
+  const overrideSpec = currentProject?.qcDesignSpec || null;
+  const setOverrideSpec = (spec, source = "Sample dataset") => onUpdateProject({ qcDesignSpec: spec, qcDesignSource: source, qcResults: [] });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResults, setAnalysisResults] = useState(currentProject?.qcResults || []);
   const [selectedResult, setSelectedResult] = useState(null);
@@ -42,7 +45,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       );
 
       const spec = await fetchQcSpecAsset("demo_traces/apoe_r176c_snp.design.json");
-      setDemoSpec(spec);
+      setOverrideSpec(spec);
       setUploadedFiles(loaded);
       setAnalysisResults([]);
       setSelectedResult(null);
@@ -80,7 +83,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       );
 
       const spec = await fetchQcSpecAsset("/drive_data/spec_BIHi005-A_wt_1172_EF74668951.ab1.json");
-      setDemoSpec(spec);
+      setOverrideSpec(spec);
       setUploadedFiles(loaded);
       setAnalysisResults([]);
       setSelectedResult(null);
@@ -124,7 +127,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       );
 
       const spec = await fetchQcSpecAsset("/drive_data/spec_BIHi005-A_wt_1124_EF74344326.ab1.json");
-      setDemoSpec(spec);
+      setOverrideSpec(spec);
       setUploadedFiles(loaded);
       setAnalysisResults([]);
       setSelectedResult(null);
@@ -148,6 +151,36 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
   };
 
   const qcSpec = getQcSpec();
+  const activeSpec = overrideSpec || qcSpec;
+
+  const clearAnalysis = () => {
+    setAnalysisResults([]);
+    setSelectedResult(null);
+    setSelectedFigureSvg(null);
+  };
+
+  const handleDesignUpload = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setError(null);
+    try {
+      const { spec } = parseQcDesign(await file.text());
+      setOverrideSpec(spec, file.name);
+      setUploadedFiles([]);
+      clearAnalysis();
+    } catch (error) {
+      setError("Could not import design: " + error.message);
+    }
+  };
+
+  const useBenchDesign = () => {
+    onUpdateProject({ qcDesignSpec: null, qcDesignSource: null, qcResults: [] });
+    setUploadedFiles([]);
+    clearAnalysis();
+    setError(null);
+  };
+
 
   // Handle files drop / selection
   const handleFileDrop = async (e) => {
@@ -200,19 +233,12 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
 
       const controlTrace = parseAbif(controlFile.buffer, controlFile.name);
 
-      const specToUse = demoSpec || qcSpec || {
-        reference: { sequence: controlTrace.basecalls || "" },
-        design: { editKind: currentProject?.editType === "ko" ? "knockout" : "snp" },
-        guides: (currentProject?.designResult?.guides || currentProject?.designResult?.gs || []).map((g, i) => ({
-          name: `gRNA${i + 1}`,
-          spacer: g.spacer || g.sp || g.sequence,
-          strand: g.strand || "+",
-          cut: g.cut || 100
-        }))
-      };
-
+      const specToUse = activeSpec;
+      if (!specToUse) throw new Error("Generate a design in Bench or upload its Design JSON before running QC.");
+      const validation = validateDesignSpec(specToUse);
+      if (!validation.ok) throw new Error("Invalid QC design: " + validation.errors.join(" "));
       const results = [];
-      const workflow = demoSpec?.design?.editKind || (currentProject?.editType === "ko" ? "knockout" : "snp");
+      const workflow = specToUse.design.editKind;
 
       for (let i = 0; i < editedFiles.length; i++) {
         const ef = editedFiles[i];
@@ -278,18 +304,18 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
     const editFile = uploadedFiles.find(f => f.name === r.fileName || f.name.replace(/\.[^/.]+$/, "") === r.name) || uploadedFiles.filter(f => !f.isControl)[0];
     const controlFile = uploadedFiles.find(f => f.isControl) || uploadedFiles[0];
     if (controlFile && editFile) {
-      generateFigure(r, controlFile, editFile, demoSpec || qcSpec, r.workflow);
+      generateFigure(r, controlFile, editFile, activeSpec, r.workflow);
     }
   };
 
   const downloadQcReport = () => {
     if (!analysisResults.length) return;
-    const workflow = demoSpec?.design?.editKind || (currentProject?.editType === "ko" ? "knockout" : "snp");
-    const gene = currentProject?.gene || demoSpec?.design?.gene || "CRISPR";
+    const workflow = activeSpec?.design?.editKind;
+    const gene = activeSpec?.design?.gene || "CRISPR";
     const html = buildQcReportHtml({
       title: `${gene} Sanger Trace QC Report`,
       workflow,
-      design: demoSpec?.design?.label || `${gene} Genome Edit`,
+      design: activeSpec?.design?.label || `${gene} Genome Edit`,
       results: analysisResults,
       notes: [
         "100% client-side trace deconvolution computed by ASSURED Bench.",
@@ -307,8 +333,8 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
 
   const downloadQcCsv = () => {
     if (!analysisResults.length) return;
-    const workflow = demoSpec?.design?.editKind || (currentProject?.editType === "ko" ? "knockout" : "snp");
-    const gene = currentProject?.gene || demoSpec?.design?.gene || "CRISPR";
+    const workflow = activeSpec?.design?.editKind;
+    const gene = activeSpec?.design?.gene || "CRISPR";
     const csv = buildResultsCsv(workflow, analysisResults);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -376,6 +402,22 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
           </div>
         </div>
 
+        <section aria-label="QC design reference" style={{ padding: "1rem", marginBottom: "1rem", border: "1px solid var(--border-color)", borderRadius: "8px" }}>
+          <h3>1. Design reference</h3>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", margin: "0.5rem 0" }}>Designing in Bench? Your generated design is available here automatically. For a design from another session or the standalone tool, export <strong>Design JSON</strong> there and upload it here.</p>
+          <label className="btn btn-secondary" style={{ display: "inline-flex", cursor: "pointer" }}>
+            Upload design JSON
+            <input type="file" accept=".json,.assured" aria-label="Upload design JSON" onChange={handleDesignUpload} style={{ display: "none" }} />
+          </label>
+          {overrideSpec && qcSpec && <button className="btn btn-secondary" onClick={useBenchDesign} style={{ marginLeft: "0.5rem" }}>Use current Bench design</button>}
+          {activeSpec ? <div role="status" style={{ marginTop: "0.75rem", fontSize: "0.85rem" }}>
+            <strong>Active design: {activeSpec.design?.gene || "Unnamed"} · {activeSpec.design?.editKind}</strong>
+            <p>{activeSpec.design?.label}</p>
+            <p>Source: {overrideSpec ? currentProject.qcDesignSource || "Imported design" : "Current Bench design"} · {activeSpec.guides?.length || 0} guides · {activeSpec.reference?.sequence?.length || 0} reference bases</p>
+            <p style={{ color: "var(--text-muted)" }}>Changing the design clears loaded traces and previous QC results. Upload traces for the active design.</p>
+          </div> : <p role="status" style={{ marginTop: "0.75rem", color: "var(--warning)" }}>No design loaded. Upload Design JSON, generate a design in Step 1, or load a sample dataset.</p>}
+        </section>
+        <h3 style={{ marginBottom: "0.75rem" }}>2. Sanger traces</h3>
         {/* Dropzone */}
         <div
           className="dropzone"
@@ -410,7 +452,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
             <button
               className="btn btn-primary"
               onClick={handleRunQc}
-              disabled={isAnalyzing}
+              disabled={isAnalyzing || !activeSpec}
             >
               <Play size={16} />
               <span>{isAnalyzing ? "Deconvolving Traces..." : "Run Trace Deconvolution"}</span>

@@ -40,7 +40,7 @@ export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
         </section>
         <section aria-labelledby="experiment-heading">
           <h3 id="experiment-heading">Use your own experiment</h3>
-          <p>Follow the four steps above. Use your experiment's design and matching parental control for QC. Start a new experiment before switching between sample data and your own traces.</p>
+          <p>Follow the four steps above. Use your experiment's design and matching parental control for QC. Bench passes its design to QC automatically. From another session or the standalone tool, export Design JSON and use Upload design JSON in Trace QC before adding traces. Start a new experiment before switching between sample data and your own traces.</p>
           <p><strong>Save</strong> stores your project on this device. <strong>Export</strong> downloads a portable backup. Save or export before starting a new experiment.</p>
         </section>
       </div>
