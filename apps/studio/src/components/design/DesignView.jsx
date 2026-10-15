@@ -370,7 +370,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               </button>
 
               <button className="btn btn-primary" onClick={onProceedToQc}>
-                <span>Proceed to Sanger QC</span>
+                <span>Proceed to Trace Analysis</span>
                 <ArrowRight size={16} />
               </button>
             </div>

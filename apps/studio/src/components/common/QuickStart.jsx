@@ -3,7 +3,7 @@ import React from "react";
 const steps = [
   { id: "design", title: "Design", text: "Choose your gene and edit, fetch or upload a GenBank reference, then generate and review the design." },
   { id: "order", title: "Plan reagents", text: "Review guides, donor, and primers, complete the listed checks, and export your reagent sheet." },
-  { id: "qc", title: "Analyse traces", text: "Upload the parental control and edited AB1 traces, check the detected control and clone counts, then run Trace Deconvolution." },
+  { id: "qc", title: "Trace Analysis", text: "Upload the parental control and edited AB1 traces, check the detected control and clone counts, then click Analyse." },
   { id: "decision", title: "Review clones", text: "Inspect QC results and candidate reasons, compare clones, and download the screening CSV." },
 ];
 
@@ -35,12 +35,12 @@ export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
       <div className="quick-start-paths">
         <section aria-labelledby="practice-heading">
           <h3 id="practice-heading">Try sample data</h3>
-          <p>Start a new experiment, open Trace QC, and download the <strong>practice ZIP</strong>, and add it using Assured QC's <strong>Add files</strong>. Review pairings and run analysis, then review the results and Select clones. The APOE trace benchmark includes its own design reference and is separate from the TP53 design example.</p>
-          <button className="btn btn-secondary" type="button" onClick={() => onNavigate("qc")}>Open Trace QC</button>
+          <p>Start a new experiment, open Trace Analysis, download the <strong>practice ZIP</strong>, and load it with <strong>Add files</strong>. Review pairings and run analysis, then review the results and Select clones. The APOE trace benchmark includes its own design reference and is separate from the TP53 design example.</p>
+          <button className="btn btn-secondary" type="button" onClick={() => onNavigate("qc")}>Open Trace Analysis</button>
         </section>
         <section aria-labelledby="experiment-heading">
           <h3 id="experiment-heading">Use your own experiment</h3>
-          <p>Follow the four steps above. Use your experiment's design and matching parental control for QC. Bench passes its design to QC automatically. From another session or the standalone tool, export the HTML design report or Design JSON and add it with your traces in Assured QC. Start a new experiment before switching between sample data and your own traces.</p>
+          <p>Follow the four steps above. Use your experiment's design and matching parental control for trace analysis. Bench supplies its design automatically. From another session or the standalone tool, export the HTML design report or Design JSON and add it with your traces in Trace Analysis. Start a new experiment before switching between sample data and your own traces.</p>
           <p><strong>Save</strong> stores your project on this device. <strong>Export</strong> downloads a portable backup. Save or export before starting a new experiment.</p>
         </section>
       </div>

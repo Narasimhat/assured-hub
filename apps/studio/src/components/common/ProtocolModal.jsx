@@ -399,10 +399,10 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>
-                  Day 15 — Sanger Sequencing & Assured QC Analysis
+                  Day 15 — Sanger Sequencing & Trace Analysis
                 </div>
                 <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.25rem", lineHeight: "1.5" }}>
-                  Submit candidate amplicons to Sanger sequencing. Once .ab1 files are returned, drop them into <strong>Step 3: Sanger Trace QC</strong>. View the 96-well heatmap, verify 100% deconvolution, and export your HTML QC report for publication!
+                  Submit candidate amplicons to Sanger sequencing. Once .ab1 files are returned, drop them into <strong>Step 3: Trace Analysis</strong>. View the 96-well heatmap, verify 100% deconvolution, and export your HTML QC report for publication!
                 </div>
               </div>
             </div>

@@ -62,7 +62,7 @@ export function OrderView({ currentProject, onProceedToQc, onOpenProtocol }) {
               <span>Download CSV</span>
             </button>
             <button className="btn btn-primary" onClick={onProceedToQc}>
-              <span>Proceed to Sanger QC</span>
+              <span>Proceed to Trace Analysis</span>
               <ArrowRight size={16} />
             </button>
           </div>

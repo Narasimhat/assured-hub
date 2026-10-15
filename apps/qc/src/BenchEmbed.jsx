@@ -18,6 +18,6 @@ function BenchEmbed() {
   const onResults = useCallback(payload => {
     window.parent.postMessage({ type: "assured:qc:results", ...payload }, parentOrigin);
   }, [parentOrigin]);
-  return <div className="page"><h1>Assured QC</h1><p className="muted">Upload an Assured Design HTML report or JSON, then add AB1 files, a folder, or a sequencing ZIP. Review sample/control pairings before analysis. Files stay in your browser.</p><QuickStart initialDesign={initialDesign} onResults={onResults} /></div>;
+  return <div className="page"><h1>Trace Analysis</h1><p className="muted">Upload an Assured Design HTML report or JSON, then add AB1 files, a folder, or a sequencing ZIP. Review sample/control pairings before analysis. Files stay in your browser.</p><QuickStart initialDesign={initialDesign} onResults={onResults} /></div>;
 }
 createRoot(document.getElementById("root")).render(<BenchEmbed />);

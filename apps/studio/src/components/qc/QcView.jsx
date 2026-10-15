@@ -38,7 +38,7 @@ export function QcView({ currentProject, onUpdateProject }) {
   }, [design, qcOrigin]);
   return <div>
     <div className="card">
-      <h3>Trace QC · Assured QC</h3>
+      <h3>Trace Analysis</h3>
       <p style={{ color: "var(--text-muted)", margin: "0.75rem 0" }}>Add your design <strong>HTML report or JSON</strong> and sequencing files below. Review pairings, then run analysis. Results also appear in Bench's Select clones step.</p>
       <div className="project-controls">
         {currentProject.designResult && <>
@@ -49,6 +49,6 @@ export function QcView({ currentProject, onUpdateProject }) {
       </div>
       <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.75rem" }}>{design ? `Bench design supplied: ${design.name}. You can replace it with an HTML report or JSON below.` : "Add an HTML design report or JSON below, or upload the practice ZIP including its APOE design and traces."}</p>
     </div>
-    <iframe ref={frame} src={source} title="Assured QC upload and analysis" style={{ width: "100%", height: "85vh", minHeight: 700, border: "1px solid var(--border-color)", borderRadius: 12, background: "#fff" }} />
+    <iframe ref={frame} src={source} title="Trace Analysis upload and analysis" style={{ width: "100%", height: "85vh", minHeight: 700, border: "1px solid var(--border-color)", borderRadius: 12, background: "#fff" }} />
   </div>;
 }

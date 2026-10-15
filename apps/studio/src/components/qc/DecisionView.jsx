@@ -35,7 +35,7 @@ export function DecisionView({ currentProject }) {
         <Award size={40} style={{ color: "var(--text-dim)", margin: "0 auto 1rem" }} />
         <h3>No Screening Decisions Available</h3>
         <p style={{ color: "var(--text-muted)", marginTop: "0.5rem" }}>
-          Please run Sanger Trace QC in Step 3 to evaluate and prioritize edited clones.
+          Please run Trace Analysis in Step 3 to evaluate and prioritize edited clones.
         </p>
       </div>
     );
