@@ -52,3 +52,19 @@ jobs:
       - name: Build Assured CRISPR Design
         if: always()
         run: npm run build -w assured-crispr-designer
+
+  vercel-config:
+    name: Vercel commands (${{ matrix.root }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        root: [apps/qc, apps/design]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      # clean checkout, no prior install: exactly what a Vercel build with Root Directory = ${{ matrix.root }} would run
+      - name: Run the project's vercel.json install and build commands
+        run: node scripts/simulate-vercel.mjs ${{ matrix.root }}
