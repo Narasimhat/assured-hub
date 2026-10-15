@@ -1,5 +1,5 @@
 # Install, test and build the whole workspace on a normal Linux runner.
-# The hub was first assembled on a host that could not run `vite build` or a root `npm install`; this workflow is where those get verified.
+# The hub was first assembled on a host that could not run `vite build` or a root `npm install`; this workflow is where those are verified.
 # Each step runs even if an earlier one failed, so one run shows everything that is broken.
 name: CI
 
@@ -25,8 +25,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install (creates the @assured/* workspace links)
-        run: npm install --no-audit --no-fund
+          cache: npm
+      - name: Install from the committed lockfile (creates the @assured/* workspace links)
+        run: npm ci --no-audit --no-fund
       - name: Test @assured/spec
         if: always()
         run: npm test -w @assured/spec
@@ -51,10 +52,3 @@ jobs:
       - name: Build Assured CRISPR Design
         if: always()
         run: npm run build -w assured-crispr-designer
-      - name: Keep the generated lockfile
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-lock
-          path: package-lock.json
-          if-no-files-found: warn

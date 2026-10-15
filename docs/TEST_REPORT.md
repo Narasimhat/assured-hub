@@ -61,3 +61,9 @@ Simulator tests check mechanisms, not only that code runs: a donor without silen
 | S-flawed-203 | 203 | 74 | 84 | 64 | A08 (decoy) | unsafe-expansion,unsafe-selection | guide-count,cut-distance:APOE_gRNA1 |
 
 Reference solver mean overall: 100. Flawed mean overall: 74.3. Plates differ across seeds. Plate and design weights (0.4 calls, 0.3 decisions, 0.3 selection; 50/50 design/plate) are pedagogical choices, not rules. Plates are conditioned to hold a best clone and a decoy, which flatters flawed designs.
+
+## 5. Update: CI on GitHub's Linux runner (after publishing)
+
+The first run of `.github/workflows/ci.yml` (run 38729203493, commit `ae9f08b`) concluded **success** for every step: root `npm install`, the test suites of `@assured/spec`, `@assured/rules`, Assured QC, Assured CRISPR Design (including `cli-runner.test.js`, which the sandbox could not run), and Academy, the contract tests, and `vite build` for both apps. This closes three items listed as unverified above: the builds, `cli-runner.test.js`, and a root `npm install`. I read step conclusions only, not the logs, so per-suite test counts from that run are not reported here. The lockfile that run generated (149 package entries, five workspace packages) was committed and CI now installs with `npm ci`.
+
+Still not verified: a Vercel deployment of either app from this repository.

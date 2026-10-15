@@ -60,6 +60,8 @@ I could not test this. Create a **preview** deployment per project and check it 
 | QC engine, run through its own CLI, reads simulated plates consistently | A root `npm install` and lockfile; Vercel preview deployments |
 | Grader separates a correct from a flawed submission (demo) | `cli-runner.test.js` (Design): it spawns child processes, which the sandbox blocks (also blocked before the refactor) |
 
+**Update after publishing:** the first CI run on GitHub's Linux runner verified the root `npm install`, `vite build` for both apps, and `cli-runner.test.js` (step conclusions only; see `TEST_REPORT.md`, section 5). The root lockfile it generated is committed. `git apply docs/refactor.patch` is moot here because the repository was created from the already-patched files. Still not verified: Vercel deployment.
+
 ## Decisions that are yours
 
 1. **Licence.** `Assured_QC` is MIT. `Assured_CRISPR_Design` has no licence file, so by default all rights are reserved and others cannot legally reuse it. A shared package needs one answer for both.
