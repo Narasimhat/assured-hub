@@ -406,3 +406,15 @@ tr:hover td {
 .project-context span { flex-basis: 100%; }
 .stepper-container { flex-wrap: wrap; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+.quick-start summary { cursor: pointer; font-weight: 600; color: var(--primary); }
+.quick-start summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+.quick-start-steps { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin: 1.25rem 0; padding: 0; }
+.quick-start-steps li { border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; }
+.quick-start-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--primary-glow); color: var(--primary); margin-bottom: 0.5rem; }
+.quick-start h3 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+.quick-start h3 button { color: var(--text-main); font-size: inherit; font-weight: 600; text-align: left; }
+.quick-start p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.quick-start-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem; }
+@media (max-width: 1000px) { .quick-start-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .quick-start-steps, .quick-start-paths { grid-template-columns: 1fr; } }

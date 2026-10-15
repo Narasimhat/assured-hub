@@ -1,3 +1,4 @@
+import { QuickStart } from "./components/common/QuickStart.jsx";
 import React, { useState, useEffect } from "react";
 import { Header } from "./components/layout/Header.jsx";
 import { DesignView } from "./components/design/DesignView.jsx";
@@ -133,6 +134,7 @@ export function App() {
       )}
 
       <main className="app-container">
+        <QuickStart onNavigate={setActiveStep} />
         <div className="project-context">
           <label htmlFor="experiment-name">Experiment name</label>
           <input id="experiment-name" value={currentProject.name || ""}
