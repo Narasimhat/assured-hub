@@ -13,10 +13,10 @@ export function Header({
   onImportBundle
 }) {
   const steps = [
-    { id: "design", label: "1. Design & Reagents" },
-    { id: "order", label: "2. Reagent Ordering" },
-    { id: "qc", label: "3. Sanger Trace QC" },
-    { id: "decision", label: "4. Clones & Publication" }
+    { id: "design", label: "1. Design" },
+    { id: "order", label: "2. Order" },
+    { id: "qc", label: "3. Trace QC" },
+    { id: "decision", label: "4. Select clones" }
   ];
 
   return (
@@ -32,10 +32,11 @@ export function Header({
       </div>
 
       {/* Stepper Navigation */}
-      <div className="stepper-container">
+      <nav className="stepper-container" aria-label="Experiment workflow">
         {steps.map((s, idx) => (
           <button
             key={s.id}
+            aria-current={activeStep === s.id ? "step" : undefined}
             onClick={() => setActiveStep(s.id)}
             className={`step-btn ${activeStep === s.id ? "active" : ""}`}
           >
@@ -43,10 +44,10 @@ export function Header({
             <span>{s.label.split(". ")[1]}</span>
           </button>
         ))}
-      </div>
+      </nav>
 
       {/* Project Controls */}
-      <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+      <div className="project-controls">
         <button
           className="btn btn-secondary"
           onClick={onOpenProtocol}

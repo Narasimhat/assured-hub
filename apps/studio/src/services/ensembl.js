@@ -5,6 +5,53 @@
 
 const ENSEMBL_REST_URL = "https://rest.ensembl.org";
 
+async function fetchJson(url, description) {
+  let response;
+  try {
+    response = await fetch(url, {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(15000)
+    });
+  } catch (err) {
+    throw new Error(`Could not reach Ensembl while ${description}. Check your connection or upload a GenBank reference.`, { cause: err });
+  }
+  if (!response.ok) {
+    const error = new Error(response.status >= 500
+      ? `Ensembl is temporarily unavailable (HTTP ${response.status}). Retry later or upload a GenBank reference.`
+      : `Ensembl could not complete ${description} (HTTP ${response.status}). Check the gene symbol or upload a GenBank reference.`);
+    error.status = response.status;
+    throw error;
+  }
+  try {
+    return await response.json();
+  } catch (err) {
+    throw new Error("Ensembl returned an unreadable response. Retry later or upload a GenBank reference.", { cause: err });
+  }
+}
+
+export async function fetchGeneGenbank(geneSymbol, species = "homo_sapiens") {
+  try {
+    return await fetchEnsemblGeneGenbank(geneSymbol, species);
+  } catch (error) {
+    // A pinned genomic record keeps this supported target usable during outages.
+    // Never substitute species or silently substitute a genome assembly.
+    if (species !== "homo_sapiens" || !["TP53", "ENSG00000141510"].includes(geneSymbol.trim().toUpperCase()) ||
+        (error.status && error.status < 500 && error.status !== 429)) throw error;
+    const base = import.meta.env?.BASE_URL || "/";
+    const response = await fetch(`${base}references/tp53-NG_017013.2.gb`);
+    if (!response.ok) throw error;
+    const genbankText = await response.text();
+    if (!genbankText.includes("VERSION     NG_017013.2") || !genbankText.includes("ORIGIN")) throw error;
+    return {
+      geneSymbol: "TP53", ensemblId: "ENSG00000141510", transcriptId: "NM_000546.5",
+      referenceAccession: "NG_017013.2", proteinId: "NP_000537.3", chr: "17",
+      source: "Bundled NCBI RefSeqGene", sourceUrl: "https://www.ncbi.nlm.nih.gov/nuccore/NG_017013.2",
+      warning: "Ensembl lookup failed. Using bundled NCBI RefSeqGene NG_017013.2, TP53 variant 1 (NM_000546.5 / NP_000537.3). Coordinates are relative to this record.",
+      genbankText, sequenceLength: 32772
+    };
+  }
+}
+
 /**
  * Search for genes by symbol prefix (Autocomplete)
  */
@@ -33,15 +80,13 @@ export async function searchGeneSymbols(query, species = "homo_sapiens") {
 /**
  * Fetch full gene model with MANE Select / Canonical transcript and generate a synthetic GenBank format
  */
-export async function fetchGeneGenbank(geneSymbol, species = "homo_sapiens") {
+async function fetchEnsemblGeneGenbank(geneSymbol, species = "homo_sapiens") {
   const symbol = geneSymbol.trim().toUpperCase();
-  const lookupUrl = `${ENSEMBL_REST_URL}/lookup/symbol/${species}/${encodeURIComponent(symbol)}?expand=1`;
-  const res = await fetch(lookupUrl, { headers: { Accept: "application/json" } });
-  
-  if (!res.ok) {
-    throw new Error(`Gene '${geneSymbol}' not found on Ensembl (HTTP ${res.status}).`);
-  }
-  const geneData = await res.json();
+  const lookupPath = /^ENSG\d+(?:\.\d+)?$/.test(symbol)
+    ? `lookup/id/${encodeURIComponent(symbol)}`
+    : `lookup/symbol/${species}/${encodeURIComponent(symbol)}`;
+  const lookupUrl = `${ENSEMBL_REST_URL}/${lookupPath}?expand=1&content-type=application/json`;
+  const geneData = await fetchJson(lookupUrl, `looking up '${symbol}'`);
 
   // Find MANE Select or Canonical transcript
   const transcripts = geneData.Transcript || [];
@@ -62,12 +107,7 @@ export async function fetchGeneGenbank(geneSymbol, species = "homo_sapiens") {
   const end = primaryTranscript.end + padding;
 
   const seqUrl = `${ENSEMBL_REST_URL}/sequence/region/${species}/${chr}:${start}..${end}:1?mask_feature=0`;
-  const seqRes = await fetch(seqUrl, { headers: { Accept: "application/json" } });
-  
-  if (!seqRes.ok) {
-    throw new Error(`Failed to fetch genomic sequence for chr${chr}:${start}..${end} (HTTP ${seqRes.status}).`);
-  }
-  const seqData = await seqRes.json();
+  const seqData = await fetchJson(seqUrl, "loading the genomic sequence");
   const dnaSeq = seqData.seq.toLowerCase();
 
   // Build synthetic GenBank content compatible with transcriptModel.js
@@ -89,6 +129,7 @@ export async function fetchGeneGenbank(geneSymbol, species = "homo_sapiens") {
     ensemblId: geneData.id,
     transcriptId: primaryTranscript.id,
     isCanonical: primaryTranscript.is_canonical,
+    source: "Ensembl",
     chr,
     genomicStart: start,
     genomicEnd: end,

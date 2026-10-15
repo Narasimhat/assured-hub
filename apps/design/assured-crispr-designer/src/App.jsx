@@ -1,3 +1,4 @@
+import { GuideAlternatives } from "./GuideAlternatives.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import GenomicSnpTool, { GenomicSnpReport } from "./GenomicSnpTool.jsx";
 import { CASSETTES, INTERNAL_TAGS, REPORTERS, buildPrimerRecord, designCenteredPrimerPairs, designDeletionScreenPrimerPairs, designPrimerTool, getCassetteSequenceLength, parseGB, runDesign, collectProcurementReviewNotes, summarizeGuideBlocking, summarizePrimerPairQuality, summarizePrimerReadiness, summarizeProcurementReadiness } from "./designEngine";
@@ -4222,7 +4223,7 @@ export default function App() {
                   <tbody>
                     {(selectedEntry.result?.gs || []).map((guide, rowIndex) => (
                       <tr key={rowIndex}>
-                        <td style={{ padding: "8px 10px", border: "1px solid #cfc5b4", background: "#ffffff" }}>{guide.n}</td>
+                        <td style={{ padding: "8px 10px", border: "1px solid #cfc5b4", background: "#ffffff" }}>{guide.n}{selectedEntry.result.guideAlternatives && rowIndex === 0 ? " (primary)" : ""}</td>
                         <td style={{ padding: "8px 10px", border: "1px solid #cfc5b4", background: "#ffffff" }}>{renderGuideSequence(guide.sp, guide.pm)}</td>
                         <td style={{ padding: "8px 10px", border: "1px solid #cfc5b4", background: "#ffffff" }}>{guide.str} strand</td>
                         <td style={{ padding: "8px 10px", border: "1px solid #cfc5b4", background: "#ffffff" }}>{guide.gc}%</td>
@@ -4231,6 +4232,8 @@ export default function App() {
                     ))}
                   </tbody>
                 </table>
+
+                <GuideAlternatives result={selectedEntry.result} />
 
                 <div style={{ fontSize: 18, fontWeight: 700, margin: "14px 0 8px 0" }}>3. Recommended Primers</div>
                 {selectedEntry.result.type === "ko" && selectedEntry.result.referenceOnly && (

@@ -4,28 +4,14 @@ import { DesignView } from "./components/design/DesignView.jsx";
 import { OrderView } from "./components/order/OrderView.jsx";
 import { QcView } from "./components/qc/QcView.jsx";
 import { DecisionView } from "./components/qc/DecisionView.jsx";
-import { saveProject, listProjects, getProject, deleteProject, exportProjectBundle } from "./services/storage.js";
+import { saveProject, listProjects, deleteProject, exportProjectBundle } from "./services/storage.js";
 import { ProtocolModal } from "./components/common/ProtocolModal.jsx";
+import { createProject, updateProject, parseProject } from "./services/projectState.js";
 import { X, Trash2, FolderOpen } from "lucide-react";
 
 export function App() {
   const [activeStep, setActiveStep] = useState("design");
-  const [currentProject, setCurrentProject] = useState({
-    id: "proj_" + Date.now(),
-    name: "APOE R154S Knock-in Experiment",
-    gene: "APOE",
-    editType: "pm",
-    mutation: "R154S",
-    tag: "SD40-V5",
-    homologyArmLength: 400,
-    options: {
-      deliveryMethod: "rnp",
-      maxBlockingChanges: 3,
-      coDelivery: false
-    },
-    designResult: null,
-    qcResults: []
-  });
+  const [currentProject, setCurrentProject] = useState(createProject);
 
   const [savedProjects, setSavedProjects] = useState([]);
   const [showProjectsModal, setShowProjectsModal] = useState(false);
@@ -42,56 +28,50 @@ export function App() {
   };
 
   const loadProjects = async () => {
-    const list = await listProjects();
-    setSavedProjects(list);
+    try {
+      setSavedProjects(await listProjects());
+    } catch (err) {
+      showToast("Could not load saved experiments: " + err.message);
+    }
   };
 
   const handleUpdateProject = (fields) => {
-    setCurrentProject(prev => ({
-      ...prev,
-      ...fields
-    }));
+    const projectId = currentProject.id;
+    setCurrentProject(prev => prev.id === projectId ? updateProject(prev, fields) : prev);
   };
 
   const handleSave = async () => {
-    await saveProject(currentProject);
-    await loadProjects();
-    showToast("Project successfully saved to local storage!");
+    try {
+      await saveProject(currentProject);
+      await loadProjects();
+      showToast("Experiment saved on this device.");
+    } catch (err) {
+      showToast("Could not save experiment: " + err.message);
+    }
   };
 
   const handleNewProject = () => {
-    const fresh = {
-      id: "proj_" + Date.now(),
-      name: "New Genome Editing Experiment",
-      gene: "",
-      editType: "ko",
-      mutation: "",
-      tag: "FLAG",
-      homologyArmLength: 400,
-      options: {
-        deliveryMethod: "rnp",
-        maxBlockingChanges: 3,
-        coDelivery: false
-      },
-      designResult: null,
-      qcResults: []
-    };
-    setCurrentProject(fresh);
+    setCurrentProject(createProject());
     setActiveStep("design");
     showToast("Started fresh experiment.");
   };
 
   const handleSelectProject = (proj) => {
     setCurrentProject(proj);
+    setActiveStep("design");
     setShowProjectsModal(false);
     showToast(`Loaded '${proj.name}'`);
   };
 
   const handleDeleteProject = async (id, e) => {
     e.stopPropagation();
-    await deleteProject(id);
-    await loadProjects();
-    showToast("Project deleted.");
+    try {
+      await deleteProject(id);
+      await loadProjects();
+      showToast("Project deleted.");
+    } catch (err) {
+      showToast("Could not delete experiment: " + err.message);
+    }
   };
 
   const handleExport = () => {
@@ -105,20 +85,19 @@ export function App() {
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
-        const parsed = JSON.parse(event.target.result);
-        if (parsed.gene || parsed.designResult || parsed.qcResults) {
-          setCurrentProject(parsed);
-          await saveProject(parsed);
-          await loadProjects();
-          showToast(`Imported '${parsed.name || parsed.gene || "Experiment"}'!`);
-        } else {
-          showToast("Invalid .assured file format.");
-        }
+        const parsed = parseProject(event.target.result);
+        await saveProject(parsed);
+        setCurrentProject(parsed);
+        setActiveStep("design");
+        await loadProjects();
+        showToast(`Imported '${parsed.name || parsed.gene || "Experiment"}'!`);
       } catch (err) {
-        showToast("Failed to parse file: " + err.message);
+        showToast("Could not import experiment: " + err.message);
       }
     };
+    reader.onerror = () => showToast("Could not read the experiment file.");
     reader.readAsText(file);
+    e.target.value = "";
   };
 
   return (
@@ -136,7 +115,7 @@ export function App() {
       />
 
       {notification && (
-        <div style={{
+        <div role="status" style={{
           position: "fixed",
           bottom: "1.5rem",
           right: "1.5rem",
@@ -154,8 +133,15 @@ export function App() {
       )}
 
       <main className="app-container">
+        <div className="project-context">
+          <label htmlFor="experiment-name">Experiment name</label>
+          <input id="experiment-name" value={currentProject.name || ""}
+            onChange={e => handleUpdateProject({ name: e.target.value })} />
+          <span>Save keeps your work on this device. Export makes a portable backup.</span>
+        </div>
         {activeStep === "design" && (
           <DesignView
+            key={currentProject.id}
             currentProject={currentProject}
             onUpdateProject={handleUpdateProject}
             onProceedToOrder={() => setActiveStep("order")}
@@ -174,6 +160,7 @@ export function App() {
 
         {activeStep === "qc" && (
           <QcView
+            key={currentProject.id}
             currentProject={currentProject}
             onUpdateProject={handleUpdateProject}
             onBackToDesign={() => setActiveStep("design")}

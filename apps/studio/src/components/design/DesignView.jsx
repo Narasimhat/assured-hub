@@ -1,26 +1,31 @@
 import React, { useState } from "react";
-import { runDesign } from "../../engine/design/designEngine.js";
+import { runDesign, summarizeProcurementReadiness } from "../../engine/design/designEngine.js";
 import { buildDesignSchemeSvg, buildDesignSchemeCaption } from "../../engine/design/designScheme.js";
-import { searchGeneSymbols, fetchGeneGenbank } from "../../services/ensembl.js";
+import { fetchGeneGenbank } from "../../services/ensembl.js";
 import { downloadReportHtml, downloadDesignJson, downloadSchemeSvg } from "../../services/designExport.js";
+import { GuideAlternatives } from "./GuideAlternatives.jsx";
 import { GelSimulator } from "./GelSimulator.jsx";
 import { Search, Play, CheckCircle, AlertTriangle, XCircle, ArrowRight, Upload, Download, FileText, FlaskConical } from "lucide-react";
 
 export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, onProceedToQc, onOpenProtocol }) {
-  const [geneInput, setGeneInput] = useState(currentProject?.gene || "APOE");
-  const [editType, setEditType] = useState(currentProject?.editType || "pm");
-  const [mutation, setMutation] = useState(currentProject?.mutation || "R154S");
-  const [tag, setTag] = useState(currentProject?.tag || "SD40-V5");
-  const [homologyArmLength, setHomologyArmLength] = useState(currentProject?.homologyArmLength || 400);
-  const [deliveryMethod, setDeliveryMethod] = useState(currentProject?.options?.deliveryMethod || "rnp");
-  const [maxBlockingChanges, setMaxBlockingChanges] = useState(currentProject?.options?.maxBlockingChanges || 3);
-  const [coDelivery, setCoDelivery] = useState(currentProject?.options?.coDelivery || false);
-
+  const geneInput = currentProject.gene ?? "";
+  const editType = currentProject.editType ?? "ko";
+  const mutation = currentProject.mutation ?? "";
+  const tag = currentProject.tag ?? "FLAG";
+  const homologyArmLength = currentProject.homologyArmLength ?? 400;
+  const deliveryMethod = currentProject.options?.deliveryMethod ?? "rnp";
+  const maxBlockingChanges = currentProject.options?.maxBlockingChanges ?? 3;
+  const coDelivery = currentProject.options?.coDeliveryBlocking ?? currentProject.options?.coDelivery ?? false;
+  const geneMeta = currentProject.geneMeta ?? null;
+  const genbankRaw = currentProject.genbankRaw ?? "";
+  const setGeneInput = gene => onUpdateProject({ gene, geneMeta: null, genbankRaw: "" });
+  const setEditType = editType => onUpdateProject({ editType });
+  const setMutation = mutation => onUpdateProject({ mutation });
+  const setTag = tag => onUpdateProject({ tag });
+  const setOption = fields => onUpdateProject({ options: { ...currentProject.options, ...fields } });
   const [isLoadingGene, setIsLoadingGene] = useState(false);
   const [isDesigning, setIsDesigning] = useState(false);
   const [error, setError] = useState(null);
-  const [geneMeta, setGeneMeta] = useState(currentProject?.geneMeta || null);
-  const [genbankRaw, setGenbankRaw] = useState(currentProject?.genbankRaw || "");
 
   // Active design result
   const designResult = currentProject?.designResult || null;
@@ -32,8 +37,6 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
     setError(null);
     try {
       const meta = await fetchGeneGenbank(geneInput.trim());
-      setGeneMeta(meta);
-      setGenbankRaw(meta.genbankText);
       onUpdateProject({
         gene: meta.geneSymbol,
         geneMeta: meta,
@@ -53,21 +56,17 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
     const reader = new FileReader();
     reader.onload = (event) => {
       const text = event.target.result;
-      setGenbankRaw(text);
-      setGeneMeta({
+      const meta = {
         geneSymbol: file.name.replace(/\.[^/.]+$/, ""),
         source: "Manual file upload",
         genbankText: text
-      });
-      onUpdateProject({
-        gene: file.name.replace(/\.[^/.]+$/, ""),
-        genbankRaw: text
-      });
+      };
+      onUpdateProject({ gene: meta.geneSymbol, geneMeta: meta, genbankRaw: text });
     };
     reader.readAsText(file);
   };
 
-  // Run Design Engine
+  // Generate design
   const handleRunDesign = async () => {
     if (!genbankRaw) {
       setError("Please fetch a gene from Ensembl or upload a GenBank reference file first.");
@@ -94,11 +93,13 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
         options
       );
 
+      if (result.err) throw new Error(result.err);
+      result.procurement = summarizeProcurementReadiness(result);
       const svgScheme = buildDesignSchemeSvg(result);
       const caption = buildDesignSchemeCaption(result);
 
       const updated = {
-        gene: geneInput.trim(),
+        gene: geneMeta?.geneSymbol || geneInput.trim(),
         editType,
         mutation,
         tag,
@@ -108,7 +109,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
         designResult: result,
         svgScheme,
         caption,
-        status: result.procurement?.status || "ready"
+        status: result.procurement?.status || "review"
       };
 
       onUpdateProject(updated);
@@ -133,9 +134,9 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
       {/* Parameter Input Card */}
       <div className="card">
         <div className="card-title">
-          <span>1. Experiment Target & In-Silico Specifications</span>
+          <span>1. Design your edit</span>
           <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>
-            Zero manual file editing — automated MANE Select transcript retrieval
+            Choose a target, load its reference, then generate a design.
           </span>
         </div>
 
@@ -149,6 +150,8 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               <input
                 type="text"
                 value={geneInput}
+                disabled={isLoadingGene}
+                aria-label="Target gene"
                 onChange={(e) => setGeneInput(e.target.value.toUpperCase())}
                 placeholder="e.g. SCN5A, APOE, TP53"
                 style={{ flex: 1 }}
@@ -156,7 +159,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               <button
                 className="btn btn-primary"
                 onClick={handleFetchEnsembl}
-                disabled={isLoadingGene}
+                disabled={isLoadingGene || !geneInput.trim()}
               >
                 <Search size={16} />
                 <span>{isLoadingGene ? "Fetching..." : "Fetch Gene"}</span>
@@ -212,6 +215,8 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
           </div>
         </div>
 
+        {geneMeta?.warning && <p role="status" style={{ marginTop: "0.75rem", color: "var(--warning)" }}>{geneMeta.warning} <a href={geneMeta.sourceUrl} target="_blank" rel="noreferrer">Reference record</a></p>}
+
         {/* Edit Configuration */}
         <div className="grid-3" style={{ marginTop: "1.25rem" }}>
           <div>
@@ -263,7 +268,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             <label style={{ display: "block", marginBottom: "0.4rem", fontWeight: 500, fontSize: "0.9rem" }}>
               Delivery Platform
             </label>
-            <select value={deliveryMethod} onChange={(e) => setDeliveryMethod(e.target.value)} style={{ width: "100%" }}>
+            <select value={deliveryMethod} onChange={(e) => setOption({ deliveryMethod: e.target.value })} style={{ width: "100%" }}>
               <option value="rnp">Synthetic sgRNA + Cas9 RNP (Cleanest)</option>
               <option value="u6">U6 Plasmid / Lentivirus</option>
             </select>
@@ -276,7 +281,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Max Silent Blocking Changes:</span>
             <select
               value={maxBlockingChanges}
-              onChange={(e) => setMaxBlockingChanges(Number(e.target.value))}
+              onChange={(e) => setOption({ maxBlockingChanges: Number(e.target.value) })}
               style={{ padding: "0.3rem 0.5rem", fontSize: "0.85rem" }}
             >
               <option value={1}>1 mutation</option>
@@ -289,7 +294,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             <input
               type="checkbox"
               checked={coDelivery}
-              onChange={(e) => setCoDelivery(e.target.checked)}
+              onChange={(e) => setOption({ coDeliveryBlocking: e.target.checked })}
             />
             <span>Co-delivery mode (block all offered guides)</span>
           </label>
@@ -297,16 +302,17 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
           <button
             className="btn btn-primary"
             onClick={handleRunDesign}
-            disabled={isDesigning}
+            disabled={isDesigning || isLoadingGene || !genbankRaw}
             style={{ marginLeft: "auto" }}
           >
             <Play size={16} />
-            <span>{isDesigning ? "Computing Design..." : "Run Design Engine"}</span>
+            <span>{isDesigning ? "Computing Design..." : "Generate design"}</span>
           </button>
         </div>
 
+        {!genbankRaw && <p style={{ marginTop: "1rem", color: "var(--text-muted)" }}>Fetch a gene or upload a GenBank reference to enable design.</p>}
         {error && (
-          <div style={{ marginTop: "1rem", padding: "0.75rem", borderRadius: "8px", background: "var(--danger-bg)", border: "1px solid var(--danger-border)", color: "#fca5a5", fontSize: "0.9rem" }}>
+          <div role="alert" style={{ marginTop: "1rem", padding: "0.75rem", borderRadius: "8px", background: "var(--danger-bg)", border: "1px solid var(--danger-border)", color: "#fca5a5", fontSize: "0.9rem" }}>
             {error}
           </div>
         )}
@@ -320,11 +326,11 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.3rem" }}>
                 <span style={{ fontSize: "1.1rem", fontWeight: 700 }}>Design Status:</span>
-                {getStatusBadge(designResult.procurement?.status || "ready")}
+                {getStatusBadge(designResult.procurement?.status || "review")}
               </div>
               <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
                 {designResult.procurement?.status === "ready"
-                  ? "All rigorous release gates passed. Ready for oligo synthesis and ordering."
+                  ? "Configured design gates passed. Complete the checks below before ordering."
                   : "External verification or review notes apply. Review candidate metrics below."}
               </p>
             </div>
@@ -369,6 +375,15 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               </button>
             </div>
           </div>
+
+          {(designResult.procurement?.blockers?.length > 0 || designResult.procurement?.warnings?.length > 0 || designResult.procurement?.standingRequirements?.length > 0) && (
+            <div className="card">
+              <h3>Before ordering</h3>
+              <ul style={{ paddingLeft: "1.25rem" }}>
+                {[...(designResult.procurement.blockers || []), ...(designResult.procurement.warnings || []), ...(designResult.procurement.standingRequirements || [])].map((note, i) => <li key={i}>{note}</li>)}
+              </ul>
+            </div>
+          )}
 
           {/* Target Region SVG Schematic */}
           {currentProject?.svgScheme && (
@@ -416,19 +431,21 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                     <th>Spacer (5' → 3')</th>
                     <th>PAM</th>
                     <th>GC %</th>
-                    <th>CFD Residual</th>
+                    <th>Cut distance</th>
+                    <th>Protection</th>
                   </tr>
                 </thead>
                 <tbody>
                   {(designResult.guides || designResult.gs || []).map((g, idx) => (
                     <tr key={idx}>
-                      <td><strong>gRNA {idx + 1}</strong></td>
+                      <td><strong>{idx === 0 ? "Primary" : "Selected alternative"} gRNA {idx + 1}</strong></td>
                       <td className="mono" style={{ color: "var(--primary)" }}>{g.spacer || g.sp || g.sequence || g.seq}</td>
-                      <td className="mono" style={{ color: "var(--warning)" }}>{g.pam || "NGG"}</td>
-                      <td>{g.gc || 50}%</td>
+                      <td className="mono" style={{ color: "var(--warning)" }}>{g.pam || g.pm || "Not assessed"}</td>
+                      <td>{g.gc ?? "—"}%</td>
+                      <td>{Number.isFinite(g.d) ? `${Math.abs(g.d)} bp ${g.d < 0 ? "upstream" : g.d > 0 ? "downstream" : "at insertion"}` : "Not assessed"}</td>
                       <td>
-                        <span className={`badge ${Number(g.cfdResidual || 0) <= 0.023 ? "badge-ready" : "badge-review"}`}>
-                          {g.cfdResidual !== undefined ? g.cfdResidual : "Strong (≤0.023)"}
+                        <span title={designResult.guideProtection?.[idx]?.reason || ""}>
+                          {designResult.guideProtection?.[idx]?.tier || (Number.isFinite(g.cfdResidual) ? `CFD ${g.cfdResidual.toFixed(4)}` : "Not assessed")}
                         </span>
                       </td>
                     </tr>
@@ -475,6 +492,10 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                 return <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>No donor required for pure dual-guide knockout.</p>;
               })()}
             </div>
+          </div>
+
+          <div className="card" hidden={!designResult.guideAlternatives}>
+            <GuideAlternatives result={designResult} />
           </div>
 
           {/* In-Silico PCR Agarose Gel Simulator */}
