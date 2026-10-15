@@ -1,0 +1,32 @@
+{
+ "schema": "assured-academy-mission/1",
+ "id": "m2-ko-tagme",
+ "title": "Knock out TAGME with a two-guide deletion",
+ "editKind": "deletion",
+ "gene": "TAGME",
+ "label": "Deletion between the two cuts",
+ "objectives": [
+  "Choose a knockout strategy and two guides that flank the target.",
+  "Recognise wild-type, heterozygous, homozygous and compound-heterozygous clones from a Sanger trace.",
+  "Notice mosaic clones that must be re-cloned before expansion."
+ ],
+ "howProduced": {
+  "tool": "Assured_CRISPR_Design designEngine.runDesign + qcExport.buildQcDesignSpec",
+  "args": [
+   "ko",
+   "synthetic-tagging.gb",
+   "",
+   "",
+   400
+  ],
+  "options": {
+   "expectedGene": "TAGME"
+  },
+  "referenceFixture": "apps/design/assured-crispr-designer/test/fixtures/synthetic-tagging.gb",
+  "designSchema": "assured-qc-design/1"
+ },
+ "caveats": [
+  "Teaching case built from a reference fixture in the Design repo's test suite; it is not annotated against ClinVar or any patient.",
+  "The reference file's licence/provenance has not been reviewed for redistribution."
+ ]
+}

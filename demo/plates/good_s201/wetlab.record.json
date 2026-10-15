@@ -1,0 +1,18 @@
+{
+ "schema": "assured-academy-wetlab/1",
+ "choices": {
+  "equipment": "high_throughput",
+  "cloning": "automated_dispenser",
+  "supplement": "clone_r"
+ },
+ "outcome": {
+  "seed": 201,
+  "wellsPlated": 96,
+  "wellsWithGrowth": 54,
+  "clonesPicked": 12,
+  "bulkEditedPct": 80,
+  "bulkHdrPct": 29.7,
+  "notes": []
+ },
+ "parameters": "ILLUSTRATIVE TEACHING DEFAULTS - not measured, not from the ASSURED protocol; calibrate with the lab's own data."
+}

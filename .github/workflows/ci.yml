@@ -1,0 +1,60 @@
+# Install, test and build the whole workspace on a normal Linux runner.
+# The hub was first assembled on a host that could not run `vite build` or a root `npm install`; this workflow is where those get verified.
+# Each step runs even if an earlier one failed, so one run shows everything that is broken.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Install, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install (creates the @assured/* workspace links)
+        run: npm install --no-audit --no-fund
+      - name: Test @assured/spec
+        if: always()
+        run: npm test -w @assured/spec
+      - name: Test @assured/rules
+        if: always()
+        run: npm test -w @assured/rules
+      - name: Test Assured QC
+        if: always()
+        run: npm test -w assured-qc
+      - name: Test Assured CRISPR Design
+        if: always()
+        run: npm test -w assured-crispr-designer
+      - name: Test Academy
+        if: always()
+        run: npm test -w assured-academy
+      - name: Contract tests (Design export validates with the shared validator)
+        if: always()
+        run: npm run test:contract
+      - name: Build Assured QC
+        if: always()
+        run: npm run build -w assured-qc
+      - name: Build Assured CRISPR Design
+        if: always()
+        run: npm run build -w assured-crispr-designer
+      - name: Keep the generated lockfile
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-lock
+          path: package-lock.json
+          if-no-files-found: warn

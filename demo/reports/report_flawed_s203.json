@@ -1,0 +1,265 @@
+{
+ "student": "S-flawed-203",
+ "mission": "m1-snp-apoe-r176c",
+ "overall": 74,
+ "design": {
+  "score": 84,
+  "checks": [
+   {
+    "id": "valid-handoff",
+    "source": "contract",
+    "pass": true,
+    "detail": "design validates against assured-qc-design/1",
+    "weight": 2,
+    "severity": "critical"
+   },
+   {
+    "id": "strategy",
+    "source": "key",
+    "pass": true,
+    "detail": "strategy \"snp_hdr\" suits this mission",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "edit-kind",
+    "source": "key",
+    "pass": true,
+    "detail": "design edit kind snp; mission expects snp",
+    "weight": 1,
+    "severity": "major"
+   },
+   {
+    "id": "guide-count",
+    "source": "convention",
+    "pass": false,
+    "detail": "1 guide(s); lab convention is 2",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "cut-distance:APOE_gRNA1",
+    "source": "engine",
+    "pass": false,
+    "detail": "APOE_gRNA1 cuts 20 bp from the edit; the design tool's eligibility limit is 15 bp (HDR falls off beyond about 10)",
+    "weight": 1,
+    "severity": "major"
+   },
+   {
+    "id": "has-donor",
+    "source": "convention",
+    "pass": true,
+    "detail": "1 donor(s)",
+    "weight": 2,
+    "severity": "critical"
+   },
+   {
+    "id": "blocking-all-guides",
+    "source": "convention",
+    "pass": true,
+    "detail": "every donor blocks every guide",
+    "weight": 3,
+    "severity": "critical"
+   },
+   {
+    "id": "blocking-count:APOE_gRNA1",
+    "source": "engine",
+    "pass": true,
+    "detail": "1 blocking change(s) for APOE_gRNA1; engine cap is 3",
+    "weight": 1,
+    "severity": "minor"
+   },
+   {
+    "id": "donor-tier",
+    "source": "convention",
+    "pass": true,
+    "detail": "donor format ssodn as per lab convention",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "intended-edit",
+    "source": "key",
+    "pass": true,
+    "detail": "intended change at 539; mission requires 539",
+    "weight": 3,
+    "severity": "critical"
+   }
+  ],
+  "critical": []
+ },
+ "plate": {
+  "score": 64,
+  "breakdown": {
+   "callScore": 0.9166666666666666,
+   "decisionScore": 0.9166666666666666,
+   "selectionScore": 0,
+   "weights": {
+    "calls": 0.4,
+    "decisions": 0.3,
+    "selection": 0.3,
+    "note": "pedagogical weights, not a rule"
+   }
+  },
+  "bestClones": [
+   "A12"
+  ],
+  "selected": "A08",
+  "selectedTier": "decoy",
+  "unsafeExpansions": [
+   "A08"
+  ],
+  "critical": [
+   "unsafe-expansion",
+   "unsafe-selection"
+  ],
+  "issues": [],
+  "perClone": [
+   {
+    "clone": "A01",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A02",
+    "truth": "wild_type",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "wild_type",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A03",
+    "truth": "biallelic_ko",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "biallelic_ko",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A04",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A05",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A06",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A07",
+    "truth": "blocking_only",
+    "expectedDecision": "discard",
+    "tier": "decoy",
+    "submittedCall": "unreadable",
+    "submittedDecision": "discard",
+    "callCorrect": false,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A08",
+    "truth": "blocking_only",
+    "expectedDecision": "discard",
+    "tier": "decoy",
+    "submittedCall": "blocking_only",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": false,
+    "unsafeExpansion": true
+   },
+   {
+    "clone": "A09",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A10",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A11",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A12",
+    "truth": "hdr_hom",
+    "expectedDecision": "expand",
+    "tier": "best",
+    "submittedCall": "hdr_hom",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   }
+  ],
+  "conditioning": {
+   "ensure": {
+    "best": 1,
+    "decoys": 1,
+    "maxAttempts": 2000
+   },
+   "attempts": 39,
+   "satisfied": true
+  }
+ },
+ "critical": [
+  "unsafe-expansion",
+  "unsafe-selection"
+ ]
+}

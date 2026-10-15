@@ -1,0 +1,24 @@
+{
+ "tool": "Assured QC",
+ "version": "0.5.2",
+ "finished": "2026-10-15T11:17:30.677Z",
+ "seconds": 3.789,
+ "threads": 11,
+ "samples": 12,
+ "samplesPerHour": 11401,
+ "arguments": {
+  "design": "apps/academy/missions/m1-snp-apoe-r176c/design.qc-design.json",
+  "sheet": "demo/plates/good_s201/ab1/samples.csv",
+  "out": "demo/plates/good_s201/qc"
+ },
+ "geneRecord": null,
+ "workflow": "snp",
+ "nuclease": "SpCas9",
+ "pairingProblems": [],
+ "decisions": {
+  "accept": 1,
+  "hold": 11,
+  "re-sequence": 0,
+  "reject": 0
+ }
+}

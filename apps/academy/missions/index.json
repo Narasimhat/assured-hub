@@ -1,0 +1,29 @@
+{
+ "schema": "assured-academy-missions/1",
+ "missions": [
+  {
+   "id": "m1-snp-apoe-r176c",
+   "title": "Install a single-codon change (APOE R176C) by HDR",
+   "editKind": "snp",
+   "gene": "APOE",
+   "guides": 2,
+   "donors": 2
+  },
+  {
+   "id": "m2-ko-tagme",
+   "title": "Knock out TAGME with a two-guide deletion",
+   "editKind": "deletion",
+   "gene": "TAGME",
+   "guides": 2,
+   "donors": 0
+  },
+  {
+   "id": "m3-tag-nr2f2-2xha",
+   "title": "Knock in a small epitope tag (2xHA) at the NR2F2 C-terminus",
+   "editKind": "tag_small",
+   "gene": "NR2F2",
+   "guides": 2,
+   "donors": 1
+  }
+ ]
+}

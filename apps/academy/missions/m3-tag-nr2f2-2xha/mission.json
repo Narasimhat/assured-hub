@@ -1,0 +1,34 @@
+{
+ "schema": "assured-academy-mission/1",
+ "id": "m3-tag-nr2f2-2xha",
+ "title": "Knock in a small epitope tag (2xHA) at the NR2F2 C-terminus",
+ "editKind": "tag_small",
+ "gene": "NR2F2",
+ "label": "C-terminal knock-in of 2xHA-only (96 bp)",
+ "objectives": [
+  "Choose an ssODN donor for a small tag.",
+  "Check that the donor carries silent blocking changes for both guides.",
+  "Distinguish a heterozygous from a homozygous knock-in clone and reject blocking-only conversion."
+ ],
+ "howProduced": {
+  "tool": "Assured_CRISPR_Design designEngine.runDesign + qcExport.buildQcDesignSpec",
+  "args": [
+   "ct",
+   "nr2f2-ng016753.gb",
+   "",
+   "2xHA-only",
+   ""
+  ],
+  "options": {
+   "expectedGene": "NR2F2",
+   "donorFormat": "auto",
+   "autoTrimArms": true
+  },
+  "referenceFixture": "apps/design/assured-crispr-designer/test/fixtures/nr2f2-ng016753.gb",
+  "designSchema": "assured-qc-design/1"
+ },
+ "caveats": [
+  "Teaching case built from a reference fixture in the Design repo's test suite; it is not annotated against ClinVar or any patient.",
+  "The reference file's licence/provenance has not been reviewed for redistribution."
+ ]
+}

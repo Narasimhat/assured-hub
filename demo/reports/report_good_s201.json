@@ -1,0 +1,281 @@
+{
+ "student": "S-good-201",
+ "mission": "m1-snp-apoe-r176c",
+ "overall": 100,
+ "design": {
+  "score": 100,
+  "checks": [
+   {
+    "id": "valid-handoff",
+    "source": "contract",
+    "pass": true,
+    "detail": "design validates against assured-qc-design/1",
+    "weight": 2,
+    "severity": "critical"
+   },
+   {
+    "id": "strategy",
+    "source": "key",
+    "pass": true,
+    "detail": "strategy \"snp_hdr\" suits this mission",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "edit-kind",
+    "source": "key",
+    "pass": true,
+    "detail": "design edit kind snp; mission expects snp",
+    "weight": 1,
+    "severity": "major"
+   },
+   {
+    "id": "guide-count",
+    "source": "convention",
+    "pass": true,
+    "detail": "2 guide(s); lab convention is 2",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "cut-distance:APOE_gRNA1",
+    "source": "engine",
+    "pass": true,
+    "detail": "APOE_gRNA1 cuts 4 bp from the edit; the design tool's eligibility limit is 15 bp (HDR falls off beyond about 10)",
+    "weight": 1,
+    "severity": "major"
+   },
+   {
+    "id": "cut-distance:APOE_gRNA2",
+    "source": "engine",
+    "pass": true,
+    "detail": "APOE_gRNA2 cuts 8 bp from the edit; the design tool's eligibility limit is 15 bp (HDR falls off beyond about 10)",
+    "weight": 1,
+    "severity": "major"
+   },
+   {
+    "id": "cut-separation",
+    "source": "engine",
+    "pass": true,
+    "detail": "guide cuts are 12 bp apart; the engine keeps a second guide at least 10 bp from the first",
+    "weight": 1,
+    "severity": "minor"
+   },
+   {
+    "id": "has-donor",
+    "source": "convention",
+    "pass": true,
+    "detail": "2 donor(s)",
+    "weight": 2,
+    "severity": "critical"
+   },
+   {
+    "id": "blocking-all-guides",
+    "source": "convention",
+    "pass": true,
+    "detail": "every donor blocks every guide",
+    "weight": 3,
+    "severity": "critical"
+   },
+   {
+    "id": "blocking-count:APOE_gRNA1",
+    "source": "engine",
+    "pass": true,
+    "detail": "3 blocking change(s) for APOE_gRNA1; engine cap is 3",
+    "weight": 1,
+    "severity": "minor"
+   },
+   {
+    "id": "blocking-count:APOE_gRNA2",
+    "source": "engine",
+    "pass": true,
+    "detail": "1 blocking change(s) for APOE_gRNA2; engine cap is 3",
+    "weight": 1,
+    "severity": "minor"
+   },
+   {
+    "id": "donor-tier",
+    "source": "convention",
+    "pass": true,
+    "detail": "donor format ssodn as per lab convention",
+    "weight": 2,
+    "severity": "major"
+   },
+   {
+    "id": "intended-edit",
+    "source": "key",
+    "pass": true,
+    "detail": "intended change at 539; mission requires 539",
+    "weight": 3,
+    "severity": "critical"
+   }
+  ],
+  "critical": []
+ },
+ "plate": {
+  "score": 100,
+  "breakdown": {
+   "callScore": 1,
+   "decisionScore": 1,
+   "selectionScore": 1,
+   "weights": {
+    "calls": 0.4,
+    "decisions": 0.3,
+    "selection": 0.3,
+    "note": "pedagogical weights, not a rule"
+   }
+  },
+  "bestClones": [
+   "A01"
+  ],
+  "selected": "A01",
+  "selectedTier": "best",
+  "unsafeExpansions": [],
+  "critical": [],
+  "issues": [],
+  "perClone": [
+   {
+    "clone": "A01",
+    "truth": "hdr_hom",
+    "expectedDecision": "expand",
+    "tier": "best",
+    "submittedCall": "hdr_hom",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A02",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A03",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A04",
+    "truth": "het_indel",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "het_indel",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A05",
+    "truth": "mosaic",
+    "expectedDecision": "re_clone",
+    "tier": "decoy",
+    "submittedCall": "mosaic",
+    "submittedDecision": "re_clone",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A06",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A07",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A08",
+    "truth": "biallelic_ko",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "biallelic_ko",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A09",
+    "truth": "biallelic_ko",
+    "expectedDecision": "discard",
+    "tier": "reject",
+    "submittedCall": "biallelic_ko",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A10",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A11",
+    "truth": "blocking_only",
+    "expectedDecision": "discard",
+    "tier": "decoy",
+    "submittedCall": "blocking_only",
+    "submittedDecision": "discard",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   },
+   {
+    "clone": "A12",
+    "truth": "hdr_het",
+    "expectedDecision": "expand",
+    "tier": "acceptable",
+    "submittedCall": "hdr_het",
+    "submittedDecision": "expand",
+    "callCorrect": true,
+    "decisionCorrect": true,
+    "unsafeExpansion": false
+   }
+  ],
+  "conditioning": {
+   "ensure": {
+    "best": 1,
+    "decoys": 1,
+    "maxAttempts": 2000
+   },
+   "attempts": 2,
+   "satisfied": true
+  }
+ },
+ "critical": []
+}

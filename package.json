@@ -1,0 +1,18 @@
+{
+  "name": "assured-hub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ASSURED Academy & Virtual Bench: Design, QC and Academy apps with shared contract and rules packages.",
+  "workspaces": [
+    "apps/qc",
+    "apps/design/assured-crispr-designer",
+    "apps/academy",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy && npm run test:contract",
+    "test:contract": "node --test tests/contract/",
+    "build:qc": "npm run build -w assured-qc",
+    "build:design": "npm run build -w assured-crispr-designer"
+  }
+}

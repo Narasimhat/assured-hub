@@ -1,0 +1,11 @@
+{
+  "gene_symbol": "DEMO1",
+  "ensembl_id": "",
+  "mutation": "",
+  "edit_type": "knockout",
+  "species": "human",
+  "cell_line": "",
+  "extra": {
+    "reference_file": "./reference_demo.gb"
+  }
+}

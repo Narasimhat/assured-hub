@@ -1,0 +1,14 @@
+{
+  "name": "@assured/rules",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Design-engine limits, donor-format tiers and lab conventions shared by Assured CRISPR Design and the Academy grader.",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "node --test"
+  }
+}

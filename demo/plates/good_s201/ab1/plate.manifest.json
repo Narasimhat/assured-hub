@@ -1,0 +1,56 @@
+{
+ "schema": "assured-academy-plate/1",
+ "seed": 201,
+ "control": "control.ab1",
+ "clones": [
+  {
+   "clone": "A01",
+   "file": "A01.ab1"
+  },
+  {
+   "clone": "A02",
+   "file": "A02.ab1"
+  },
+  {
+   "clone": "A03",
+   "file": "A03.ab1"
+  },
+  {
+   "clone": "A04",
+   "file": "A04.ab1"
+  },
+  {
+   "clone": "A05",
+   "file": "A05.ab1"
+  },
+  {
+   "clone": "A06",
+   "file": "A06.ab1"
+  },
+  {
+   "clone": "A07",
+   "file": "A07.ab1"
+  },
+  {
+   "clone": "A08",
+   "file": "A08.ab1"
+  },
+  {
+   "clone": "A09",
+   "file": "A09.ab1"
+  },
+  {
+   "clone": "A10",
+   "file": "A10.ab1"
+  },
+  {
+   "clone": "A11",
+   "file": "A11.ab1"
+  },
+  {
+   "clone": "A12",
+   "file": "A12.ab1"
+  }
+ ],
+ "note": "Synthetic traces from a simulator; not real chromatograms."
+}
