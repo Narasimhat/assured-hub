@@ -72,7 +72,7 @@ export function DecisionView({ currentProject }) {
         <div className="card-title">
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <Award size={22} style={{ color: "var(--success)" }} />
-            <span>4. Actionable Clone Prioritization & Phenotyping Panel</span>
+            <span>4. Results</span>
           </div>
 
           <button className="btn btn-primary" onClick={handleDownloadCsv}>
@@ -105,7 +105,7 @@ export function DecisionView({ currentProject }) {
       {/* Recommended Panel */}
       <div className="card">
         <div className="card-title">
-          <span>Priority Clones to Expand</span>
+          <span>Select clones</span>
           <span style={{ fontSize: "0.85rem", color: "var(--success)" }}>Verified Sequence Candidates</span>
         </div>
 
