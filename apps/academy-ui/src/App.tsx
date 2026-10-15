@@ -125,7 +125,7 @@ export const App: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <a
-                  href="./studio/"
+                  href="/studio/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/25 transition-all"
@@ -138,7 +138,7 @@ export const App: React.FC = () => {
 
             <div className="w-full h-[750px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
               <iframe
-                src="./studio/"
+                src="/studio/"
                 title="Assured Studio"
                 className="w-full h-full border-0"
               />

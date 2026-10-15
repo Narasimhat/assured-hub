@@ -818,15 +818,25 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
               </p>
             </div>
 
-            {/* External Tool Reference */}
-            <div className="pt-1 text-center">
+            {/* Tool Reference */}
+            <div className="pt-1 flex items-center justify-center gap-3 text-[11px]">
+              <a
+                href="/qc/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors font-medium"
+              >
+                <span>Launch QC App (/qc/)</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <span className="text-slate-600">&bull;</span>
               <a
                 href="https://assured-qc.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[11px] text-slate-400 hover:text-emerald-400 flex items-center justify-center gap-1 transition-colors"
+                className="text-slate-500 hover:text-slate-400 flex items-center gap-1 transition-colors"
               >
-                <span>Open Standalone ASSURED-QC web application</span>
+                <span>Vercel Cloud</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

@@ -13,6 +13,31 @@
       "source": "/design",
       "destination": "/design/",
       "permanent": true
+    },
+    {
+      "source": "/studio",
+      "destination": "/studio/",
+      "permanent": true
+    },
+    {
+      "source": "/academy",
+      "destination": "/academy/",
+      "permanent": true
+    },
+    {
+      "source": "/academy/studio/:path*",
+      "destination": "/studio/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/academy/design/:path*",
+      "destination": "/design/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/academy/qc/:path*",
+      "destination": "/qc/:path*",
+      "permanent": false
     }
   ]
 }

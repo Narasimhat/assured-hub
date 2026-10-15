@@ -75,15 +75,26 @@ export const ToolLaunchpad: React.FC = () => {
             </div>
           </div>
 
-          <a
-            href="https://assured-crispr-design.vercel.app"
-            target="_blank"
-            rel="noreferrer"
-            className="w-full py-3 px-4 rounded-xl font-bold text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
-          >
-            <span>Launch Live Tool (assured-crispr-design.vercel.app)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <div className="flex flex-col gap-2">
+            <a
+              href="/design/"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
+            >
+              <span>Open Local Design App (/design/)</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://assured-crispr-design.vercel.app"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-2 px-4 rounded-xl font-semibold text-[11px] bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>Vercel Cloud Version</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </div>
 
         {/* Tool 2: Assured QC */}
@@ -116,15 +127,26 @@ export const ToolLaunchpad: React.FC = () => {
             </div>
           </div>
 
-          <a
-            href="https://assured-qc.vercel.app"
-            target="_blank"
-            rel="noreferrer"
-            className="w-full py-3 px-4 rounded-xl font-bold text-xs bg-purple-500 hover:bg-purple-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all"
-          >
-            <span>Launch Live Tool (assured-qc.vercel.app)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <div className="flex flex-col gap-2">
+            <a
+              href="/qc/"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-purple-500 hover:bg-purple-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all"
+            >
+              <span>Open Local QC App (/qc/)</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://assured-qc.vercel.app"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-2 px-4 rounded-xl font-semibold text-[11px] bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>Vercel Cloud Version</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </div>
 
       </div>

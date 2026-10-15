@@ -33,14 +33,38 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Handle nested subpaths from /academy/ e.g. /academy/studio/ -> /studio/
+  if (reqPath.startsWith('/academy/studio')) {
+    const target = reqPath.replace(/^\/academy\/studio/, '/studio');
+    res.writeHead(302, { Location: target || '/studio/' });
+    res.end();
+    return;
+  }
+  if (reqPath.startsWith('/academy/design')) {
+    const target = reqPath.replace(/^\/academy\/design/, '/design');
+    res.writeHead(302, { Location: target || '/design/' });
+    res.end();
+    return;
+  }
+  if (reqPath.startsWith('/academy/qc')) {
+    const target = reqPath.replace(/^\/academy\/qc/, '/qc');
+    res.writeHead(302, { Location: target || '/qc/' });
+    res.end();
+    return;
+  }
+
   let filePath = path.join(distDir, reqPath);
 
-  // If an asset wasn't found at the root, check under academy or studio
+  // If an asset wasn't found at the root, check under any of the apps
   if (!fs.existsSync(filePath) && reqPath.startsWith('/assets/')) {
-    const academyAsset = path.join(distDir, 'academy', reqPath);
-    const studioAsset = path.join(distDir, 'studio', reqPath);
-    if (fs.existsSync(academyAsset)) filePath = academyAsset;
-    else if (fs.existsSync(studioAsset)) filePath = studioAsset;
+    const apps = ['academy', 'studio', 'design', 'qc'];
+    for (const app of apps) {
+      const candidate = path.join(distDir, app, reqPath);
+      if (fs.existsSync(candidate)) {
+        filePath = candidate;
+        break;
+      }
+    }
   }
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {

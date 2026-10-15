@@ -389,15 +389,25 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
               </span>
             </div>
 
-            {/* External Tool Reference */}
-            <div className="pt-2 text-center">
+            {/* Tool Reference */}
+            <div className="pt-2 flex items-center justify-center gap-3 text-[11px]">
+              <a
+                href="/design/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors font-medium"
+              >
+                <span>Launch Design App (/design/)</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <span className="text-slate-600">&bull;</span>
               <a
                 href="https://assured-crispr-design.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[11px] text-slate-400 hover:text-cyan-400 flex items-center justify-center gap-1 transition-colors"
+                className="text-slate-500 hover:text-slate-400 flex items-center gap-1 transition-colors"
               >
-                <span>For a real design, use the standalone Assured CRISPR Design</span>
+                <span>Vercel Cloud</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

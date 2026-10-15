@@ -100,7 +100,7 @@ export const UnifiedPipeline: React.FC<UnifiedPipelineProps> = ({ workspaceMode 
             </button>
 
             <a
-              href="./studio/"
+              href="/studio/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all border border-purple-400/30"
