@@ -1,8 +1,29 @@
-import React from "react";
-import { Download, Award, AlertCircle, FileText, CheckCircle2 } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { Download, Award } from "lucide-react";
+import { cloneSelectionFigure } from "../../../../qc/src/selectionFigure.js";
+import { saveSvg, savePng, savePdf } from "../../../../qc/src/saveFigure.js";
 
 export function DecisionView({ currentProject }) {
   const qcResults = currentProject?.qcResults || [];
+
+  const selectionSvg = useMemo(() => cloneSelectionFigure(qcResults), [qcResults]);
+  const [figureBusy, setFigureBusy] = useState(false);
+  const [figureError, setFigureError] = useState("");
+  const downloadFigure = async (format) => {
+    if (!selectionSvg || figureBusy) return;
+    setFigureBusy(true);
+    setFigureError("");
+    const name = `${(currentProject?.gene || "clones").replace(/[^a-z0-9_-]/gi, "_")}_clone_selection`;
+    try {
+      if (format === "svg") saveSvg(`${name}.svg`, selectionSvg);
+      else if (format === "png") await savePng(`${name}_300dpi.png`, selectionSvg, 300);
+      else await savePdf(`${name}.pdf`, selectionSvg);
+    } catch (error) {
+      setFigureError(`Could not export the figure: ${error.message || error}`);
+    } finally {
+      setFigureBusy(false);
+    }
+  };
 
   const handleDownloadCsv = () => {
     if (qcResults.length === 0) return;
@@ -64,6 +85,22 @@ export function DecisionView({ currentProject }) {
           The decision engine prioritized <strong>{topPanel.length}</strong> top clone{topPanel.length === 1 ? "" : "s"} for banking down and phenotyping assays ({accepted.length} accepted sequence candidates).
         </p>
       </div>
+
+      <section className="card" aria-labelledby="clone-figure-heading">
+        <h3 id="clone-figure-heading">Clone-selection figure</h3>
+        {selectionSvg ? <>
+          <p style={{ color: "var(--text-muted)", margin: "0.75rem 0" }}>
+            Recommended clones aligned with the wild-type control, with design annotations where available and a summary of clone calls and support. Download an editable SVG, vector PDF, or 300-dpi PNG.
+          </p>
+          <div className="project-controls" style={{ marginBottom: "1rem" }}>
+            <button type="button" className="btn btn-secondary" disabled={figureBusy} onClick={() => downloadFigure("svg")}>Download SVG</button>
+            <button type="button" className="btn btn-secondary" disabled={figureBusy} onClick={() => downloadFigure("pdf")}>Download PDF</button>
+            <button type="button" className="btn btn-secondary" disabled={figureBusy} onClick={() => downloadFigure("png")}>Download PNG (300 dpi)</button>
+          </div>
+          {figureError && <p role="alert">{figureError}</p>}
+          <div role="img" aria-label="Clone-selection figure showing recommended clones and analysis support" style={{ overflowX: "auto", background: "#fff", borderRadius: 8 }} dangerouslySetInnerHTML={{ __html: selectionSvg }} />
+        </> : <p style={{ color: "var(--text-muted)", marginTop: "0.75rem" }}>No clone-selection figure is available for these results. Review the individual trace or junction figures in Trace Analysis.</p>}
+      </section>
 
       {/* Recommended Panel */}
       <div className="card">
