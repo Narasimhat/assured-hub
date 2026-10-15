@@ -35,6 +35,14 @@ const server = http.createServer((req, res) => {
 
   let filePath = path.join(distDir, reqPath);
 
+  // If an asset wasn't found at the root, check under academy or studio
+  if (!fs.existsSync(filePath) && reqPath.startsWith('/assets/')) {
+    const academyAsset = path.join(distDir, 'academy', reqPath);
+    const studioAsset = path.join(distDir, 'studio', reqPath);
+    if (fs.existsSync(academyAsset)) filePath = academyAsset;
+    else if (fs.existsSync(studioAsset)) filePath = studioAsset;
+  }
+
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
     filePath = path.join(filePath, 'index.html');
   } else if (!path.extname(filePath) && fs.existsSync(filePath + '.html')) {
