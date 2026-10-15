@@ -5,7 +5,6 @@ import {
   FlaskConical, 
   CheckCircle, 
   HelpCircle,
-  Dna,
   ArrowRight,
   ShieldCheck
 } from 'lucide-react';
@@ -82,39 +81,6 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
             {para}
           </p>
         ))}
-      </div>
-
-      {/* Interactive Visual Element: Asymmetric ssODN / Silent PAM Diagram */}
-      <div className="mb-8 p-5 rounded-xl bg-slate-950 border border-slate-800">
-        <div className="flex items-center justify-between mb-3 text-xs text-slate-400 font-semibold uppercase tracking-wider">
-          <span className="flex items-center gap-1.5 text-cyan-400">
-            <Dna className="w-4 h-4" />
-            <span>Molecular Architecture Blueprint</span>
-          </span>
-          <span>Non-target strand complementary</span>
-        </div>
-
-        {/* Visual ssODN schematic */}
-        <div className="bg-slate-900 p-4 rounded-lg border border-slate-800/90 font-mono text-xs overflow-x-auto space-y-2">
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="w-20 shrink-0 font-bold text-slate-500">Target DNA:</span>
-            <span className="text-slate-300">5'-...ACCGT<span className="bg-rose-500/20 text-rose-300 px-1 font-bold rounded">C</span>TGGACTCCT<span className="bg-amber-500/20 text-amber-300 px-1 font-bold rounded">AGG</span>CGGA...-3'</span>
-          </div>
-
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="w-20 shrink-0 font-bold text-slate-500">Cas9 Cleave:</span>
-            <span className="text-rose-400 font-bold">                 ✂️ (3 bp upstream of PAM)</span>
-          </div>
-
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="w-20 shrink-0 font-bold text-cyan-400">ssODN Donor:</span>
-            <span className="text-emerald-400 font-bold">5\'-[36 nt Distal Arm]----<span className="bg-emerald-500/20 text-emerald-300 px-1 rounded underline">T (Corrected)</span>----<span className="bg-amber-500/20 text-amber-300 px-1 rounded">AGA (Silent Block)</span>----[91 nt Proximal Arm]-3\'</span>
-          </div>
-        </div>
-
-        <p className="text-[11px] text-slate-500 mt-2">
-          * Notice how the silent mutation alters the <span className="text-amber-400 font-semibold">AGG</span> PAM to <span className="text-amber-400 font-semibold">AGA</span>, rendering the repaired allele refractory to Cas9 re-cutting while preserving the native amino acid sequence.
-        </p>
       </div>
 
       {/* Key Takeaway & Bench Secret */}
