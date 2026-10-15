@@ -27,6 +27,20 @@ if (fs.existsSync(designDist)) {
   console.log('✓ Copied apps/design/assured-crispr-designer/dist to dist/design');
 }
 
+// Copy Studio dist if it exists
+const studioDist = path.join(rootDir, 'apps', 'studio', 'dist');
+if (fs.existsSync(studioDist)) {
+  fs.cpSync(studioDist, path.join(distDir, 'studio'), { recursive: true });
+  console.log('✓ Copied apps/studio/dist to dist/studio');
+}
+
+// Copy Academy UI dist if it exists
+const academyDist = path.join(rootDir, 'apps', 'academy-ui', 'dist');
+if (fs.existsSync(academyDist)) {
+  fs.cpSync(academyDist, path.join(distDir, 'academy'), { recursive: true });
+  console.log('✓ Copied apps/academy-ui/dist to dist/academy');
+}
+
 // Generate root index.html portal
 const portalHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -85,7 +99,37 @@ const portalHtml = `<!DOCTYPE html>
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+      <div class="p-6 rounded-3xl bg-slate-900/80 border border-purple-500/40 hover:border-purple-400 transition-all flex flex-col justify-between group shadow-lg hover:shadow-purple-500/20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-purple-600/30 text-purple-300 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-purple-500/30 uppercase tracking-wider">
+          Unified Studio
+        </div>
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-purple-950 border border-purple-800/60 flex items-center justify-center text-xl text-purple-400 group-hover:scale-105 transition-transform">
+            ⚡
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">
+              Assured Studio
+            </h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Complete end-to-end studio: in-silico design, vendor carts, in-silico PCR gel simulator, wet-lab bench protocol, and 96-well Sanger QC.
+            </p>
+          </div>
+          <div class="space-y-1.5 pt-2 border-t border-slate-800/60 text-[11px] text-slate-400 font-mono">
+            <div class="flex items-center gap-1.5">✓ Virtual PCR gel simulator</div>
+            <div class="flex items-center gap-1.5">✓ 96-well microplate heatmap</div>
+            <div class="flex items-center gap-1.5">✓ Wet-lab protocol & checklist</div>
+          </div>
+        </div>
+        <div class="pt-6">
+          <a href="./studio/" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white flex items-center justify-center gap-2 shadow-md shadow-purple-500/25 transition-all">
+            <span>Launch Studio App</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+      </div>
+
       <div class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between group shadow-lg hover:shadow-cyan-500/10">
         <div class="space-y-4">
           <div class="w-12 h-12 rounded-2xl bg-cyan-950 border border-cyan-800/60 flex items-center justify-center text-xl text-cyan-400 group-hover:scale-105 transition-transform">

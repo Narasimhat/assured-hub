@@ -17,6 +17,7 @@ import { runTeachingDesign, DesignRequest } from '../../utils/designEngine';
 import { locateGuide } from '../../utils/guideLayout';
 import { DEFAULT_BENCH } from '../../data/benchDefaults';
 import { DESIGN_EXAMPLES } from '../../data/generated/examples.generated';
+import { GelSimulator } from './GelSimulator';
 
 interface Stage1DesignProps {
   project: AssuredProject;
@@ -341,6 +342,9 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
         </div>
 
       </div>
+
+      {/* In-Silico PCR Agarose Gel Simulator */}
+      <GelSimulator project={project} />
 
       {/* Modal: teaching sketch on a pasted window */}
       {showCustomModal && (

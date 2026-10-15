@@ -1,4 +1,4 @@
-﻿import http from 'node:http';
+import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,7 +27,7 @@ const port = process.env.PORT || 3000;
 const server = http.createServer((req, res) => {
   let reqPath = decodeURIComponent(req.url.split('?')[0]);
 
-  if (reqPath === '/qc' || reqPath === '/design') {
+  if (reqPath === '/qc' || reqPath === '/design' || reqPath === '/studio' || reqPath === '/academy') {
     res.writeHead(301, { Location: `${reqPath}/` });
     res.end();
     return;
@@ -54,7 +54,9 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => {
   console.log(`ASSURED Hub preview running at http://localhost:${port}`);
-  console.log(`  - Hub:    http://localhost:${port}/`);
-  console.log(`  - Design: http://localhost:${port}/design/`);
-  console.log(`  - QC:     http://localhost:${port}/qc/`);
+  console.log(`  - Hub:     http://localhost:${port}/`);
+  console.log(`  - Studio:  http://localhost:${port}/studio/`);
+  console.log(`  - Design:  http://localhost:${port}/design/`);
+  console.log(`  - QC:      http://localhost:${port}/qc/`);
+  console.log(`  - Academy: http://localhost:${port}/academy/`);
 });

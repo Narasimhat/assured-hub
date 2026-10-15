@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { FlaskConical, Calculator, Calendar, ArrowRight, Clock, Info } from 'lucide-react';
+import { FlaskConical, Calculator, Calendar, ArrowRight, Clock, Info, CheckSquare } from 'lucide-react';
 import { AssuredProject, CloningMethod, RnpCondition } from '../../types/pipeline';
 import { RNP_TABLE, RNP_TOTAL_UL, NEON_CONDITIONS, conditionFor } from '../../data/benchDefaults';
+import { ProtocolModal } from './ProtocolModal';
 
 interface Stage3BenchProps {
   project: AssuredProject;
@@ -22,6 +23,7 @@ export const Stage3Bench: React.FC<Stage3BenchProps> = ({ project, onUpdateProje
   const [cloning, setCloning] = useState<CloningMethod>(bench.cloningMethod);
   const [efficiency, setEfficiency] = useState(50);
   const [wanted, setWanted] = useState(15);
+  const [showProtocolModal, setShowProtocolModal] = useState(false);
 
   const mix = RNP_TABLE[condition];
   const scaled = (v: number | null) => (v === null ? null : fmt(v * reactions));
@@ -62,9 +64,18 @@ export const Stage3Bench: React.FC<Stage3BenchProps> = ({ project, onUpdateProje
           <span className="text-xs text-slate-400 font-mono">Source: {CITATION}</span>
         </div>
         <h2 className="text-2xl font-black text-white">Executing the wet-lab protocol for {project.target.gene}</h2>
-        <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
-          Volumes, electroporation settings and timings below are taken from the published protocol. Check them against the paper and your institution&apos;s procedures before you work at the bench.
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+          <p className="text-xs text-slate-300 leading-relaxed max-w-2xl">
+            Volumes, electroporation settings and timings below are taken from the published protocol. Check them against the paper and your institution&apos;s procedures before you work at the bench.
+          </p>
+          <button
+            onClick={() => setShowProtocolModal(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-95 text-slate-950 font-bold text-xs shadow-md shadow-emerald-500/20 transition-all"
+          >
+            <CheckSquare className="w-4 h-4" />
+            <span>Interactive Protocol & Checklist</span>
+          </button>
+        </div>
         {bench.valuesSource === 'protocol-defaults' && (
           <p className="text-[11px] text-amber-300/90">The values below are protocol defaults for this preset, not values recorded at the bench. Confirm them yourself to record your own.</p>
         )}
@@ -175,6 +186,12 @@ export const Stage3Bench: React.FC<Stage3BenchProps> = ({ project, onUpdateProje
           </div>
         </div>
       </div>
+
+      <ProtocolModal
+        isOpen={showProtocolModal}
+        onClose={() => setShowProtocolModal(false)}
+        project={project}
+      />
     </div>
   );
 };
