@@ -38,7 +38,7 @@ APOE_R176C.engine.design.json,APOE,donor ssODN2 (matched to APOE_R176C_gRNA: asy
 HBB_E7V.engine.design.json,HBB,reference window vs GRCh38,OK,"1085 bp, 0 mismatches"
 HBB_E7V.engine.design.json,HBB,edit site coordinate and base,OK,"rs334 (p.Glu7Val, legacy Glu6Val): chr11:5,227,002 is design position 541; gene-orientation base A (expected A)"
 HBB_E7V.engine.design.json,HBB,edit site is changed by the donor(s),OK,marker at 541: A>T
-HBB_E7V.engine.design.json,HBB,hand-off flags the edit site as role 'intended',PROBLEM,exported role is 'blocking' (Design export labels the edit 'blocking': see docs/FINDINGS.md. Assured QC output is unaffected; code that reads the role directly is)
+HBB_E7V.engine.design.json,HBB,hand-off flags the edit site as role 'intended',PROBLEM,"exported role is 'blocking' (Design export labels the edit 'blocking': see docs/FINDINGS.md. Assured QC's calls and numbers do not change, but its text omits '(intended edit absent)' for blocking-only clones; code that reads the role directly, such as the Academy simulator, is affected)"
 HBB_E7V.engine.design.json,HBB,"guide HBB_gRNA1: spacer at stated site, 20 nt",OK,"20 nt, strand +, site matches: True"
 HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: PAM is NGG,OK,PAM AGG (stated AGG)
 HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: cut within 15 bp of the edit,OK,"cut 538 (stated 538), -3 bp from the edit"

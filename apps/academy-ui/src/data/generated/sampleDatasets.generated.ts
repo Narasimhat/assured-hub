@@ -27,7 +27,7 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "id": "design-hbb-engine",
     "name": "HBB Glu7Val design from the Assured CRISPR Design engine",
     "category": "Design-Report",
-    "description": "Produced on RefSeqGene NG_059281.1: one guide and one 127-nt ssODN. The file labels the edit base with role 'blocking' (documented export issue); Assured QC output was tested and is unaffected.",
+    "description": "Produced on RefSeqGene NG_059281.1: one guide and one 127-nt ssODN. The file labels the edit base with role 'blocking' (documented export issue). On 7 synthetic clones, Assured QC's calls and numbers did not change with that label, but its text omits '(intended edit absent)' for blocking-only clones.",
     "url": "/sample_data/designs/HBB_E7V.engine.design.json",
     "downloadFilename": "HBB_E7V.engine.design.json",
     "bytes": 5649,
@@ -210,7 +210,7 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "Reference window, edit base, guide PAMs and cuts, donor arms. Genome-wide specificity was not assessed. Two checks fail for the HBB hand-off (see docs/FINDINGS.md).",
     "url": "/sample_data/real_trace_qc/verification_grch38.csv",
     "downloadFilename": "verification_grch38.csv",
-    "bytes": 6924,
-    "sha256": "a8685ba4701cd6ebf9c817d0fe7aa03b55be6a96821eb8243d3f020d9463aa62"
+    "bytes": 7050,
+    "sha256": "91cb6f91b08327baef09db9d69d934e7372322b47c88ad029aa24503a6c24aea"
   }
 ];

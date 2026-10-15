@@ -36,7 +36,7 @@ def verify(path, gene, region):
     mk = {m["pos"]: m for m in spec["markers"]}
     add("edit site is changed by the donor(s)", p_edit in mk, f"marker at {p_edit}: {mk.get(p_edit, {}).get('change')}")
     add("hand-off flags the edit site as role 'intended'", mk.get(p_edit, {}).get("role") == "intended",
-        f"exported role is '{mk.get(p_edit, {}).get('role')}'" + ("" if mk.get(p_edit, {}).get("role") == "intended" else " (Design export labels the edit 'blocking': see docs/FINDINGS.md. Assured QC output is unaffected; code that reads the role directly is)"))
+        f"exported role is '{mk.get(p_edit, {}).get('role')}'" + ("" if mk.get(p_edit, {}).get("role") == "intended" else " (Design export labels the edit 'blocking': see docs/FINDINGS.md. Assured QC's calls and numbers do not change, but its text omits '(intended edit absent)' for blocking-only clones; code that reads the role directly, such as the Academy simulator, is affected)"))
     for gd in spec["guides"]:
         sp = gd["spacer"].upper(); st, en = gd["protospacerStart"], gd["protospacerEnd"]
         site = win[st:en]; site_ok = (site == sp) if gd["strand"] == "+" else (rc(site) == sp)
