@@ -7,7 +7,7 @@ const steps = [
   { id: "decision", title: "Review clones", text: "Inspect QC results and candidate reasons, compare clones, and download the screening CSV." },
 ];
 
-export function QuickStart({ onNavigate }) {
+export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
   return (
     <details className="quick-start card">
       <summary>Quick start · How to use ASSURED Bench</summary>
@@ -20,10 +20,22 @@ export function QuickStart({ onNavigate }) {
           </li>
         ))}
       </ol>
+      <section className="quick-start-example" aria-labelledby="design-example-heading">
+        <h3 id="design-example-heading">Design example · TP53 C-terminal FLAG</h3>
+        <ol>
+          <li>Load the example to fill in <strong>TP53</strong>, <strong>C-Terminal Tag Knock-in</strong>, and <strong>FLAG</strong>, with a bundled GenBank reference.</li>
+          <li>Click <strong>Generate design</strong>. Review the primary guide, alternatives, donor, primers, and schematic.</li>
+          <li>Open <strong>Order</strong> to review the order sheet, or download the HTML report.</li>
+        </ol>
+        <p>The button saves your current experiment in Projects, then starts a separate example. No gene lookup is needed.</p>
+        <button type="button" className="btn btn-secondary" onClick={onDesignExample} disabled={isLoadingExample}>
+          {isLoadingExample ? "Loading example…" : "Load TP53 FLAG example"}
+        </button>
+      </section>
       <div className="quick-start-paths">
         <section aria-labelledby="practice-heading">
           <h3 id="practice-heading">Try sample data</h3>
-          <p>Start a new experiment, open Trace QC, and choose <strong>Benchmark Traces</strong>. Click <strong>Run Trace Deconvolution</strong>, then review the results and Select clones. The benchmark includes its own design reference.</p>
+          <p>Start a new experiment, open Trace QC, and choose <strong>Benchmark Traces</strong>. Click <strong>Run Trace Deconvolution</strong>, then review the results and Select clones. The APOE trace benchmark includes its own design reference and is separate from the TP53 design example.</p>
           <button className="btn btn-secondary" type="button" onClick={() => onNavigate("qc")}>Open Trace QC</button>
         </section>
         <section aria-labelledby="experiment-heading">

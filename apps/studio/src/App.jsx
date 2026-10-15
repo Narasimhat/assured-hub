@@ -14,6 +14,7 @@ export function App() {
   const [activeStep, setActiveStep] = useState("design");
   const [currentProject, setCurrentProject] = useState(createProject);
 
+  const [isLoadingExample, setIsLoadingExample] = useState(false);
   const [savedProjects, setSavedProjects] = useState([]);
   const [showProjectsModal, setShowProjectsModal] = useState(false);
   const [showProtocolModal, setShowProtocolModal] = useState(false);
@@ -55,6 +56,31 @@ export function App() {
     setCurrentProject(createProject());
     setActiveStep("design");
     showToast("Started fresh experiment.");
+  };
+
+  const handleDesignExample = async () => {
+    setIsLoadingExample(true);
+    try {
+      const base = import.meta.env.BASE_URL;
+      const response = await fetch(`${base}references/tp53-NG_017013.2.gb`);
+      if (!response.ok) throw new Error(`Reference download failed (HTTP ${response.status}).`);
+      const raw = await response.text();
+      if (!raw.includes("VERSION     NG_017013.2") || !raw.includes("ORIGIN")) throw new Error("The example reference is invalid.");
+      // Keep the current work available in Projects before starting the example.
+      await saveProject(currentProject);
+      await loadProjects();
+      setCurrentProject({ ...createProject(), name: "Example: TP53 C-terminal FLAG", gene: "TP53", editType: "ct", tag: "FLAG",
+        genbankRaw: raw, geneMeta: { geneSymbol: "TP53", transcriptId: "NM_000546.5", source: "Bundled NCBI RefSeqGene",
+          sourceUrl: "https://www.ncbi.nlm.nih.gov/nuccore/NG_017013.2",
+          warning: "Design example: NCBI RefSeqGene NG_017013.2, TP53 variant 1. Coordinates are relative to this reference record.",
+          genbankText: raw } });
+      setActiveStep("design");
+      showToast("Example loaded. Your previous experiment is saved in Projects. Click Generate design.");
+    } catch (error) {
+      showToast("Could not load design example: " + error.message);
+    } finally {
+      setIsLoadingExample(false);
+    }
   };
 
   const handleSelectProject = (proj) => {
@@ -134,7 +160,7 @@ export function App() {
       )}
 
       <main className="app-container">
-        <QuickStart onNavigate={setActiveStep} />
+        <QuickStart onNavigate={setActiveStep} onDesignExample={handleDesignExample} isLoadingExample={isLoadingExample} />
         <div className="project-context">
           <label htmlFor="experiment-name">Experiment name</label>
           <input id="experiment-name" value={currentProject.name || ""}
