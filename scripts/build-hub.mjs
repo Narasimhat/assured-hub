@@ -191,7 +191,7 @@ const portalHtml = `<!DOCTYPE html>
           </div>
           <div>
             <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
-              Assured Academy & Bench
+              ASSURED Studio (Academy & Workbench)
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               The unified 5-stage interactive lab bench companion and Khan Academy-style curriculum for stem cell biology and frugal gene editing.
@@ -199,14 +199,14 @@ const portalHtml = `<!DOCTYPE html>
           </div>
           <div class="space-y-1.5 pt-2 border-t border-slate-800/60 text-[11px] text-slate-400 font-mono">
             <div class="flex items-center gap-1.5">✓ 5-Stage unified pipeline</div>
-            <div class="flex items-center gap-1.5">✓ Real APOE & MYD88 runs</div>
-            <div class="flex items-center gap-1.5">✓ Publication vector SVG</div>
+            <div class="flex items-center gap-1.5">✓ Guided & Pro mode switch</div>
+            <div class="flex items-center gap-1.5">✓ Ensembl + CFD cutting matrix</div>
           </div>
         </div>
         <div class="pt-6">
-          <a href="https://assured-academy.vercel.app/" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-emerald-500 hover:opacity-95 text-slate-950 flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition-all">
-            <span>Open Academy & Workbench</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          <a href="./academy/" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-emerald-500 hover:opacity-95 text-slate-950 flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition-all">
+            <span>Open Studio Workbench</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
         </div>
       </div>
