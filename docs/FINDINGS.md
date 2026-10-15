@@ -49,7 +49,7 @@ Audited by running the shipped data against GRCh38 and the paper, and by compili
 | Virtual Lab | Outcomes and numbers invented (viability 84/45/4%, efficiency 38/16/1%), Lonza program choice, "skipping Y-27632 triggers >95% cell death", "Critical MDC Step" | Protocol-based choices, no invented numbers, banner saying it is a decision game |
 | Curriculum | 70 to 80% confluency "strictly", PTO end bonds, "3- to 5-fold", "<5% multi-cell wells" (at 0.5 cells per well Poisson gives about 23% of occupied wells with two or more) and more | Corrected where the paper says otherwise. **Not audited line by line**; the Academy hub says so |
 | Certificate | "Certificate of Mastery", "MDC Berlin Core Competency", after a few quizzes | Completion record, not a qualification; MDC name removed |
-| Data hygiene | `manifest.json` and the CSVs carried internal server paths, a local Windows username and a project number: 226 hits in a public repository | Scrubbed to 0 in the current files. **They remain in the git history of `Assured_Academy`** |
+| Data hygiene | `manifest.json` and the two lab CSVs carried internal network-share paths (`U:\...`, with two project numbers) and a local Windows path containing a username: 28 path values in the manifest and a `source_path` in each of the 32 CSV rows, in a public repository | Replaced by file names or an explicit omission; only those fields differ, and a parse of both versions confirms everything else is identical. **The paths remain in the git history of `Assured_Academy`** |
 
 ## 4. Observations on the paper and on the tools
 
@@ -66,5 +66,6 @@ Offered for the author's judgement; none was changed.
 - Curriculum lessons outside the corrected statements (reprogramming, pluripotency testing, deconvolution, zygosity) are unaudited.
 - Genome-wide off-target specificity was not assessed for any design.
 - `Assured_Academy` history still contains the leaked paths. Rewriting history or making the repository private is your decision.
+- **Internal paths and project numbers are also in the Design app content that this hub copies verbatim from the public `Assured_CRISPR_Design`.** `apps/design/audit/2026_GE_design_audit.md` names a network-share source root, project numbers and a per-project design critique; `apps/design/assured-crispr-designer/src/data/historicalProjects.js` records a `sourceWorkbook` path on a network share with internal folder names; `src/App.jsx` uses a project number as an input placeholder. They were public in the Design repository before this work and came into the hub in its first build, so this repository now republishes them. I did not change them, because removing them alters the Design app's content. Deleting the audit file and replacing the workbook path with a file name would be a small separate pull request; say if you want it. Anything already published should be treated as copied.
 - Licence for `Assured_CRISPR_Design`; MDC/BIH clearance for publishing real traces and lab tables in a public repository; MDC wording in the footer and hub text.
 - The Academy UI needs its own Vercel project (Root Directory `apps/academy-ui`). No Vercel credential is configured here.
