@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { TabType, RareDiseaseMission } from './types';
+import { TabType, RareDiseaseMission, WorkspaceMode } from './types';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { AcademyHub } from './components/academy/AcademyHub';
@@ -13,7 +13,11 @@ import { UnifiedPipeline } from './components/pipeline/UnifiedPipeline';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('workbench');
-  
+  const [workspaceMode, setWorkspaceMode] = useState<WorkspaceMode>(() => {
+    const saved = localStorage.getItem('assured_workspace_mode');
+    return (saved === 'pro' || saved === 'guided') ? (saved as WorkspaceMode) : 'guided';
+  });
+
   // Persisted state in localStorage
   const [masteryPoints, setMasteryPoints] = useState<number>(() => {
     const saved = localStorage.getItem('assured_mastery_pts');
@@ -26,6 +30,10 @@ export const App: React.FC = () => {
   });
 
   const [showCertificate, setShowCertificate] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('assured_workspace_mode', workspaceMode);
+  }, [workspaceMode]);
 
   useEffect(() => {
     localStorage.setItem('assured_mastery_pts', String(masteryPoints));
@@ -57,6 +65,8 @@ export const App: React.FC = () => {
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        workspaceMode={workspaceMode}
+        setWorkspaceMode={setWorkspaceMode}
         masteryPoints={masteryPoints}
         totalQuizzesPassed={completedLessons.length}
         onOpenCertificate={() => setShowCertificate(true)}
@@ -65,7 +75,7 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'workbench' && (
-          <UnifiedPipeline />
+          <UnifiedPipeline workspaceMode={workspaceMode} />
         )}
 
         {activeTab === 'academy' && (

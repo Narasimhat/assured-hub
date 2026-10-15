@@ -1,3 +1,4 @@
+export type WorkspaceMode = 'guided' | 'pro';
 export type TabType = 'workbench' | 'academy' | 'simulator' | 'frugal' | 'missions' | 'suite' | 'studio';
 
 export interface QuizQuestion {

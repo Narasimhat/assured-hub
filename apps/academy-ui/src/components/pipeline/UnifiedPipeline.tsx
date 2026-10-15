@@ -12,6 +12,7 @@ import {
   Check
 } from 'lucide-react';
 import { AssuredProject, PipelineStage } from '../../types/pipeline';
+import { WorkspaceMode } from '../../types';
 import { PRESET_PROJECTS, getStoredProjects, saveProjectsToStorage } from '../../services/pipelineStore';
 import { Stage1Design } from './Stage1Design';
 import { Stage2Order } from './Stage2Order';
@@ -19,7 +20,11 @@ import { Stage3Bench } from './Stage3Bench';
 import { Stage4QC } from './Stage4QC';
 import { Stage5Publish } from './Stage5Publish';
 
-export const UnifiedPipeline: React.FC = () => {
+interface UnifiedPipelineProps {
+  workspaceMode?: WorkspaceMode;
+}
+
+export const UnifiedPipeline: React.FC<UnifiedPipelineProps> = ({ workspaceMode = 'guided' }) => {
   const [projects, setProjects] = useState<AssuredProject[]>(() => getStoredProjects());
   const [activeProjectId, setActiveProjectId] = useState<string>(projects[0]?.id || 'proj-hbb');
   const [currentStage, setCurrentStage] = useState<PipelineStage>(1);
@@ -65,8 +70,12 @@ export const UnifiedPipeline: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                CRISPR Sandbox
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${
+                workspaceMode === 'guided'
+                  ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+                  : 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+              }`}>
+                {workspaceMode === 'guided' ? 'Guided CRISPR Sandbox' : 'Production CRISPR Studio'}
               </span>
               <span className="text-xs text-slate-400 font-mono">STAR Protocols 2023 Guidelines</span>
             </div>
@@ -74,7 +83,9 @@ export const UnifiedPipeline: React.FC = () => {
               ASSURED CRISPR Workbench
             </h1>
             <p className="text-xs text-slate-300 max-w-2xl">
-              An exploratory 5-stage pipeline for next-generation stem cell scientists: from precision gRNA/ssODN design to real Sanger deconvolution and publication-ready figures.
+              {workspaceMode === 'guided'
+                ? 'An exploratory 5-stage pipeline for next-generation stem cell scientists: from precision gRNA/ssODN design to real Sanger deconvolution and publication-ready figures.'
+                : 'High-throughput dual-guide SpCas9 design, automated vendor manifests, and 96-well Sanger chromatogram deconvolution.'}
             </p>
           </div>
 
