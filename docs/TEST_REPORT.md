@@ -68,9 +68,9 @@ The first run of `.github/workflows/ci.yml` (run 38729203493, commit `ae9f08b`) 
 
 Still not verified: a Vercel deployment of either app from this repository.
 
-## 6. Update: Academy UI integration (local run, before CI)
+## 6. Update: Academy UI integration (local run, then CI)
 
-Run on the same sandboxed Windows host, one process per test file. CI on Linux has **not** run this change yet; section 5 describes the last run that has.
+Run on the same sandboxed Windows host, one process per test file. The first CI run on this change (pull request run 38753541627 and push run 38753469863, commit `0c284fc`) concluded **success** for every step of all four jobs: install from the committed lockfile, every test suite (including the two `cli-runner` files not run locally), the UI render smoke test, the contract tests, the builds of both existing apps, `tsc && vite build` of the UI, and the `vercel.json` install and build commands for `apps/qc`, `apps/design` and `apps/academy-ui`. I read step conclusions only, not the full logs.
 
 | Suite | Tests | Pass |
 |---|---|---|
@@ -91,4 +91,4 @@ Academy core is now 40, up from the 22 in section 2: envelope 5, grader 10, simu
 - **HBB role label:** Assured QC output is identical with and without the correction on 8 synthetic clones (see `FINDINGS.md`).
 - **GRCh38 checks:** 47 checks over three designs (`apps/academy-core/data/verification_grch38.csv`), 45 pass; the two that fail are the HBB hand-off defects. Genome-wide specificity is not assessed.
 
-Not verified here: `vite build` of the UI (the sandbox blocks the bundler; CI runs it), a Vercel deployment of the UI, and any behaviour that needs a real browser (the canvas chromatogram, downloads, clipboard).
+Not verified: a Vercel deployment of the UI, and any behaviour that needs a real browser (the canvas chromatogram, downloads, clipboard). `vite build` of the UI cannot run on the Windows host used here; it passed in CI.
