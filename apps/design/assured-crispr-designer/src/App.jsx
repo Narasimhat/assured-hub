@@ -1,3 +1,4 @@
+import { fetchGeneGenbank } from "./ensembl.js";
 import { GuideAlternatives } from "./GuideAlternatives.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import GenomicSnpTool, { GenomicSnpReport } from "./GenomicSnpTool.jsx";
@@ -104,6 +105,7 @@ const CASSETTE_ALIASES = {
 };
 
 const NT_CASSETTE_OPTIONS = [
+  "FLAG",
   "N:EGFP-Linker",
   "N:mStayGold2-Linker",
   "T2A-EGFP",
@@ -119,6 +121,7 @@ const NT_CASSETTE_OPTIONS = [
 ];
 
 const CT_CASSETTE_OPTIONS = [
+  "FLAG",
   "2xHA-only",
   "SD40-2xHA",
   "dTAG-2xHA",
@@ -2537,6 +2540,7 @@ function AnnotatedDonor({ sequence, annotations = [] }) {
 
 export default function App() {
   const [copyState, setCopyState] = useState("");
+  const [geneFetchState, setGeneFetchState] = useState({});
   const [batchRows, setBatchRows] = useState(() => resizeBatchRows([], 1));
   const [batchResults, setBatchResults] = useState([]);
   const [batchError, setBatchError] = useState("");
@@ -3070,6 +3074,27 @@ export default function App() {
     }
   }, [batchSuccessfulResults, saveEntryToWorkspace]);
 
+  const fetchRowGene = async (row) => {
+    const gene = row.gene.trim();
+    if (!gene) return;
+    setGeneFetchState(current => ({ ...current, [row.id]: { loading: true } }));
+    try {
+      const reference = await fetchGeneGenbank(gene);
+      setBatchRows(current => current.map(item => {
+        if (item.id !== row.id || item.gene.trim() !== gene || item.gbRaw !== row.gbRaw || item.referenceSource !== row.referenceSource) return item;
+        const next = { ...item, gene: reference.geneSymbol, referenceSource: "genbank",
+          gbRaw: reference.genbankText, fileName: `${reference.geneSymbol}_${reference.referenceAccession || reference.transcriptId}.gb`,
+          fetchedReference: reference };
+        return { ...next, parseIssue: summarizeRowParseIssue(next) };
+      }));
+      setBatchResults([]);
+      setBatchError("");
+      setGeneFetchState(current => ({ ...current, [row.id]: { loading: false } }));
+    } catch (error) {
+      setGeneFetchState(current => ({ ...current, [row.id]: { loading: false, error: error.message || "Could not fetch gene reference." } }));
+    }
+  };
+
   const onBatchFile = useCallback((index, event) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -3082,6 +3107,7 @@ export default function App() {
       setBatchRows((current) => current.map((row, rowIndex) => (rowIndex === index ? {
         ...row,
         gbRaw: content,
+        fetchedReference: null,
         fileName: file.name,
         label: row.label || file.name.replace(/\.[^.]+$/, ""),
         gene: row.gene || file.name.replace(/\.[^.]+$/, ""),
@@ -3108,6 +3134,7 @@ export default function App() {
         ...current,
         sourceType: "genbank",
         gbRaw: content,
+        fetchedReference: null,
         fileName: file.name,
         sequenceName: current.sequenceName || file.name.replace(/\.[^.]+$/, ""),
       }));
@@ -3788,7 +3815,18 @@ export default function App() {
                     </Grid>
                   </FormSection>
 
-                  <FormSection title="Sequence input" hint="Use a GenBank file for the easiest path. Paste raw DNA only if you also know the CDS coordinates." tone="accent">
+                  <FormSection title="Sequence input" hint="Fetch a human gene reference, upload GenBank, or paste raw DNA with known CDS coordinates." tone="accent">
+                    <div style={{ marginBottom: 12 }}>
+                      <ActionButton variant="secondary" onClick={() => fetchRowGene(row)} disabled={!row.gene.trim() || geneFetchState[row.id]?.loading}>
+                        {geneFetchState[row.id]?.loading ? "Fetching reference…" : "Fetch gene reference"}
+                      </ActionButton>
+                      <p style={{ fontSize: 13, color: COLORS.muted, marginTop: 6 }}>Uses the Gene field above (human symbol or Ensembl gene ID). Fetching replaces this row's reference.</p>
+                      {geneFetchState[row.id]?.error && <div role="alert" style={{ color: COLORS.danger }}>{geneFetchState[row.id].error}</div>}
+                      {row.fetchedReference?.geneSymbol === row.gene && <div role="status" style={{ fontSize: 13, marginTop: 6 }}>
+                        Loaded {row.fetchedReference.geneSymbol}: {row.fetchedReference.transcriptId} ({row.fetchedReference.source}).
+                        {row.fetchedReference.warning && <p>{row.fetchedReference.warning}</p>}
+                      </div>}
+                    </div>
                     {!!rowIssues.reference.length && <InlineNotice tone="warning" style={{ marginBottom: 12 }}>{rowIssues.reference.join(" ")}</InlineNotice>}
                     <label style={{ display: "block", marginBottom: 12 }}>
                       <div style={{ color: COLORS.muted, fontSize: 13, marginBottom: 6 }}>How are you providing sequence?</div>
@@ -4056,7 +4094,7 @@ export default function App() {
           </div>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14 }}>
-            <ActionButton variant="primary" onClick={runBatch}>
+            <ActionButton variant="primary" onClick={runBatch} disabled={Object.values(geneFetchState).some(state => state.loading)}>
               Generate designs
             </ActionButton>
             {batchCopyState && <Badge color={COLORS.success}>{batchCopyState}</Badge>}

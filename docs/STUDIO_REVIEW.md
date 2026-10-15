@@ -57,3 +57,7 @@ For TP53 C-terminal FLAG, the primary guide remains at −6 bp. Six alternatives
 Validation: Studio's 16 tests and standalone Design's 321 tests pass. Five cross-tool regression tests cover the exact TP53 candidates, retained primary guide, actual PAMs and CFD values, N-terminal designs, custom-guide regeneration, unchanged QC guide count, and agreement between the engine copies. Native Chrome confirmed the Studio alternative table. Both production builds pass with existing bundle-size warnings.
 
 Scope: this pass exposes alternatives for N- and C-terminal tags. Point mutations and internal tags retain their existing matched guide/donor selection behavior.
+
+## Standalone Design reference fetching
+
+Each Design request now has a Fetch gene reference button under Sequence input. It fetches the human symbol/Ensembl gene ID entered in Basic details, loads the GenBank data into that row, shows transcript/source metadata and errors, and clears previous generated results. Generation is disabled while fetching; a completed request cannot overwrite a reference or gene changed during the request. The standalone app bundles the same versioned TP53 fallback and provenance as Studio. Its dedicated deployment CSP permits the exact Ensembl REST origin. FLAG is now included in its terminal-tag dropdowns as well as its engine.
