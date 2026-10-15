@@ -31,7 +31,14 @@ export const UnifiedPipeline: React.FC = () => {
   }, [projects]);
 
   const handleUpdateProject = (updated: AssuredProject) => {
-    setProjects(prev => prev.map(p => p.id === updated.id ? updated : p));
+    setProjects(prev => {
+      const exists = prev.some(p => p.id === updated.id);
+      if (exists) {
+        return prev.map(p => p.id === updated.id ? updated : p);
+      }
+      return [updated, ...prev];
+    });
+    setActiveProjectId(updated.id);
   };
 
   const handleResetPresets = () => {
@@ -51,60 +58,81 @@ export const UnifiedPipeline: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-300">
       
-      {/* Top Banner & Project Selector */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/40 border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-              End-to-End Pipeline
-            </span>
-            <span className="text-xs text-slate-400 font-mono">Ludwik et al., STAR Protocols 2023</span>
+      {/* Top Banner & Locus Quick-Switcher */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/30 border border-slate-800 shadow-xl space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                CRISPR Sandbox
+              </span>
+              <span className="text-xs text-slate-400 font-mono">STAR Protocols 2023 Guidelines</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              ASSURED CRISPR Workbench
+            </h1>
+            <p className="text-xs text-slate-300 max-w-2xl">
+              An exploratory 5-stage pipeline for next-generation stem cell scientists: from precision gRNA/ssODN design to real Sanger deconvolution and publication-ready figures.
+            </p>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            ASSURED CRISPR Workbench
-          </h1>
-          <p className="text-xs text-slate-300 max-w-2xl">
-            From single-nucleotide variant design to 1-click order manifest, bench execution, chromatogram deconvolution, and Cell Press-ready multi-panel figures.
-          </p>
+
+          {/* Quick Actions */}
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={handleResetPresets}
+              className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+              title="Reset to default benchmark presets"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+
+            <a
+              href="./studio/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all border border-purple-400/30"
+              title="Open full Assured Studio standalone app"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-purple-200" />
+              <span>Full Studio Workspace</span>
+            </a>
+          </div>
         </div>
 
-        {/* Project Selector Dropdown & Reset */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
-            <FolderGit2 className="w-4 h-4 text-cyan-400 ml-2" />
-            <select
-              value={activeProjectId}
-              onChange={(e) => setActiveProjectId(e.target.value)}
-              className="bg-transparent text-xs font-bold text-white pr-3 py-1.5 focus:outline-none cursor-pointer"
-            >
-              {projects.map(p => (
-                <option key={p.id} value={p.id} className="bg-slate-900 text-white">
-                  {p.target.gene}: {p.target.diseaseName}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* 1-Click Mission Locus Switcher Chips */}
+        <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mr-1 flex items-center gap-1.5">
+            <FolderGit2 className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Target Locus:</span>
+          </span>
 
-          <button
-            onClick={handleResetPresets}
-            className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors"
-            title="Reset preset targets"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
+          {projects.map(p => {
+            const isCurrent = p.id === activeProjectId;
+            const icon = p.target.gene === 'HBB' ? '🩸' : p.target.gene === 'APOE' ? '🧠' : p.target.gene === 'MYD88' ? '🛡️' : '🧬';
+            const modeLabel = p.target.targetType === 'KNOCKOUT' ? 'Frameshift KO' : 'Precision SNP';
 
-          <a
-            href="./studio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all"
-            title="Open Assured Studio standalone app"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Assured Studio</span>
-          </a>
+            return (
+              <button
+                key={p.id}
+                onClick={() => setActiveProjectId(p.id)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  isCurrent
+                    ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/60 shadow-md shadow-cyan-950/40 ring-1 ring-cyan-400/40'
+                    : 'bg-slate-950/80 text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <span>{icon}</span>
+                <span className="font-bold">{p.target.gene}</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded font-normal ${
+                  p.target.targetType === 'KNOCKOUT' ? 'bg-rose-950/80 text-rose-300' : 'bg-emerald-950/80 text-emerald-300'
+                }`}>
+                  {modeLabel}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

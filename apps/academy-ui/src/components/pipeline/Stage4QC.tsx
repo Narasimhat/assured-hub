@@ -714,6 +714,57 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
         {/* Traffic Light QC Verdict & 96-Well Screen (4 cols) */}
         <div className="lg:col-span-4 space-y-5">
           
+          {/* 96-Well Plate Screening Heatmap */}
+          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                <span>96-Well Sub-Cloning Map</span>
+              </span>
+              <span className="text-[10px] text-slate-400 font-mono">
+                {selectedWellHover ? `Well ${selectedWellHover}` : `${clones.length} Screened Clones`}
+              </span>
+            </div>
+
+            {/* 96-Well Grid */}
+            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div className="grid grid-cols-12 gap-1">
+                {rows.flatMap(r => 
+                  cols.map(c => {
+                    const wellName = `${r}${c}`;
+                    const matchedClone = clones.find(cl => cl.wellId === wellName);
+
+                    const bgClass = matchedClone ? STATUS_STYLE[matchedClone.status].plate : 'bg-slate-800/40 hover:bg-slate-700';
+
+                    return (
+                      <div
+                        key={wellName}
+                        onMouseEnter={() => setSelectedWellHover(wellName)}
+                        onMouseLeave={() => setSelectedWellHover(null)}
+                        onClick={() => {
+                          if (matchedClone) setSelectedCloneId(matchedClone.cloneId);
+                        }}
+                        className={`w-full aspect-square rounded-full cursor-pointer transition-transform hover:scale-125 ${bgClass} ${
+                          selectedClone.wellId === wellName ? 'ring-2 ring-white scale-110' : ''
+                        }`}
+                        title={matchedClone ? `${wellName}: ${matchedClone.statusLabel}` : wellName}
+                      />
+                    );
+                  })
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-400 pt-3 border-t border-slate-800/60 mt-3">
+                {(Object.keys(STATUS_STYLE) as CloneStatus[]).filter((st) => clones.some((c) => c.status === st)).map((st) => (
+                  <span key={st} className="flex items-center gap-1">
+                    <span className={`w-2 h-2 rounded-full inline-block ${STATUS_STYLE[st].plate}`}></span>
+                    <span>{STATUS_STYLE[st].label}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Verdict Box */}
           <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -779,57 +830,6 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
-          </div>
-
-          {/* 96-Well Plate Screening Heatmap */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                <span>96-Well Sub-Cloning Map</span>
-              </span>
-              <span className="text-[10px] text-slate-400 font-mono">
-                {selectedWellHover ? `Well ${selectedWellHover}` : `${clones.length} Screened Clones`}
-              </span>
-            </div>
-
-            {/* 96-Well Grid */}
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
-              <div className="grid grid-cols-12 gap-1">
-                {rows.flatMap(r => 
-                  cols.map(c => {
-                    const wellName = `${r}${c}`;
-                    const matchedClone = clones.find(cl => cl.wellId === wellName);
-
-                    const bgClass = matchedClone ? STATUS_STYLE[matchedClone.status].plate : 'bg-slate-800/40 hover:bg-slate-700';
-
-                    return (
-                      <div
-                        key={wellName}
-                        onMouseEnter={() => setSelectedWellHover(wellName)}
-                        onMouseLeave={() => setSelectedWellHover(null)}
-                        onClick={() => {
-                          if (matchedClone) setSelectedCloneId(matchedClone.cloneId);
-                        }}
-                        className={`w-full aspect-square rounded-full cursor-pointer transition-transform hover:scale-125 ${bgClass} ${
-                          selectedClone.wellId === wellName ? 'ring-2 ring-white scale-110' : ''
-                        }`}
-                        title={matchedClone ? `${wellName}: ${matchedClone.statusLabel}` : wellName}
-                      />
-                    );
-                  })
-                )}
-              </div>
-
-              <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-400 pt-3 border-t border-slate-800/60 mt-3">
-                {(Object.keys(STATUS_STYLE) as CloneStatus[]).filter((st) => clones.some((c) => c.status === st)).map((st) => (
-                  <span key={st} className="flex items-center gap-1">
-                    <span className={`w-2 h-2 rounded-full inline-block ${STATUS_STYLE[st].plate}`}></span>
-                    <span>{STATUS_STYLE[st].label}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
 
             {/* Advance to Publication Figure */}
             <button
@@ -840,7 +840,6 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
-
         </div>
 
       </div>

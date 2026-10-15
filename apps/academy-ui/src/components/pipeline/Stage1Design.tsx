@@ -108,19 +108,21 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowStudioModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20 border border-purple-400/30"
+              title="Design new CRISPR guides with Assured Studio using Ensembl gene coordinates"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Assured Studio Engine</span>
+              <Sparkles className="w-3.5 h-3.5 text-purple-200" />
+              <span>Studio In-Silico Designer</span>
             </button>
             <button
               onClick={() => setShowCustomModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-md shadow-cyan-500/20"
+              className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-medium border border-slate-800 transition-colors"
+              title="Paste a raw FASTA sequence window"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span>Try your own window (teaching sketch)</span>
+              <PlusCircle className="w-3 h-3 text-slate-400" />
+              <span>Paste Window</span>
             </button>
-            <span className="text-xs text-slate-400 font-mono hidden sm:inline">
+            <span className="text-xs text-slate-400 font-mono hidden sm:inline ml-1">
               {target.assembly} • {target.chromosome}
             </span>
           </div>
@@ -142,18 +144,18 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
         </p>
       </div>
 
-      {/* Assured Studio Production Design Console */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/40 shadow-xl space-y-4">
+      {/* Assured Studio Production Design Specs */}
+      <div className="p-5 rounded-3xl bg-gradient-to-r from-purple-950/30 via-slate-900 to-slate-900 border border-purple-500/30 shadow-xl space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 font-black text-sm">
+            <div className="w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-black text-xs">
               ⚡
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm text-white">Assured Studio In-Silico Design Console</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-950 text-purple-300 border border-purple-800">
-                  Real Engine Active
+                <span className="font-extrabold text-sm text-white">In-Silico Design Architecture</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-900/60 text-purple-200 border border-purple-700/60">
+                  {target.gene} Locus Active
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
@@ -165,20 +167,11 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowStudioModal(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 hover:text-white border border-purple-500/40 text-xs font-semibold transition-all"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Configure & Run New Gene (Ensembl)</span>
+              <Sparkles className="w-3 h-3 text-purple-400" />
+              <span>Change / Design Gene</span>
             </button>
-            <a
-              href="./studio/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors"
-            >
-              <span>Full Studio Workspace</span>
-              <ExternalLink className="w-3 h-3 text-purple-400" />
-            </a>
           </div>
         </div>
 
