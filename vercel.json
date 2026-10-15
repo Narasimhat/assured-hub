@@ -5,6 +5,11 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/",
+      "destination": "/studio/",
+      "permanent": false
+    },
+    {
       "source": "/qc",
       "destination": "/qc/",
       "permanent": true

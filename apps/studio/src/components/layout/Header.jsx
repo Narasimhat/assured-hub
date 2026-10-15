@@ -48,6 +48,14 @@ export function Header({
 
       {/* Project Controls */}
       <div className="project-controls">
+        <details className="tools-menu">
+          <summary>More tools</summary>
+          <nav aria-label="Other Assured tools">
+            <a href="../design/">Standalone Design</a>
+            <a href="../qc/">Standalone QC</a>
+            <a href="../academy/">Academy</a>
+          </nav>
+        </details>
         <button
           className="btn btn-secondary"
           onClick={onOpenProtocol}
