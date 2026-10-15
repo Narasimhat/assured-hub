@@ -1,3 +1,4 @@
+import { fetchTraceAsset, fetchQcSpecAsset } from "../../services/qcAssets.js";
 import React, { useState } from "react";
 import { parseAbif } from "../../engine/qc/abif.js";
 import { analyseSample } from "../../engine/qc/batch.js";
@@ -31,8 +32,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       ];
       const loaded = await Promise.all(
         demoNames.map(async (name) => {
-          const res = await fetch(`/demo_traces/${name}`);
-          const buffer = await res.arrayBuffer();
+          const buffer = await fetchTraceAsset(`/demo_traces/${name}`);
           return {
             name,
             buffer,
@@ -41,18 +41,13 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
         })
       );
 
-      // Load design spec
-      try {
-        const specRes = await fetch("/demo_traces/apoe_r176c_snp.design.json");
-        if (specRes.ok) {
-          const specJson = await specRes.json();
-          setDemoSpec(specJson);
-        }
-      } catch (err) {
-        console.warn("Could not load demo spec:", err);
-      }
-
+      const spec = await fetchQcSpecAsset("demo_traces/apoe_r176c_snp.design.json");
+      setDemoSpec(spec);
       setUploadedFiles(loaded);
+      setAnalysisResults([]);
+      setSelectedResult(null);
+      setSelectedFigureSvg(null);
+      onUpdateProject({ qcResults: [] });
     } catch (e) {
       setError("Failed to load demo traces: " + e.message);
     }
@@ -75,8 +70,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       ];
       const loaded = await Promise.all(
         mydFiles.map(async (name) => {
-          const res = await fetch(`/drive_data/myd88/${name}`);
-          const buffer = await res.arrayBuffer();
+          const buffer = await fetchTraceAsset(`/drive_data/myd88/${name}`);
           return {
             name,
             buffer,
@@ -85,11 +79,13 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
         })
       );
 
-      const specRes = await fetch("/drive_data/spec_BIHi005-A_wt_1172_EF74668951.ab1.json");
-      if (specRes.ok) {
-        setDemoSpec(await specRes.json());
-      }
+      const spec = await fetchQcSpecAsset("/drive_data/spec_BIHi005-A_wt_1172_EF74668951.ab1.json");
+      setDemoSpec(spec);
       setUploadedFiles(loaded);
+      setAnalysisResults([]);
+      setSelectedResult(null);
+      setSelectedFigureSvg(null);
+      onUpdateProject({ qcResults: [] });
     } catch (e) {
       setError("Failed to load MYD88 Drive data: " + e.message);
     }
@@ -118,8 +114,7 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
       ];
       const loaded = await Promise.all(
         apoeFiles.map(async (name) => {
-          const res = await fetch(`/drive_data/apoe/${name}`);
-          const buffer = await res.arrayBuffer();
+          const buffer = await fetchTraceAsset(`/drive_data/apoe/${name}`);
           return {
             name,
             buffer,
@@ -128,11 +123,13 @@ export function QcView({ currentProject, onUpdateProject, onBackToDesign }) {
         })
       );
 
-      const specRes = await fetch("/drive_data/spec_BIHi005-A_wt_1124_EF74344326.ab1.json");
-      if (specRes.ok) {
-        setDemoSpec(await specRes.json());
-      }
+      const spec = await fetchQcSpecAsset("/drive_data/spec_BIHi005-A_wt_1124_EF74344326.ab1.json");
+      setDemoSpec(spec);
       setUploadedFiles(loaded);
+      setAnalysisResults([]);
+      setSelectedResult(null);
+      setSelectedFigureSvg(null);
+      onUpdateProject({ qcResults: [] });
     } catch (e) {
       setError("Failed to load APOE Drive data: " + e.message);
     }

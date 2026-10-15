@@ -61,3 +61,9 @@ Scope: this pass exposes alternatives for N- and C-terminal tags. Point mutation
 ## Standalone Design reference fetching
 
 Each Design request now has a Fetch gene reference button under Sequence input. It fetches the human symbol/Ensembl gene ID entered in Basic details, loads the GenBank data into that row, shows transcript/source metadata and errors, and clears previous generated results. Generation is disabled while fetching; a completed request cannot overwrite a reference or gene changed during the request. The standalone app bundles the same versioned TP53 fallback and provenance as Studio. Its dedicated deployment CSP permits the exact Ensembl REST origin. FLAG is now included in its terminal-tag dropdowns as well as its engine.
+
+## Online QC sample loading
+
+Confirmed the old root-relative demo URL returned HTTP 404 with a 79-byte error body, while the actual `/studio/demo_traces/` file returned HTTP 200 with 73,748 bytes. All three sample loaders now resolve their trace and spec assets beneath Vite's base. HTTP errors and non-ABIF/truncated responses are rejected during loading, and the dataset is committed only after its design spec also loads successfully. Replacing a dataset clears the preceding analysis and figure.
+
+Validation: 19 Studio tests pass and its build succeeds. Downloaded the live synthetic control and three edited traces from the correct deployed paths, parsed and analysed all three clones; also downloaded and parsed the live APOE and MYD88 control traces.
