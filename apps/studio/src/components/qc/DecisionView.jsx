@@ -72,7 +72,7 @@ export function DecisionView({ currentProject }) {
         <div className="card-title">
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <Award size={22} style={{ color: "var(--success)" }} />
-            <span>4. Results</span>
+            <span>4. Reports</span>
           </div>
 
           <button className="btn btn-primary" onClick={handleDownloadCsv}>

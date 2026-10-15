@@ -4,7 +4,7 @@ const steps = [
   { id: "design", title: "Design", text: "Choose your gene and edit, fetch or upload a GenBank reference, then generate and review the design." },
   { id: "order", title: "Plan reagents", text: "Review guides, donor, and primers, complete the listed checks, and export your reagent sheet." },
   { id: "qc", title: "Trace Analysis", text: "Upload the parental control and edited AB1 traces, check the detected control and clone counts, then click Analyse." },
-  { id: "decision", title: "Results", text: "Inspect QC results and candidate reasons, compare clones, and download the screening CSV." },
+  { id: "decision", title: "Reports", text: "Inspect QC results and candidate reasons, compare clones, and download the screening CSV." },
 ];
 
 export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
@@ -35,7 +35,7 @@ export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
       <div className="quick-start-paths">
         <section aria-labelledby="practice-heading">
           <h3 id="practice-heading">Try sample data</h3>
-          <p>Start a new experiment, open Trace Analysis, download the <strong>practice ZIP</strong>, and load it with <strong>Add files</strong>. Review pairings and run analysis, then open Results to compare and select clones. The APOE trace benchmark includes its own design reference and is separate from the TP53 design example.</p>
+          <p>Start a new experiment, open Trace Analysis, download the <strong>practice ZIP</strong>, and load it with <strong>Add files</strong>. Review pairings and run analysis, then open Reports to compare and select clones. The APOE trace benchmark includes its own design reference and is separate from the TP53 design example.</p>
           <button className="btn btn-secondary" type="button" onClick={() => onNavigate("qc")}>Open Trace Analysis</button>
         </section>
         <section aria-labelledby="experiment-heading">

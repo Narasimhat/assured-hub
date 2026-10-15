@@ -39,7 +39,7 @@ export function QcView({ currentProject, onUpdateProject }) {
   return <div>
     <div className="card">
       <h3>Trace Analysis</h3>
-      <p style={{ color: "var(--text-muted)", margin: "0.75rem 0" }}>Add your design <strong>HTML report or JSON</strong> and sequencing files below. Review pairings, then run analysis. Results also appear in Bench's Results step.</p>
+      <p style={{ color: "var(--text-muted)", margin: "0.75rem 0" }}>Add your design <strong>HTML report or JSON</strong> and sequencing files below. Review pairings, then run analysis. View the analysis and figures in Bench's Reports step.</p>
       <div className="project-controls">
         {currentProject.designResult && <>
           <button className="btn btn-secondary" onClick={() => downloadReportHtml(currentProject, currentProject.designResult)}>Download design HTML</button>

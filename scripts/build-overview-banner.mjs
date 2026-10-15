@@ -78,7 +78,7 @@ const trace = card(2, 'Trace Analysis', 'APOE · aligned control and clone',
   + chromatogram(view.control, 163, 'Wild-type control') + chromatogram(view.edited, 262, 'Homozygous example')
   + text(22, 370, 'AB1 + design HTML · pairing · analysis', 12, colors[2]));
 const callColor = d => d === 'accept' ? '#71e5b1' : '#ffca85';
-const resultsCard = card(3, 'Results', 'APOE · clone comparison',
+const resultsCard = card(3, 'Reports', 'APOE · clone comparison',
   text(22, 116, 'INTENDED EDIT (HDR)', 11, '#aabed1', 600, 'letter-spacing="1.3"')
   + results.map((r, i) => {
     const pct = r.summary.intendedEditPct, y = 151 + i * 67;
@@ -92,6 +92,9 @@ const resultsCard = card(3, 'Results', 'APOE · clone comparison',
 const annotated = cloneAlignedFigure(view, { name: names[0], decision: results[0].decision.decision, headline: results[0].genotype.summary, width: 1464 });
 const annotatedHeight = Number(/height="([\d.]+)"/.exec(annotated)[1]);
 fs.writeFileSync(output + 'assured-apoe-annotated.svg', cloneSelectionFigure(results));
+const landingChromatogram = cloneAlignedFigure(view, { name: names[0], decision: results[0].decision.decision, headline: results[0].genotype.summary, width: 980 });
+fs.writeFileSync(output + 'assured-apoe-chromatogram.svg', landingChromatogram);
+console.log('Landing chromatogram height:', /height="([\d.]+)"/.exec(landingChromatogram)[1]);
 const cards = [learn, design, trace, resultsCard];
 function image(mobile = false) {
   const w = mobile ? 420 : 1600, h = mobile ? 1930 : 880 + annotatedHeight;
@@ -108,8 +111,8 @@ function image(mobile = false) {
     if (!mobile && i < 3) body += rect(x + 350, y + 175, 20, 36, '#0d1d30', 10) + text(x + 360, y + 199, '→', 20, '#83a7c5', 400, 'text-anchor="middle"');
   });
   if (!mobile) {
-    body += text(68, 200, 'ACADEMY', 12, colors[0], 700, 'letter-spacing="2"') + text(440, 200, 'BENCH  /  DESIGN → ORDER → TRACE ANALYSIS → RESULTS', 12, '#a9c5dc', 600, 'letter-spacing="1.4"');
-    body += text(68, 666, 'Trace Analysis → Results', 22, '#f0f7ff', 700)
+    body += text(68, 200, 'ACADEMY', 12, colors[0], 700, 'letter-spacing="2"') + text(440, 200, 'BENCH  /  DESIGN → ORDER → TRACE ANALYSIS → REPORTS', 12, '#a9c5dc', 600, 'letter-spacing="1.4"');
+    body += text(68, 666, 'Trace Analysis → Reports', 22, '#f0f7ff', 700)
       + text(68, 694, 'Annotated chromatogram: guides, cut sites, protein changes and the repaired allele.', 16, '#9eb4ca')
       + `<svg x="68" y="716" width="1464" height="${annotatedHeight}" viewBox="0 0 1464 ${annotatedHeight}">${annotated.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</svg>`
       + text(68, 716 + annotatedHeight + 34, 'Design HTML + JSON   /   AB1 + ZIP import   /   Clone comparisons   /   Figure + table exports', 17, '#9eb4ca')

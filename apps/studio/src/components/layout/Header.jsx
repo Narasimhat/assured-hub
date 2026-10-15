@@ -16,7 +16,7 @@ export function Header({
     { id: "design", label: "1. Design" },
     { id: "order", label: "2. Order" },
     { id: "qc", label: "3. Trace Analysis" },
-    { id: "decision", label: "4. Results" }
+    { id: "decision", label: "4. Reports" }
   ];
 
   return (
