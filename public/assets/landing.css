@@ -8,3 +8,22 @@
 @media(max-width:1000px){.welcome{gap:28px;grid-template-columns:.8fr 1.4fr}.workspace{padding:18px}.workspace h2{font-size:25px}.label{font-size:9px}.site-header,main,.site-footer{width:calc(100% - 40px)}}
 @media(max-width:760px){.site-header{height:64px}.welcome{grid-template-columns:1fr;gap:24px;padding:28px 0 24px}h1 br{display:none}h1{max-width:480px;font-size:35px}.intro{max-width:460px;font-size:15px}.workspace{padding:20px}.workspace-icon{margin-bottom:12px}.label{font-size:10px}.workflow{justify-content:flex-start;gap:14px}.workflow li+li:before{padding:0 10px}.example-heading{align-items:flex-start;flex-direction:column;gap:10px}.example h2{font-size:23px}.sample-label{font-size:10px}.chromatogram figcaption{align-items:flex-start;flex-direction:column;gap:9px}.figure-link{padding:8px 8px 0}.chromatogram img{min-width:660px}.site-footer{align-items:flex-start;flex-direction:column;gap:14px}.site-footer nav{gap:16px}}
 @media(max-width:400px){.site-header,main,.site-footer{width:calc(100% - 28px)}.workspaces{gap:10px}.workspace{padding:15px 12px}.workspace h2{font-size:24px}.workspace p:not(.label){font-size:12px}.label{font-size:8px}.action{font-size:12px;padding:9px 10px;gap:8px}.workflow{font-size:10px;gap:9px}.workflow li+li:before{padding:0 7px}}
+/* Allocate the desktop viewport to the content instead of fixing the figure's height. */
+@media(min-width:900px) and (min-height:600px){
+ body{height:100svh;display:grid;grid-template-rows:48px minmax(0,1fr) auto}
+ .site-header,main,.site-footer{width:min(1200px,100% - 48px);margin:0 auto}
+ .site-header{height:48px}.brand{font-size:16px}.brand-mark{width:28px;height:28px;font-size:18px}
+ main{min-height:0;display:grid;grid-template-rows:auto 32px minmax(0,1fr)}
+ .welcome{padding:14px 0;gap:32px}.welcome .eyebrow{margin-bottom:8px;font-size:10px}
+ h1{font-size:32px;margin-bottom:10px}.intro{font-size:14px;line-height:1.5;max-width:350px}
+ .workspaces{gap:14px}.workspace{padding:13px 15px;border-radius:13px;display:grid;grid-template-columns:32px 1fr;grid-template-rows:auto auto 1fr auto;column-gap:10px;row-gap:5px;align-items:start}
+ .workspace-icon{grid-column:1;grid-row:1/3;width:32px;height:32px;margin:3px 0 0}.workspace .label{grid-column:2;grid-row:1;margin:0;font-size:9px}.workspace h2{grid-column:2;grid-row:2;font-size:23px;margin:0}
+ .workspace p:not(.label){grid-column:1/-1;grid-row:3;font-size:12px;line-height:1.45;margin:4px 0 6px}
+ .action{grid-column:1/-1;grid-row:4;padding:7px 11px;font-size:12px}.workflow{padding:5px 0;font-size:11px}
+ .example{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);padding:10px 0}
+ .example-heading{margin-bottom:8px;gap:16px}.example .eyebrow{font-size:9px;margin-bottom:2px}.example h2{font-size:20px;margin-bottom:3px}.example-heading p:not(.eyebrow){font-size:12px}
+ .sample-label{font-size:10px;padding:4px 9px}.chromatogram{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto}
+ .figure-link{min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 10px;overflow:visible}
+ .chromatogram img{width:100%;height:100%;min-width:0;object-fit:contain}
+ .chromatogram figcaption{padding:7px 12px;font-size:10px}.site-footer{padding:10px 0;gap:16px;min-height:50px}.site-footer strong{font-size:12px}.site-footer p{font-size:10px;margin-top:1px}.site-footer nav{gap:14px;font-size:11px}
+}
