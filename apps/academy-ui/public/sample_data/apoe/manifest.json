@@ -1,0 +1,187 @@
+{
+  "analysis_date": "2026-10-13",
+  "scope": "Exactly the 24 attached repeat clones; prior rounds excluded",
+  "control": {
+    "path": "BIHi005-A_WT_EF74668879.ab1",
+    "sha256": "46fee16e1613ed264fcf9107634042996a800212a2310ebfe401182a890d3c33"
+  },
+  "design": {
+    "path": "(internal design report; filename omitted)",
+    "sha256": "dd08ede835d807b95394151e87a3731f7b9b634056a2b5541174a475d3678fc0"
+  },
+  "engine_path": "(omitted: local engine checkout)",
+  "engine_sha256": "223a056b98ef62574c30448a82cd3113f96c0a6121036aa0d64abc49549c9459",
+  "git_commit": "9d217b566d46da00e50d36d33dae4de50c3f5b82",
+  "settings": {
+    "guides_tested_separately": [
+      "CGATGACCTGCAGAAGCGCC",
+      "ACACTGCCAGGCGCTTCTGC"
+    ],
+    "variants": [
+      {
+        "position": 214,
+        "ref": "C",
+        "alt": "T"
+      },
+      {
+        "position": 224,
+        "ref": "C",
+        "alt": "T"
+      },
+      {
+        "position": 229,
+        "ref": "G",
+        "alt": "A"
+      }
+    ],
+    "max_deletion": 20,
+    "max_insertion": 2,
+    "window": 120
+  },
+  "donor_mapping": [
+    {
+      "strand": "-",
+      "coverage": 1.0,
+      "variants": [
+        {
+          "position": 224,
+          "ref": "C",
+          "alt": "T"
+        },
+        {
+          "position": 229,
+          "ref": "G",
+          "alt": "A"
+        }
+      ]
+    },
+    {
+      "strand": "+",
+      "coverage": 1.0,
+      "variants": [
+        {
+          "position": 214,
+          "ref": "C",
+          "alt": "T"
+        },
+        {
+          "position": 224,
+          "ref": "C",
+          "alt": "T"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "No pooled or initial-round samples used.",
+    "Guide1 primary, guide2 independent sensitivity; actual experimental guide assignment unavailable.",
+    "No Assured QC fresh run; no calibrated genotype probability."
+  ],
+  "sample_inputs": [
+    {
+      "path": "IHi005-A_APOE_R176C_10_EF74668932.ab1",
+      "sha256": "a0d4483e3a0e4633883c66d4246194e26e9fa59a9a2577f5723a4a4299b28b79"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_11_EF74668933.ab1",
+      "sha256": "e6ba0cff08cd6db94e4eba549a3c51426aefd7e42c75689c490338ef8bf4d2e0"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_13_EF74668935.ab1",
+      "sha256": "67032e92b12ecaef7cef83e2e26658318d53b2c119d1c06ea0ff0abed8b87d24"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_15_EF74668937.ab1",
+      "sha256": "d1da68c45e0de313b8f7f3ab11528fa61b15d4f4c427e6d3c6b4e923f9c5e5dd"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_16_EF74668938.ab1",
+      "sha256": "5c1b68d52ecf71c8f9305ff83ed85af799766c5e9a2a9476bde0771d487be9ac"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_18_EF74668940.ab1",
+      "sha256": "4598eef77159dcc8ec0a13d3b5c5f68cde659151e37a7cab8ce7ffeb9fd770a8"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_20_EF74668942.ab1",
+      "sha256": "2271b8e63d8c3bb2f73f657f456e9a722dc31709ef04070303aa0be5faa32b6e"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_21_EF74668943.ab1",
+      "sha256": "616bec04ed8991733479964283e9aa4f5f49983acd09b7a803241a8764267893"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_3_EF74668925.ab1",
+      "sha256": "2e35f4254341f82edae52d643c088c1498fcff588c4309e2daecc68b5efdde1a"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_4_EF74668926.ab1",
+      "sha256": "934edbe864a9fb321bd2404448c100d8860914836ebf2b59475a98d385507bc8"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_5_EF74668927.ab1",
+      "sha256": "3ef9404526679a279f1566d7cc6196f1411a0770be272f41dfc5a8684babebeb"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_7_EF74668929.ab1",
+      "sha256": "e6457bbb10ad72c46635898a0949954b46bffc319263afc0db4b52d320ed4245"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_8_EF74668930.ab1",
+      "sha256": "83add29e2c87f3bfad7d53ce04776b14054622fbf9abc84ef13222cd1beb7856"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_9_EF74668931.ab1",
+      "sha256": "0f5f6e006eee0d76a479e575174036839e528380e265ffac1d06a3f249353d94"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_12_EF74668934.ab1",
+      "sha256": "6b360b531365365375a5a5801dc4a53170d0fec16ed0b025f59b307d0d885514"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_14_EF74668936.ab1",
+      "sha256": "f98b59b1dd7c9a70db3bf0dcdfc5e6085e21cd0a63ab97fbf8bd7a8a01f90d45"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_17_EF74668939.ab1",
+      "sha256": "35743315fa9b5288912e24cbf407724febdffe02dcce8bd7e64c64cd3091323c"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_19_EF74668941.ab1",
+      "sha256": "5d902f943c886ecbea4b50a28c408379ae5ebc88df5a1ed2b0d2ef2e7b05b6ea"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_1_EF74668923.ab1",
+      "sha256": "8f2a94684aba22edd9b8b75cc139899d994b06b7dba9bf8b6f7582ba18c5a715"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_22_EF74668944.ab1",
+      "sha256": "549e853e5222beccb57e74d3a1dbbdf3d4edc908c7d30ec87ae401d72cd3aa87"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_23_EF74668945.ab1",
+      "sha256": "28979cbe6a0a86d29f89766e2ae375fec5fbdd1731495f28524c97a831855056"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_24_EF74668946.ab1",
+      "sha256": "06bf556d038152ab60c1e5c323bc61f777c838e1be45ea8c2a7ab98bff7c24ab"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_2_EF74668924.ab1",
+      "sha256": "b3378aa92637bd989b570404392887bed8a1c44dac50006c21eda518699bf71a"
+    },
+    {
+      "path": "IHi005-A_APOE_R176C_6_EF74668928.ab1",
+      "sha256": "81538a053e55e048874fe7feb41392f06eeb2d78c211c44c2bd063051f87c476"
+    }
+  ],
+  "layout_reference": {
+    "path": "APOE_R176C_clone_selection_figure.pdf",
+    "sha256": "126fc72d34c228f56f7d9283f6a1008a73662e32f6a443ebfe3a075067921087",
+    "use": "Layout reference only; genotype and confidence claims not imported"
+  },
+  "software": {
+    "engine": "TraceEdit",
+    "no_new_QC_run": true
+  }
+}

@@ -1,16 +1,16 @@
 # ASSURED Academy & Virtual Bench: architecture
 
-Status: working skeleton built and tested locally; **no UI yet for Stages 1 and 3**, and **nothing has been pushed to GitHub**.
+Status: the Design and QC apps, a headless Academy core and the learner-facing Academy UI (`apps/academy-ui`) are in one repository. The UI shows real designs and real traces; see `docs/FINDINGS.md` for what was corrected when it was imported and what is still illustrative.
 
 ## The four stages and what implements each
 
 | Stage | What the student does | Implemented by | State |
 |---|---|---|---|
-| 1. Strategy | Chooses KO / deletion / SNP-HDR / small-tag HDR / large-tag HDR | `apps/academy/missions/*/mission.json` (3 missions) and `src/envelope.js` (strategy vocabulary) | data + schema only, no UI |
+| 1. Strategy | Chooses KO / deletion / SNP-HDR / small-tag HDR / large-tag HDR | `apps/academy-core/missions/*/mission.json` (3 missions) and `src/envelope.js` (strategy vocabulary) | data + schema only, no UI |
 | 2. Design | Designs guides and donor in the Design app and exports the QC design file | `apps/design` (unchanged behaviour), contract in `packages/assured-spec` | existing app |
-| 3. Wet lab | Chooses bench set-up; receives the outcome a pooled-trace readout would give and a blinded 12-clone plate | `apps/academy/src/simulator` (seeded, headless) + `tools/plate_to_ab1.py` (traces via Assured_QC's own `sim_ab1.py`) | headless engine, no UI |
+| 3. Wet lab | Chooses bench set-up; receives the outcome a pooled-trace readout would give and a blinded 12-clone plate | `apps/academy-core/src/simulator` (seeded, headless) + `tools/plate_to_ab1.py` (traces via Assured_QC's own `sim_ab1.py`) | headless engine, no UI |
 | 4. QC | Reads traces in Assured QC, calls each clone, decides expand / re-clone / discard, selects one clone | `apps/qc` (unchanged behaviour); calls recorded in the project file | existing app |
-| Grading | Scores design and plate | `apps/academy/src/grader` | working, tested |
+| Grading | Scores design and plate | `apps/academy-core/src/grader` | working, tested |
 
 ## One file travels between stages: `assured-academy-project/1`
 
@@ -51,6 +51,23 @@ Every rate in `src/simulator/params.js` (cut probability, HDR rate, partial conv
 - Student files carry only a pseudonymous id and cohort code. Do not add names or e-mail addresses.
 - Real patient sequences (Bench Mode) should stay client-side. Check MDC/BIH hosting, IP and data-handling expectations before running a public classroom platform on a personal Vercel account.
 
+## The learner-facing app: `apps/academy-ui`
+
+React 18, TypeScript and Tailwind, imported from `Narasimhat/Assured_Academy` at `4ab6f72`. Its data layer no longer holds hand-typed designs. The flow is:
+
+```
+apps/academy-core/data/designs/*.design.json        Design-engine output (assured-qc-design/1), validated with @assured/spec
+apps/academy-core/data/real_trace_qc/*              Assured QC output for the shipped traces + comparison with the lab's own calls
+apps/academy-core/data/verification_grch38.csv      offline GRCh38 checks per design
+apps/academy-core/references/*.gb, *.uniprot.json   NG_007084.2, NG_059281.1, MYD88 (Q99836)
+            |  tools/build-ui-data.mjs (asserts codons, 36/91 arms, guides in window, call vocabulary)
+            v
+apps/academy-ui/src/data/generated/*.ts             missions, preset projects, examples, sample-file catalogue
+apps/academy-ui/public/sample_data/**               real .ab1 files, designs, references, tables (copied byte for byte)
+```
+
+`npm run build:ui-data` regenerates; the `ui-data` test fails if anything on disk has drifted. Clone calls in the UI come from Assured QC output and are shown next to the lab's own call; the CSV import path labels its colour rule as the app's rule. The free-form design tool is a labelled teaching sketch, not the Design engine. The Virtual Lab is a decision game with no invented numbers. Deploy it as its own Vercel project with Root Directory `apps/academy-ui`.
+
 ## Not built
 
-Stage 1 UI and case selector (ClinVar import), simulator UI, cohort codes and authentication, the frugal-protocol configurator, PDF bench checklist, troubleshooting tree, SorCS1 missions from the paper (needs the reference sequence), and any Vercel deployment of the Academy app.
+Cohort codes and authentication, PDF bench checklist, troubleshooting tree, SorCS1 missions from the paper (needs the reference sequence), a ClinVar-driven case selector, wiring the calibrated `academy-core` simulator into the UI (the Virtual Lab outcomes are still illustrative), and any Vercel deployment of the Academy app.

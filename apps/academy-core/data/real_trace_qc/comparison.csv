@@ -1,0 +1,11 @@
+dataset,file,lab_clone,lab_recommendation,lab_detail,engine_call,engine_result,engine_intended_pct,engine_edited_pct,engine_decision,engine_confidence,agreement
+APOE R176C,APOE_G1_A1.ab1,11,First choice,"R176C signal 99.32318104906936%, indel g1 0.11452302930820381%",homozygous_edit,Homozygous for the intended edit,99.6,99.7,accept,high,agrees
+APOE R176C,APOE_G1_A2.ab1,2,Resequence,"R176C signal 45.9050240880936%, indel g1 55.28310477642685%",mixed,"Mixed or unclear: more than two alleles, or no clear major allele",41.3,98.9,re-sequence,low,agrees
+APOE R176C,APOE_G1_A3.ab1,3,Not SNP candidate,"R176C signal 0.0%, indel g1 99.99999999999999%",homozygous_indel,Homozygous for -13 bp indel,0,100,hold,high,agrees
+APOE R176C,APOE_G1_A5.ab1,20,First choice,"R176C signal 99.58053691275167%, indel g1 0.23029847605529097%",homozygous_edit,Homozygous for the intended edit,99.9,100,accept,high,agrees
+APOE R176C,APOE_G1_B2.ab1,12,First choice,"R176C signal 99.51298701298701%, indel g1 0.016863469291073886%",homozygous_edit,Homozygous for the intended edit,99.8,99.8,accept,high,agrees
+MYD88 KO,G1_A1.ab1,1,Backup,-79 bp (94.7%),homozygous_indel,Homozygous for -79 bp indel,0,99.6,accept,high,agrees
+MYD88 KO,G1_A2.ab1,2,Review mixed trace,-79 bp (48.1%); -84 bp (47.2%),mixed,"Mixed or unclear: more than two alleles, or no clear major allele",0,100,hold,high,agrees
+MYD88 KO,G1_A3.ab1,3,Resequence,No call,compound_heterozygous,Compound heterozygous: -79 bp indel and -77 bp indel,0,99.5,hold,moderate,lab had no call
+MYD88 KO,G1_B1.ab1,6,First choice,-79 bp (100.0%),homozygous_indel,Homozygous for -79 bp indel,0,100,accept,high,agrees
+MYD88 KO,G1_B3.ab1,7,First choice,-79 bp (100.0%),homozygous_indel,Homozygous for -79 bp indel,0,100,accept,high,agrees

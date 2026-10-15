@@ -1,0 +1,23 @@
+{
+ "accession": "Q99836",
+ "id": "MYD88_HUMAN",
+ "length": 296,
+ "sequence": "MAAGGPGAGSAAPVSSTSSLPLAALNMRVRRRLSLFLNVRTQVAADWTALAEEMDFEYLEIRQLETQADPTGRLLDAWQGRPGASVGRLLELLTKLGRDDVLLELGPSIEEDCQKYILKQQQEEAEKPLQVAAVDSSVPRTAELAGITTLDDPLGHMPERFDAFICYCPSDIQFVQEMIRQLEQTNYRLKLCVSDRDVLPGTCVWSIASELIEKRCRRMVVVVSDDYLQSKECDFQTKFALSLSPGAHQKRLIPIKYKAMKKEFPSILRFITVCDYTNPCTKSWFWTRLAKALSLP",
+ "domains": [
+  {
+   "type": "Domain",
+   "description": "Death",
+   "start": 54,
+   "end": 109
+  },
+  {
+   "type": "Domain",
+   "description": "TIR",
+   "start": 159,
+   "end": 293
+  }
+ ],
+ "source": "https://rest.uniprot.org/uniprotkb/Q99836.json",
+ "fetched": "2026-10-15",
+ "use": "used by tools/build-ui-data.mjs to place the MYD88 control-read window in the protein"
+}

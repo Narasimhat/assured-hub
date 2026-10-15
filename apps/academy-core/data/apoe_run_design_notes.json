@@ -1,0 +1,47 @@
+{
+  "source": "Run manifest of the lab's APOE R176C repeat-clone analysis (internal file paths omitted). Positions are in the analysis tool's trace window.",
+  "guides_tested": [
+    "CGATGACCTGCAGAAGCGCC",
+    "ACACTGCCAGGCGCTTCTGC"
+  ],
+  "variants": [
+    {
+      "tracePos": 214,
+      "ref": "C",
+      "alt": "T",
+      "label": "p.D172D",
+      "role": "blocking"
+    },
+    {
+      "tracePos": 224,
+      "ref": "C",
+      "alt": "T",
+      "label": "p.R176C (intended)",
+      "role": "intended"
+    },
+    {
+      "tracePos": 229,
+      "ref": "G",
+      "alt": "A",
+      "label": "p.L177L",
+      "role": "blocking"
+    }
+  ],
+  "donorMapping": [
+    {
+      "strand": "-",
+      "tracePositions": [
+        224,
+        229
+      ]
+    },
+    {
+      "strand": "+",
+      "tracePositions": [
+        214,
+        224
+      ]
+    }
+  ],
+  "limits": "The shared data do not include the donor sequences or which guide each clone received (the manifest says the assignment is unavailable). Donor windows here follow the paper's asymmetric 36/91 nt rule relative to each guide; the donor strand pairing follows the paper (donor = non-PAM strand) and the manifest's donor strands."
+}

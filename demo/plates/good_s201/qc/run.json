@@ -7,7 +7,7 @@
  "samples": 12,
  "samplesPerHour": 11401,
  "arguments": {
-  "design": "apps/academy/missions/m1-snp-apoe-r176c/design.qc-design.json",
+  "design": "apps/academy-core/missions/m1-snp-apoe-r176c/design.qc-design.json",
   "sheet": "demo/plates/good_s201/ab1/samples.csv",
   "out": "demo/plates/good_s201/qc"
  },

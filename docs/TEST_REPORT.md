@@ -67,3 +67,28 @@ Reference solver mean overall: 100. Flawed mean overall: 74.3. Plates differ acr
 The first run of `.github/workflows/ci.yml` (run 38729203493, commit `ae9f08b`) concluded **success** for every step: root `npm install`, the test suites of `@assured/spec`, `@assured/rules`, Assured QC, Assured CRISPR Design (including `cli-runner.test.js`, which the sandbox could not run), and Academy, the contract tests, and `vite build` for both apps. This closes three items listed as unverified above: the builds, `cli-runner.test.js`, and a root `npm install`. I read step conclusions only, not the logs, so per-suite test counts from that run are not reported here. The lockfile that run generated (149 package entries, five workspace packages) was committed and CI now installs with `npm ci`.
 
 Still not verified: a Vercel deployment of either app from this repository.
+
+## 6. Update: Academy UI integration (local run, before CI)
+
+Run on the same sandboxed Windows host, one process per test file. CI on Linux has **not** run this change yet; section 5 describes the last run that has.
+
+| Suite | Tests | Pass |
+|---|---|---|
+| Assured QC (without `cli-runner`) | 220 | 220 |
+| Assured CRISPR Design (without `cli-runner`) | 304 | 304 |
+| `@assured/spec` | 3 | 3 |
+| `@assured/rules` | 4 | 4 |
+| Design to QC contract | 2 | 2 |
+| Academy core | 40 | 40 |
+
+Academy core is now 40, up from the 22 in section 2: envelope 5, grader 10, simulator 10 (three added, for the guard that refuses an HDR design with no `intended` marker), `ui-data` 8, `ui-sketch` 7.
+
+- **`ui-data` (8)** checks the generated missions against the stored GenBank records and not against the design files they came from: each design window occurs exactly once in its record and the stated `reference.offset` equals where it sits; every guide is on its stated strand with an NGG PAM and the stated cut; every donor is 127 nt, differs from the reference only at the positions the design declares, and has 36 nt on the PAM-distal side; the UI's clone-status table covers exactly the call categories that `genotype.js` can emit; the real-trace agreement is 9 agree, 1 lab no call, 0 differ; the generated files and the copied sample files have not drifted from the generator. Corrupting one donor base is caught.
+- **`ui-sketch` (7)** checks the teaching design tool against a GRCh38-verified window (guide geometry on both strands, donor arms, no invented scores or primers, no padding, loud failure on bad input). Swapping the arm orientation in the engine makes it fail. On the APOE window the sketch independently picks exactly the lab's two guides (`CGATGACCTGCAGAAGCGCC`, `ACACTGCCAGGCGCTTCTGC`), asserted by sequence.
+- **A bug found by these tests in a file this work had generated:** the reconstructed APOE design carried `reference.offset` 1902 (a coordinate in the QC fixture's own record) while its window sits at 7501 in `NG_007084.2`. Rebuilt; Assured QC output is identical in all 35 columns.
+- **TypeScript:** the original Assured_Academy source compiles with 0 errors under `strict`; the integrated UI also compiles with 0 errors (`tsc --noEmit`, TypeScript 5.7).
+- **Render smoke test** (`apps/academy-ui/scripts/render-smoke.cjs`, 55 server renders): every stage for the three presets, two custom-design projects, a custom knockout and a learner project that completed the bench stage; the Workbench, Missions, Training datasets, Adapting-the-protocol, Academy, Certificate and Virtual Lab tabs; all 12 lessons. It fails on a thrown error or on a stale or broken string, and it checks content (highlighted guide, PAM, edit and cut in Stage 1; all 96 wells in Stage 4; both donors in Stage 2; that preset bench values are never written into the methods draft as done). A deliberate null target makes it fail, as it should.
+- **HBB role label:** Assured QC output is identical with and without the correction on 8 synthetic clones (see `FINDINGS.md`).
+- **GRCh38 checks:** 47 checks over three designs (`apps/academy-core/data/verification_grch38.csv`), 45 pass; the two that fail are the HBB hand-off defects. Genome-wide specificity is not assessed.
+
+Not verified here: `vite build` of the UI (the sandbox blocks the bundler; CI runs it), a Vercel deployment of the UI, and any behaviour that needs a real browser (the canvas chromatogram, downloads, clipboard).

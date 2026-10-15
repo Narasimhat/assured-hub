@@ -6,15 +6,20 @@
   "workspaces": [
     "apps/qc",
     "apps/design/assured-crispr-designer",
-    "apps/academy",
+    "apps/academy-core",
+    "apps/academy-ui",
     "packages/*"
   ],
   "scripts": {
-    "test": "npm test -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy && npm run test:contract",
+    "test": "npm test -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy-core && npm run test:contract && npm run test:ui",
     "test:contract": "node --test tests/contract/*.test.js",
     "build": "npm run build:qc && npm run build:design && node scripts/build-hub.mjs",
     "build:qc": "npm run build -w assured-qc",
     "build:design": "npm run build -w assured-crispr-designer",
-    "preview": "node scripts/serve-hub.mjs"
+    "preview": "node scripts/serve-hub.mjs",
+    "build:ui": "npm run build -w assured-academy-ui",
+    "test:ui": "npm run test:smoke -w assured-academy-ui",
+    "build:ui-data": "npm run build:ui-data -w assured-academy-core",
+    "check:ui-data": "npm run check:ui-data -w assured-academy-core"
   }
 }

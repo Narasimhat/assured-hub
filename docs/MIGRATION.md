@@ -27,7 +27,7 @@ git remote add qc https://github.com/Narasimhat/Assured_QC.git && git fetch qc
 git subtree add --prefix=apps/qc 462d246
 git remote add design https://github.com/Narasimhat/Assured_CRISPR_Design.git && git fetch design
 git subtree add --prefix=apps/design 820b196
-# copy from the delivered folder: packages/, apps/academy/, tests/, scripts/, docs/, demo/, package.json, README.md
+# copy from the delivered folder: packages/, apps/academy-core/, tests/, scripts/, docs/, demo/, package.json, README.md
 git apply docs/refactor.patch
 npm install            # creates ONE root lockfile and the @assured/* workspace links (not run by me)
 git rm apps/qc/package-lock.json apps/design/assured-crispr-designer/package-lock.json   # once the root lockfile is committed
@@ -70,3 +70,11 @@ I could not test this. Create a **preview** deployment per project and check it 
 4. **Single-guide designs.** The lab convention is two guides always. The Design engine returned one guide for the N-terminal EGFP reporter case in its own tests (`tagme_nt`); the grader flags that as a convention finding, not an engine error.
 5. **Instrument baseline.** The published ASSURED protocol delivers with the Neon system (10 µL kit); the first draft proposal named a Lonza 4D-Nucleofector. The simulator has no instrument-specific parameters, so nothing here depends on the answer, but the future equipment toggle will.
 6. **Simulator calibration** with the lab's own numbers, and the SorCS1 missions from the paper once a reference sequence is chosen.
+
+## Academy UI import (from `Narasimhat/Assured_Academy` at `4ab6f72`)
+
+- Copied into `apps/academy-ui`; the previous headless `apps/academy` was renamed `apps/academy-core` (package `assured-academy-core`) and its references updated.
+- Root workspaces now include `apps/academy-ui` and `apps/academy-core`; the lockfile was regenerated with no version changes to existing packages.
+- Changed from the original: package renamed `assured-academy-ui`; `dev:qc` and `dev:design` point at the workspaces; `vercel.json` installs and builds from the repository root; the data layer, five pipeline stages, missions, sample datasets, frugal configurator, simulator wording, curriculum statements, certificate and README were rewritten as described in `docs/FINDINGS.md`.
+- `public/sample_data/apoe/manifest.json` and the two lab CSVs were scrubbed of absolute paths, a local username and a project number (226 hits to 0); sha256 values and row counts are preserved and the 12 `.ab1` files are byte-identical.
+- **Not done:** the leaked paths are still in the git history of `Assured_Academy`. A pull request scrubs the current files only.

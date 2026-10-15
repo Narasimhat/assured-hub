@@ -1,0 +1,506 @@
+LOCUS       NG_059281              10106 bp    DNA     linear   PRI 07-SEP-2026
+DEFINITION  Homo sapiens hemoglobin subunit beta (HBB), RefSeqGene (LRG_1232)
+            on chromosome 11.
+ACCESSION   NG_059281
+VERSION     NG_059281.1
+KEYWORDS    RefSeq; RefSeqGene.
+SOURCE      Homo sapiens (human)
+  ORGANISM  Homo sapiens
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;
+            Catarrhini; Hominidae; Homo.
+REFERENCE   1  (bases 1 to 10106)
+  AUTHORS   Calvo,S.E., Pagliarini,D.J. and Mootha,V.K.
+  TITLE     Upstream open reading frames cause widespread reduction of protein
+            expression and are polymorphic among humans
+  JOURNAL   Proc Natl Acad Sci U S A 106 (18), 7507-7512 (2009)
+   PUBMED   19372376
+REFERENCE   2  (bases 1 to 10106)
+  AUTHORS   Langer,A.L.
+  TITLE     Beta-Thalassemia
+  JOURNAL   (in) Adam MP, Bick S, Mirzaa GM, Wallace SE and Amemiya A (Eds.);
+            GENEREVIEWS(R);
+            (1993)
+   PUBMED   20301599
+REFERENCE   3  (bases 1 to 10106)
+  AUTHORS   Bender,M.A. and Carlberg,K.
+  TITLE     Sickle Cell Disease
+  JOURNAL   (in) Adam MP, Bick S, Mirzaa GM, Wallace SE and Amemiya A (Eds.);
+            GENEREVIEWS(R);
+            (1993)
+   PUBMED   20301551
+COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff in
+            collaboration with Austin Diamond, Patricia W. Mueller, Johan den
+            Dunnen, Matthew Oakley, Barnaby Clark. The reference sequence was
+            derived from AC104389.8.
+            This sequence is a reference standard in the RefSeqGene project.
+            
+            Summary: The alpha (HBA) and beta (HBB) loci determine the
+            structure of the 2 types of polypeptide chains in adult hemoglobin,
+            Hb A. The normal adult hemoglobin tetramer consists of two alpha
+            chains and two beta chains. Mutant beta globin causes sickle cell
+            anemia. Absence of beta chain causes beta-zero-thalassemia. Reduced
+            amounts of detectable beta globin causes beta-plus-thalassemia. The
+            order of the genes in the beta-globin cluster is 5'-epsilon --
+            gamma-G -- gamma-A -- delta -- beta--3'. [provided by RefSeq, Jul
+            2008].
+PRIMARY     REFSEQ_SPAN         PRIMARY_IDENTIFIER PRIMARY_SPAN        COMP
+            1-10106             AC104389.8         24306-34411         c
+FEATURES             Location/Qualifiers
+     source          1..10106
+                     /organism="Homo sapiens"
+                     /mol_type="genomic DNA"
+                     /db_xref="taxon:9606"
+                     /chromosome="11"
+                     /map="11p15.4"
+     gene            5001..6608
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="hemoglobin subunit beta"
+                     /db_xref="GeneID:3043"
+                     /db_xref="HGNC:HGNC:4827"
+                     /db_xref="MIM:141900"
+     mRNA            join(5001..5142,5273..5495,6346..6608)
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /product="hemoglobin subunit beta"
+                     /transcript_id="NM_000518.5"
+                     /db_xref="GeneID:3043"
+                     /db_xref="LRG:t1"
+                     /db_xref="HGNC:HGNC:4827"
+                     /db_xref="MIM:141900"
+     exon            5001..5142
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /inference="alignment:Splign:2.1.0"
+                     /number=1
+     CDS             join(5051..5142,5273..5495,6346..6474)
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="beta globin chain; hemoglobin, beta; hemoglobin
+                     beta subunit; Hb Monza protein"
+                     /codon_start=1
+                     /product="hemoglobin subunit beta"
+                     /protein_id="NP_000509.1"
+                     /db_xref="CCDS:CCDS7753.1"
+                     /db_xref="GeneID:3043"
+                     /db_xref="LRG:p1"
+                     /db_xref="HGNC:HGNC:4827"
+                     /db_xref="MIM:141900"
+                     /translation="MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFE
+                     SFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPE
+                     NFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH"
+     misc_feature    5054..5056
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-acetylvaline.
+                     /evidence=ECO:0000250|UniProtKB:P02086; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); acetylation site"
+     misc_feature    5054..5056
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) valine, in Hb A1c.
+                     /evidence=ECO:0000269|PubMed:635569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    5072..5077
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5075..5077
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) lysine.
+                     /evidence=ECO:0000269|PubMed:7358733; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    5078..5080
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Phosphoserine.
+                     /evidence=ECO:0007744|PubMed:24275569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); phosphorylation site"
+     misc_feature    5087..5089
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Phosphothreonine.
+                     /evidence=ECO:0007744|PubMed:24275569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); phosphorylation site"
+     misc_feature    5102..5104
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) lysine.
+                     /evidence=ECO:0000269|PubMed:7358733; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    5126..5131
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    join(5138..5142,5273)
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     mat_peptide     5277..5306
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /product="LVV-hemorphin-7. /id=PRO_0000296641"
+                     /note="propagated from UniProtKB/Swiss-Prot (P68871.2)"
+     mat_peptide     5277..5297
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /product="Spinorphin. /id=PRO_0000424226"
+                     /note="propagated from UniProtKB/Swiss-Prot (P68871.2)"
+     misc_feature    5286..5291
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5292..5297
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5313..5315
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Phosphoserine.
+                     /evidence=ECO:0007744|PubMed:24275569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); phosphorylation site"
+     misc_feature    5316..5321
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5331..5333
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Phosphothreonine.
+                     /evidence=ECO:0007744|PubMed:24275569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); phosphorylation site"
+     misc_feature    5337..5342
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5349..5354
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5358..5360
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N6-acetyllysine.
+                     /evidence=ECO:0000269|PubMed:4531009; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); acetylation site"
+     misc_feature    5358..5360
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Not glycated. /evidence=ECO:0000269|PubMed:7358733;
+                     propagated from UniProtKB/Swiss-Prot (P68871.2); other
+                     site"
+     misc_feature    5379..5381
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) lysine.
+                     /evidence=ECO:0000269|PubMed:7358733; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    5394..5399
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5403..5408
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5427..5429
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N6-acetyllysine.
+                     /evidence=ECO:0000269|PubMed:4531009; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); acetylation site"
+     misc_feature    5427..5429
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Not glycated. /evidence=ECO:0000269|PubMed:7358733;
+                     propagated from UniProtKB/Swiss-Prot (P68871.2); other
+                     site"
+     misc_feature    5433..5438
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5442..5444
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Phosphothreonine.
+                     /evidence=ECO:0007744|PubMed:24275569; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); phosphorylation site"
+     misc_feature    5457..5462
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    5466..5468
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="Not glycated. /evidence=ECO:0000269|PubMed:7358733;
+                     propagated from UniProtKB/Swiss-Prot (P68871.2); other
+                     site"
+     misc_feature    join(5493..5495,6346..6348)
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6361..6366
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6388..6393
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6391..6393
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) lysine.
+                     /evidence=ECO:0000269|PubMed:7358733; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    6397..6402
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6415..6420
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6451..6456
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6463..6468
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="(Microbial infection) Cleavage, by N.americanus
+                     apr-2. /evidence=ECO:0000269|PubMed:12552433; propagated
+                     from UniProtKB/Swiss-Prot (P68871.2); other site"
+     misc_feature    6463..6465
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N-linked (Glc) (glycation) lysine, alternate.
+                     /evidence=ECO:0000269|PubMed:7358733; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); glycosylation site"
+     misc_feature    6463..6465
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /note="N6-acetyllysine, alternate.
+                     /evidence=ECO:0000269|PubMed:4531009; propagated from
+                     UniProtKB/Swiss-Prot (P68871.2); acetylation site"
+     exon            5273..5495
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /inference="alignment:Splign:2.1.0"
+                     /number=2
+     exon            6346..6608
+                     /gene="HBB"
+                     /gene_synonym="beta-globin; CD113t-C; ECYT6"
+                     /inference="alignment:Splign:2.1.0"
+                     /number=3
+ORIGIN      
+        1 aacgaatgag taaatgagta aatgaaggaa tgattattcc ttgctttaga acttctggaa
+       61 ttagaggaca atattaataa taccatcgca cagtgtttct ttgttgttaa tgctacaaca
+      121 tacaaagagg aagcatgcag taaacaaccg aacagttatt tcctttctga tcataggagt
+      181 aatatttttt tccttgagca ccatttttgc cataggtaaa attagaagga tttttagaac
+      241 tttctcagtt gtatacattt ttaaaaatct gtattatatg catgttgatt aattttaaac
+      301 ttacttgaat acctaaacag aatctgttgt ttccttgtgt ttgaaagtgc tttcacagta
+      361 actctgtctg tactgccaga atatactgac aatgtgttat agttaactgt tttgatcaca
+      421 acattttgaa ttgactggca gcagaagctc ttttatatcc atgtgttttc cttaagtcat
+      481 tatacatagt aggcactgag aactctttat atctgaataa gatatttagg aaccactggt
+      541 ttacatatca gaagcagagc tactcagggc attttgggga agatcacttt cacattcctg
+      601 agcataggga agttctcata agagtaagat attaaaagga gatacttgtg tggtattcga
+      661 aagacagtaa gagagattgt agaccttatg atcttgatag ggaaaacaaa ctacattcct
+      721 ttctccaaaa gtcaaaaaaa aagagcaaat atagcttact ataccttcta ttcctacacc
+      781 attagaagta gtcagtgagt ctaggcaaga tgttggccct aaaaatccaa ataccagaga
+      841 attcatgaga acatcacctg gatgggacat gtgccgagca cacacaatta ctatatgcta
+      901 ggcattgcta tcttcatatt gaagatgagg aggtcaagag atgaaaaaag acttggcacc
+      961 ttgttgttat attaaaatta tttgttagag tagagctttt gtaagagtct aggagtgtgg
+     1021 gagctaaatg atgatacaca tggacacaaa aaatagatca acagacaccc aggcctactt
+     1081 gagggttgag ggtgggaaga gggagacgat gaaaaagaac ctattgggta ttaagttcat
+     1141 cactgagtga tgaaataatc tgtacatcaa gacccagtga tatgcaattt acctatataa
+     1201 cttgtacatg tacccccaaa tttaaaatga aagttaaaac aaagtatagg aatggaatta
+     1261 attcctcaag atttggcttt aattttattt gataatttat caaatggttg tttttctttt
+     1321 ctcactatgg cgttgcttta taaactatgt tcagtatgtc tgaatgaaag ggtgtgtgtg
+     1381 tgtgtgaaag agagggagag aggaagggaa gagaggacgt aataatgtga atttgagttc
+     1441 atgaaaattt ttcaataaaa taatttaatg tcaggagaat taagcctaat agtctcctaa
+     1501 atcatccatc tcttgagctt cagagcagtc ctctgaatta atgcctacat gtttgtaaag
+     1561 ggtgttcaga ctgaagccaa gattctacct ctaaagagat gcaatctcaa atttatctga
+     1621 agactgtacc tctgctctcc ataaattgac accatggccc acttaatgag gttaaaaaaa
+     1681 agctaattct gaatgaaaat ctgagcccag tggaggaaat attaatgaac aaggtgcaga
+     1741 ctgaaatata aatttttctg taataattat gcatatactt tagcaaagtt ctgtctatgt
+     1801 tgactttatt gctttttggt aagaaataca actttttaaa gtgaactaaa ctatcctatt
+     1861 tccaaactat tttgtgtgtg tgcggtttgt ttctatgggt tctggttttc ttggagcatt
+     1921 tttatttcat tttaattaat taattctgag agctgctgag ttgtgtttac tgagagattg
+     1981 tgtatctgcg agagaagtct gtagcaagta gctagactgt gcttgaccta ggaacatata
+     2041 cagtagattg ctaaaatgtc tcacttgggg aattttagac taaacagtag agcatgtata
+     2101 aaaatactct agtcaagtgc tgcttttgaa acaaatgata aaaccacact cccatagatg
+     2161 agtgtcatga ttttcatgga ggaagttaat attcatcctc taagtatacc cagactaggg
+     2221 ccattctgat ataaaacatt aggacttaag aaagattaat agactggagt aaaggaaatg
+     2281 gacctctgtc tctctcgctg tctctttttt gaggacttgt gtgtgtgtgt gtgtgtgtgt
+     2341 gtgtgtgtgt gttgtggtca gtggggctgg aataaaagta gaatagacct gcacctgctg
+     2401 tggcatccat tcacagagta gaagcaagct cacaatagtg aagatgtcag taagcttgaa
+     2461 tagtttttca ggaactttga atgctgattt agatttgaaa ctgaggctct gaccataacc
+     2521 aaatttgcac tatttattgc ttcttgaaac ttatttgcct ggtatgcctg ggcttttgat
+     2581 ggtcttagta tagcttgcag ccttgtccct gcagggtatt atgggtaata gaaagaaaag
+     2641 tctgcgttac actctagtca cactaagtaa ctaccattgg aaaagcaacc cctgccttga
+     2701 agccaggatg atggtatctg cagcagttgc caacacaaga gaaggatcca tagttcatca
+     2761 tttaaaaaag aaaacaaaat agaaaaagga aaactatttc tgagcataag aagttgtagg
+     2821 gtaagtcttt aagaaggtga caatttctgc caatcaggat ttcaaagctc ttgctttgac
+     2881 aattttggtc tttcagaata ctataaatat aacctatatt ataatttcat aaagtctgtg
+     2941 cattttcttt gacccaggat atttgcaaaa gacatattca aacttccgca gaacacttta
+     3001 tttcacatat acatgcctct tatatcaggg atgtgaaaca gggtcttgaa aactgtctaa
+     3061 atctaaaaca atgctaatgc aggtttaaat ttaataaaat aaaatccaaa atctaacagc
+     3121 caagtcaaat ctgcatgttt taacatttaa aatattttaa agacgtcttt tcccaggatt
+     3181 caacatgtga aatcttttct cagggataca cgtgtgccta gatcctcatt gctttagttt
+     3241 tttacagagg aatgaatata aaaagaaaat acttaaattt tatccctctt acctctataa
+     3301 tcatacatag gcataatttt ttaacctagg ctccagatag ccatagaaga accaaacact
+     3361 ttctgcgtgt gtgagaataa tcagagtgag attttttcac aagtacctga tgagggttga
+     3421 gacaggtaga aaaagtgaga gatctctatt tatttagcaa taatagagaa agcatttaag
+     3481 agaataaagc aatggaaata agaaatttgt aaatttcctt ctgataacta gaaatagagg
+     3541 atccagtttc ttttggttaa cctaaatttt atttcatttt attgttttat tttattttat
+     3601 tttattttat tttgtgtaat cgtagtttca gagtgttaga gctgaaagga agaagtagga
+     3661 gaaacatgca aagtaaaagt ataacacttt ccttactaaa ccgacatggg tttccaggta
+     3721 ggggcaggat tcaggatgac tgacagggcc cttagggaac actgagaccc tacgctgacc
+     3781 tcataaatgc ttgctacctt tgctgtttta attacatctt ttaatagcag gaagcagaac
+     3841 tctgcacttc aaaagttttt cctcacctga ggagttaatt tagtacaagg ggaaaaagta
+     3901 cagggggatg ggagaaaggc gatcacgttg ggaagctata gagaaagaag agtaaatttt
+     3961 agtaaaggag gtttaaacaa acaaaatata aagagaaata ggaacttgaa tcaaggaaat
+     4021 gattttaaaa cgcagtattc ttagtggact agaggaaaaa aataatctga gccaagtaga
+     4081 agaccttttc ccctcctacc cctactttct aagtcacaga ggctttttgt tcccccagac
+     4141 actcttgcag attagtccag gcagaaacag ttagatgtcc ccagttaacc tcctatttga
+     4201 caccactgat taccccattg atagtcacac tttgggttgt aagtgacttt ttatttattt
+     4261 gtatttttga ctgcattaag aggtctctag ttttttatct cttgtttccc aaaacctaat
+     4321 aagtaactaa tgcacagagc acattgattt gtatttattc tatttttaga cataatttat
+     4381 tagcatgcat gagcaaatta agaaaaacaa caacaaatga atgcatatat atgtatatgt
+     4441 atgtgtgtat atatacacac atatatatat atattttttc ttttcttacc agaaggtttt
+     4501 aatccaaata aggagaagat atgcttagaa ccgaggtaga gttttcatcc attctgtcct
+     4561 gtaagtattt tgcatattct ggagacgcag gaagagatcc atctacatat cccaaagctg
+     4621 aattatggta gacaaaactc ttccactttt agtgcatcaa cttcttattt gtgtaataag
+     4681 aaaattggga aaacgatctt caatatgctt accaagctgt gattccaaat attacgtaaa
+     4741 tacacttgca aaggaggatg tttttagtag caatttgtac tgatggtatg gggccaagag
+     4801 atatatctta gagggagggc tgagggtttg aagtccaact cctaagccag tgccagaaga
+     4861 gccaaggaca ggtacggctg tcatcactta gacctcaccc tgtggagcca caccctaggg
+     4921 ttggccaatc tactcccagg agcagggagg gcaggagcca gggctgggca taaaagtcag
+     4981 ggcagagcca tctattgctt acatttgctt ctgacacaac tgtgttcact agcaacctca
+     5041 aacagacacc atggtgcatc tgactcctga ggagaagtct gccgttactg ccctgtgggg
+     5101 caaggtgaac gtggatgaag ttggtggtga ggccctgggc aggttggtat caaggttaca
+     5161 agacaggttt aaggagacca atagaaactg ggcatgtgga gacagagaag actcttgggt
+     5221 ttctgatagg cactgactct ctctgcctat tggtctattt tcccaccctt aggctgctgg
+     5281 tggtctaccc ttggacccag aggttctttg agtcctttgg ggatctgtcc actcctgatg
+     5341 ctgttatggg caaccctaag gtgaaggctc atggcaagaa agtgctcggt gcctttagtg
+     5401 atggcctggc tcacctggac aacctcaagg gcacctttgc cacactgagt gagctgcact
+     5461 gtgacaagct gcacgtggat cctgagaact tcagggtgag tctatgggac gcttgatgtt
+     5521 ttctttcccc ttcttttcta tggttaagtt catgtcatag gaaggggata agtaacaggg
+     5581 tacagtttag aatgggaaac agacgaatga ttgcatcagt gtggaagtct caggatcgtt
+     5641 ttagtttctt ttatttgctg ttcataacaa ttgttttctt ttgtttaatt cttgctttct
+     5701 ttttttttct tctccgcaat ttttactatt atacttaatg ccttaacatt gtgtataaca
+     5761 aaaggaaata tctctgagat acattaagta acttaaaaaa aaactttaca cagtctgcct
+     5821 agtacattac tatttggaat atatgtgtgc ttatttgcat attcataatc tccctacttt
+     5881 attttctttt atttttaatt gatacataat cattatacat atttatgggt taaagtgtaa
+     5941 tgttttaata tgtgtacaca tattgaccaa atcagggtaa ttttgcattt gtaattttaa
+     6001 aaaatgcttt cttcttttaa tatacttttt tgtttatctt atttctaata ctttccctaa
+     6061 tctctttctt tcagggcaat aatgatacaa tgtatcatgc ctctttgcac cattctaaag
+     6121 aataacagtg ataatttctg ggttaaggca atagcaatat ctctgcatat aaatatttct
+     6181 gcatataaat tgtaactgat gtaagaggtt tcatattgct aatagcagct acaatccagc
+     6241 taccattctg cttttatttt atggttggga taaggctgga ttattctgag tccaagctag
+     6301 gcccttttgc taatcatgtt catacctctt atcttcctcc cacagctcct gggcaacgtg
+     6361 ctggtctgtg tgctggccca tcactttggc aaagaattca ccccaccagt gcaggctgcc
+     6421 tatcagaaag tggtggctgg tgtggctaat gccctggccc acaagtatca ctaagctcgc
+     6481 tttcttgctg tccaatttct attaaaggtt cctttgttcc ctaagtccaa ctactaaact
+     6541 gggggatatt atgaagggcc ttgagcatct ggattctgcc taataaaaaa catttatttt
+     6601 cattgcaatg atgtatttaa attatttctg aatattttac taaaaaggga atgtgggagg
+     6661 tcagtgcatt taaaacataa agaaatgaag agctagttca aaccttggga aaatacacta
+     6721 tatcttaaac tccatgaaag aaggtgaggc tgcaaacagc taatgcacat tggcaacagc
+     6781 ccctgatgca tatgccttat tcatccctca gaaaaggatt caagtagagg cttgatttgg
+     6841 aggttaaagt tttgctatgc tgtattttac attacttatt gttttagctg tcctcatgaa
+     6901 tgtcttttca ctacccattt gcttatcctg catctctcag ccttgactcc actcagttct
+     6961 cttgcttaga gataccacct ttcccctgaa gtgttccttc catgttttac ggcgagatgg
+     7021 tttctcctcg cctggccact cagccttagt tgtctctgtt gtcttataga ggtctacttg
+     7081 aagaaggaaa aacaggggtc atggtttgac tgtcctgtga gcccttcttc cctgcctccc
+     7141 ccactcacag tgacccggaa tctgcagtgc tagtctcccg gaactatcac tctttcacag
+     7201 tctgctttgg aaggactggg cttagtatga aaagttagga ctgagaagaa tttgaaaggc
+     7261 ggctttttgt agcttgatat tcactactgt cttattaccc tgtcataggc ccaccccaaa
+     7321 tggaagtccc attcttcctc aggatgttta agattagcat tcaggaagag atcagaggtc
+     7381 tgctggctcc cttatcatgt cccttatggt gcttctggct ctgcagttat tagcatagtg
+     7441 ttaccatcaa ccaccttaac ttcatttttc ttattcaata cctaggtagg tagatgctag
+     7501 attctggaaa taaaatatga gtctcaagtg gtccttgtcc tctctcccag tcaaattctg
+     7561 aatctagttg gcaagattct gaaatcaagg catataatca gtaataagtg atgatagaag
+     7621 ggtatataga agaattttat tatatgagag ggtgaaaccc tcaaaatgaa atgaaatcag
+     7681 acccttgtct tacaccataa acaaaaataa atttgaatgg gttaaagaat taaactaaga
+     7741 cctaaaacca taaaaatttt taaagaaatc aaaagaagaa aattctaata ttcacgttgc
+     7801 agccgttttt tgaatttgat atgagaagca aaggcaacaa aaggaaaaat aaagaagtga
+     7861 ggctacatca aactaaaaaa tttccacaca aaaaacaaaa caatgaacaa atgaaaggtg
+     7921 aaccatgaaa tggcatattt gcaaaccaaa tatttcttaa atattttggt taatatccaa
+     7981 aatatataag aaacacagat gattcaataa caaacaaaaa attaaaaata ggaaaataaa
+     8041 aaaattaaaa agaagaaaat cctgccattt atggcagaat tgatgaacct ggaggatgta
+     8101 aaactaagaa aaataagcct gacacaaaaa gacaaatact acacaacctt gctcatatgt
+     8161 gaaacataaa aaagtcactc tcatggaaac agacagtaga ggtatggttt ccaggggttg
+     8221 ggggtgggag aatcaggaaa ctattactca aagggtataa aatttcagtt atgtgggatg
+     8281 aataaattct agatatctaa tgtacagcat cgtgactgta gttaattgta ctgtaagtat
+     8341 atttaaaatt tgcaaagaga gtagattttt tttttttttt agatggagtt ttgctcttgt
+     8401 tgtccaggct ggagtgcaat ggcaagatct tggctcactg caacctccgc ctcctgggtt
+     8461 caagcaaatc tcctgcctca gcctcccgag tagctgggat tacaggcatg cgacaccatg
+     8521 cccagctaat tttgtatttt tagtagagac ggggtttctc catgttggtc aggctgatcc
+     8581 gcctgcctcg gccacccaaa gggctgggat tacaggcgtg agccaccggg cctggccgag
+     8641 agtagatctt aaaagcattt accacaagaa aaaggtaact atgtgagata atgggtatgt
+     8701 taattagctt gattgtggta atcatttcac aaggtataca tatattaaaa catcatgttg
+     8761 tacaccttaa atatatacaa tttttatttg tgaatgatac ctcaataaag ttgaagaata
+     8821 ataaaaaaga atagacatca catgaattaa aaaactaaaa aataaaaaaa tgcatcttga
+     8881 tgattagaat tgcattcttg atttttcaga tacaaatatc catttgactg tttactcttt
+     8941 tccaaaacaa tacaataaat tttagcactt tatcttcatt ttccccttcc caatctataa
+     9001 ttatatatat atatatttta gatattttgt atagttttac tccctagatt ttctagtgtt
+     9061 attattaaat agtgaagaaa tgtttacact tatgtacaaa atgttttgca tgcttttctt
+     9121 catttctaac attctctcta agtttattct atttttttct gattatcctt aatattatct
+     9181 ctttctgctg gaaatacatt gttacttttg gtttatctaa aaatggcttc attttcttca
+     9241 ttctaaaatc atgttaaatt aataccactc atgtgtaagt aagatagtgg aataaataga
+     9301 aatccaaaaa ctaaatctca ctaaaatata ataatgtgat atataaaaat atagctttta
+     9361 aatttagctt ggaaataaaa aacaaacagt aattgaacaa ctatactttt tgaaaagagt
+     9421 aaagtgaaat gcttaactgc atataccaca atcgattaca caattaggtg tgaaggtaaa
+     9481 attcagtcac gaaaaaacta gaataaaaat atgggaagac atgtatataa tcttagagat
+     9541 aacactgtta tttaattatc aacccaaagt agaaactatc aagggagaaa taaattcagt
+     9601 caacaataaa agcatttaag aagttattct aggctgggag cggtggctca cacctgcaat
+     9661 tgcagcactt tgggaggcct agacaggcgg atcacgacgt caggagttca agatcagcct
+     9721 ggccaacata gtgaaacctc atcgctacta aaaatataaa aacttagcct ggcgtggtgg
+     9781 caggcatgtg taatcccagc aatttgggag gctgaggcag gagaatcgct tgatcctggg
+     9841 aggcagaggt tgcagtgagc caagattgtg ccactgcatt ccagcccagg tgacagcatg
+     9901 agactccgtc acaaaaaaaa aagaaaaaaa aaaggggggg gggagcggtg gagccaagat
+     9961 gaccgaatag gaacagctcc agtctatagc tcccatcgtg agtgacgcag aagacgggtg
+    10021 atttctgcat ttccaactga ggtaccaggt tcatctcaca gggaagtgcc aggcagtggg
+    10081 tgcaggacag taggtgcagt gcactg
+//
+

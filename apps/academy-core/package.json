@@ -1,0 +1,17 @@
+{
+  "name": "assured-academy-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ASSURED Academy core: missions, project envelope, seeded wet-lab simulator, plate grader and tools. No UI; the learner-facing app is apps/academy-ui.",
+  "dependencies": {
+    "@assured/rules": "*",
+    "@assured/spec": "*"
+  },
+  "scripts": {
+    "build:missions": "node tools/build-missions.mjs",
+    "test": "node --test",
+    "build:ui-data": "node tools/build-ui-data.mjs",
+    "check:ui-data": "node tools/build-ui-data.mjs --check"
+  }
+}

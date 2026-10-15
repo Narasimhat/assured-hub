@@ -1,0 +1,48 @@
+design,gene,check,result,detail
+apoe_r176c_run.reconstructed.design.json,APOE,reference window vs GRCh38,OK,"1070 bp, 0 mismatches"
+apoe_r176c_run.reconstructed.design.json,APOE,edit site coordinate and base,OK,"rs7412 (p.Arg176Cys): chr19:44,908,822 is design position 539; gene-orientation base C (expected C)"
+apoe_r176c_run.reconstructed.design.json,APOE,edit site is changed by the donor(s),OK,marker at 539: C>T
+apoe_r176c_run.reconstructed.design.json,APOE,hand-off flags the edit site as role 'intended',OK,exported role is 'intended'
+apoe_r176c_run.reconstructed.design.json,APOE,"guide APOE_gRNA_A: spacer at stated site, 20 nt",OK,"20 nt, strand +, site matches: True"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_A: PAM is NGG,OK,PAM TGG (stated TGG)
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_A: cut within 15 bp of the edit,OK,"cut 540 (stated 540), +1 bp from the edit"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_A: exported offsetFromEdit equals cut minus edit position,OK,"geometry gives +1, hand-off says 1"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_A: occurrences in the gene region,OK,"1 exact matches in the 13,001 bp region (genome-wide specificity NOT assessed)"
+apoe_r176c_run.reconstructed.design.json,APOE,"guide APOE_gRNA_B: spacer at stated site, 20 nt",OK,"20 nt, strand -, site matches: True"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_B: PAM is NGG,OK,PAM AGG (stated AGG)
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_B: cut within 15 bp of the edit,OK,"cut 535 (stated 535), -4 bp from the edit"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_B: exported offsetFromEdit equals cut minus edit position,OK,"geometry gives -4, hand-off says -4"
+apoe_r176c_run.reconstructed.design.json,APOE,guide APOE_gRNA_B: occurrences in the gene region,OK,"1 exact matches in the 13,001 bp region (genome-wide specificity NOT assessed)"
+apoe_r176c_run.reconstructed.design.json,APOE,donor ssODN - for APOE_gRNA_A (reconstru: length and differences,OK,"127 nt; differs from reference at [539, 544]; declared markers [539, 544]"
+apoe_r176c_run.reconstructed.design.json,APOE,donor ssODN - for APOE_gRNA_A (reconstru: asymmetric 36/91 arms about the cut,OK,arms 36 / 91 around the cut of APOE_gRNA_A
+apoe_r176c_run.reconstructed.design.json,APOE,donor ssODN + for APOE_gRNA_B (reconstru: length and differences,OK,"127 nt; differs from reference at [529, 539]; declared markers [529, 539]"
+apoe_r176c_run.reconstructed.design.json,APOE,donor ssODN + for APOE_gRNA_B (reconstru: asymmetric 36/91 arms about the cut,OK,arms 91 / 36 around the cut of APOE_gRNA_B
+APOE_R176C.engine.design.json,APOE,reference window vs GRCh38,OK,"1070 bp, 0 mismatches"
+APOE_R176C.engine.design.json,APOE,edit site coordinate and base,OK,"rs7412 (p.Arg176Cys): chr19:44,908,822 is design position 539; gene-orientation base C (expected C)"
+APOE_R176C.engine.design.json,APOE,edit site is changed by the donor(s),OK,marker at 539: C>T
+APOE_R176C.engine.design.json,APOE,hand-off flags the edit site as role 'intended',OK,exported role is 'intended'
+APOE_R176C.engine.design.json,APOE,"guide APOE_gRNA1: spacer at stated site, 20 nt",OK,"20 nt, strand -, site matches: True"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA1: PAM is NGG,OK,PAM AGG (stated AGG)
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA1: cut within 15 bp of the edit,OK,"cut 535 (stated 535), -4 bp from the edit"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA1: exported offsetFromEdit equals cut minus edit position,OK,"geometry gives -4, hand-off says -4"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA1: occurrences in the gene region,OK,"1 exact matches in the 13,001 bp region (genome-wide specificity NOT assessed)"
+APOE_R176C.engine.design.json,APOE,"guide APOE_gRNA2: spacer at stated site, 20 nt",OK,"20 nt, strand -, site matches: True"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA2: PAM is NGG,OK,PAM AGG (stated AGG)
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA2: cut within 15 bp of the edit,OK,"cut 547 (stated 547), +8 bp from the edit"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA2: exported offsetFromEdit equals cut minus edit position,OK,"geometry gives +8, hand-off says 8"
+APOE_R176C.engine.design.json,APOE,guide APOE_gRNA2: occurrences in the gene region,OK,"1 exact matches in the 13,001 bp region (genome-wide specificity NOT assessed)"
+APOE_R176C.engine.design.json,APOE,donor ssODN1 (matched to APOE_R176C_gRNA: length and differences,OK,"127 nt; differs from reference at [532, 535, 539, 547, 550]; declared markers [532, 535, 539, 547, 550]"
+APOE_R176C.engine.design.json,APOE,donor ssODN1 (matched to APOE_R176C_gRNA: asymmetric 36/91 arms about the cut,OK,arms 91 / 36 around the cut of APOE_gRNA1
+APOE_R176C.engine.design.json,APOE,donor ssODN2 (matched to APOE_R176C_gRNA: length and differences,OK,"127 nt; differs from reference at [532, 535, 539, 547, 550]; declared markers [532, 535, 539, 547, 550]"
+APOE_R176C.engine.design.json,APOE,donor ssODN2 (matched to APOE_R176C_gRNA: asymmetric 36/91 arms about the cut,OK,arms 91 / 36 around the cut of APOE_gRNA2
+HBB_E7V.engine.design.json,HBB,reference window vs GRCh38,OK,"1085 bp, 0 mismatches"
+HBB_E7V.engine.design.json,HBB,edit site coordinate and base,OK,"rs334 (p.Glu7Val, legacy Glu6Val): chr11:5,227,002 is design position 541; gene-orientation base A (expected A)"
+HBB_E7V.engine.design.json,HBB,edit site is changed by the donor(s),OK,marker at 541: A>T
+HBB_E7V.engine.design.json,HBB,hand-off flags the edit site as role 'intended',PROBLEM,exported role is 'blocking' (Design export labels the edit 'blocking': see docs/FINDINGS.md. Assured QC output is unaffected; code that reads the role directly is)
+HBB_E7V.engine.design.json,HBB,"guide HBB_gRNA1: spacer at stated site, 20 nt",OK,"20 nt, strand +, site matches: True"
+HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: PAM is NGG,OK,PAM AGG (stated AGG)
+HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: cut within 15 bp of the edit,OK,"cut 538 (stated 538), -3 bp from the edit"
+HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: exported offsetFromEdit equals cut minus edit position,PROBLEM,"geometry gives -3, hand-off says -2 (the UI data computes distances from geometry; see docs/FINDINGS.md)"
+HBB_E7V.engine.design.json,HBB,guide HBB_gRNA1: occurrences in the gene region,OK,"1 exact matches in the 10,001 bp region (genome-wide specificity NOT assessed)"
+HBB_E7V.engine.design.json,HBB,donor ssODN1 (matched to HBB_E7V_gRNA1): length and differences,OK,"127 nt; differs from reference at [533, 536, 539, 541]; declared markers [533, 536, 539, 541]"
+HBB_E7V.engine.design.json,HBB,donor ssODN1 (matched to HBB_E7V_gRNA1): asymmetric 36/91 arms about the cut,OK,arms 36 / 91 around the cut of HBB_gRNA1
