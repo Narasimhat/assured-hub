@@ -23,6 +23,7 @@ import {
 import { AssuredProject, CloneStatus, QCCloneResult } from '../../types/pipeline';
 import { parseAbif, AbifTrace } from '../../utils/abifParser';
 import { QC_ENGINE_VERSION } from '../../data/generated/presets.generated';
+import { StudioDeconvModal } from './StudioDeconvModal';
 
 // One entry per status. Record<CloneStatus, ...> makes the compiler reject a status that has no styling.
 const STATUS_STYLE: Record<CloneStatus, { label: string; chip: string; badge: string; plate: string; Icon: 'ok' | 'warn' | 'bad' | 'neutral' }> = {
@@ -87,6 +88,7 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [selectedWellHover, setSelectedWellHover] = useState<string | null>(null);
   const [isLoadingTrace, setIsLoadingTrace] = useState(false);
+  const [showDeconvModal, setShowDeconvModal] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const selectedClone = clones.find(c => c.cloneId === selectedCloneId) || clones[0];
@@ -417,11 +419,21 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
           <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
             This project has no traces or results. Run your traces through Assured QC, or any analysis you trust, and load the results table here.
           </p>
-          <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold cursor-pointer transition-colors">
-            <FileSpreadsheet className="w-3.5 h-3.5 text-amber-400" />
-            <span>Load results table (CSV)</span>
-            <input type="file" accept=".csv" className="hidden" onChange={handleBatchCsvUpload} />
-          </label>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowDeconvModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Assured Studio Deconvolution (.ab1)</span>
+            </button>
+            <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold cursor-pointer transition-colors">
+              <FileSpreadsheet className="w-3.5 h-3.5 text-amber-400" />
+              <span>Load results table (CSV)</span>
+              <input type="file" accept=".csv" className="hidden" onChange={handleBatchCsvUpload} />
+            </label>
+          </div>
           {uploadError && <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-800/60 text-xs text-rose-300">{uploadError}</div>}
           <p className="text-[11px] text-slate-500 leading-relaxed max-w-3xl">{CSV_RULE_NOTE}</p>
           <button onClick={onProceed} className="py-2.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 flex items-center gap-2">
@@ -488,7 +500,17 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
             </div>
 
             {/* Upload Buttons for Real Files */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setShowDeconvModal(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
+                title="Run Assured Studio NNLS chromatogram deconvolution on .ab1 traces"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Assured Studio Deconvolution (.ab1)</span>
+              </button>
+
               <label className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold cursor-pointer transition-colors" title="View a Sanger trace from your computer. It is displayed, not analysed.">
                 <Upload className="w-3.5 h-3.5 text-cyan-400" />
                 <span>View your own .ab1</span>
@@ -823,6 +845,12 @@ export const Stage4QC: React.FC<Stage4QCProps> = ({
 
       </div>
 
+      <StudioDeconvModal
+        isOpen={showDeconvModal}
+        onClose={() => setShowDeconvModal(false)}
+        project={project}
+        onApplyClones={(newClones) => onUpdateProject({ ...project, clones: newClones })}
+      />
     </div>
   );
 };

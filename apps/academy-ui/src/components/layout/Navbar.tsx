@@ -8,7 +8,8 @@ import {
   ExternalLink,
   Award,
   Sparkles,
-  Workflow
+  Workflow,
+  Zap
 } from 'lucide-react';
 import { TabType } from '../../types';
 
@@ -132,6 +133,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Sparkles className="w-4 h-4" />
               <span>ASSURED Suite</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('studio')}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'studio'
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Zap className="w-4 h-4 text-purple-400" />
+              <span>Studio</span>
+              <span className="text-[9px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                PRO
+              </span>
+            </button>
           </nav>
 
           {/* Right Action: Mastery & Live Tools */}
@@ -212,6 +228,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             className={`px-2 py-1 ${activeTab === 'suite' ? 'text-blue-400 font-bold' : 'text-slate-400'}`}
           >
             Suite
+          </button>
+          <button 
+            onClick={() => setActiveTab('studio')} 
+            className={`px-2 py-1 ${activeTab === 'studio' ? 'text-purple-400 font-bold' : 'text-slate-400'}`}
+          >
+            Studio
           </button>
         </div>
       </div>

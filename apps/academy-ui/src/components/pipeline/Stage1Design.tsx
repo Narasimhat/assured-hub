@@ -18,6 +18,7 @@ import { locateGuide } from '../../utils/guideLayout';
 import { DEFAULT_BENCH } from '../../data/benchDefaults';
 import { DESIGN_EXAMPLES } from '../../data/generated/examples.generated';
 import { GelSimulator } from './GelSimulator';
+import { StudioDesignerModal } from './StudioDesignerModal';
 
 interface Stage1DesignProps {
   project: AssuredProject;
@@ -33,6 +34,7 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
   const [activeGuideId, setActiveGuideId] = useState(project.target.guides[0]?.id || 'g1');
   const [showSilentBlocks, setShowSilentBlocks] = useState(true);
   const [showCustomModal, setShowCustomModal] = useState(false);
+  const [showStudioModal, setShowStudioModal] = useState(false);
 
   // Custom Design Form State
   const [customGene, setCustomGene] = useState('');
@@ -104,6 +106,13 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowStudioModal(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Assured Studio Engine</span>
+            </button>
             <button
               onClick={() => setShowCustomModal(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-md shadow-cyan-500/20"
@@ -510,6 +519,12 @@ export const Stage1Design: React.FC<Stage1DesignProps> = ({
         </div>
       )}
 
+      <StudioDesignerModal
+        isOpen={showStudioModal}
+        onClose={() => setShowStudioModal(false)}
+        project={project}
+        onApplyDesign={onUpdateProject}
+      />
     </div>
   );
 };

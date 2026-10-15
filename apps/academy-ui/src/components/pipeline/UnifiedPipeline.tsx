@@ -94,6 +94,17 @@ export const UnifiedPipeline: React.FC = () => {
           >
             <RotateCcw className="w-4 h-4" />
           </button>
+
+          <a
+            href="./studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all"
+            title="Open Assured Studio standalone app"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Assured Studio</span>
+          </a>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ExternalLink } from 'lucide-react';
 import { TabType, RareDiseaseMission } from './types';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -93,6 +94,46 @@ export const App: React.FC = () => {
 
         {activeTab === 'suite' && (
           <ToolLaunchpad />
+        )}
+
+        {activeTab === 'studio' && (
+          <div className="space-y-4 animate-in fade-in duration-300">
+            <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/60 via-slate-900 to-slate-900 border border-purple-800/60 shadow-xl flex flex-wrap items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    Standalone Production Studio
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">End-to-End CRISPR Genome Engineering</span>
+                </div>
+                <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                  Assured Studio
+                </h1>
+                <p className="text-xs text-slate-300 max-w-2xl">
+                  Unified CRISPR workspace: in-silico SpCas9 design, vendor order sheets, in-silico gel electrophoresis, Star Protocols wet-lab execution, and 96-well Sanger QC deconvolution.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="./studio/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold text-xs shadow-md shadow-purple-500/25 transition-all"
+                >
+                  <span>Open in Full Window</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            <div className="w-full h-[750px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+              <iframe
+                src="./studio/"
+                title="Assured Studio"
+                className="w-full h-full border-0"
+              />
+            </div>
+          </div>
         )}
       </main>
 
