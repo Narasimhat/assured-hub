@@ -135,22 +135,9 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
       <div className="card">
         <div className="card-title">
           <span>1. Design your edit</span>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>
-              Choose a target, load its reference, then generate a design.
-            </span>
-            <a
-              href="../design/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary"
-              title="Open standalone Assured CRISPR Designer (advanced multi-row batch guide design & vendor export)"
-              style={{ padding: "0.3rem 0.65rem", fontSize: "0.8rem", textDecoration: "none", color: "#38bdf8", borderColor: "rgba(56, 189, 248, 0.4)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
-            >
-              <ExternalLink size={13} />
-              <span>Standalone Assured Design ↗</span>
-            </a>
-          </div>
+          <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>
+            Choose a target, load its reference, then generate a design.
+          </span>
         </div>
 
         <div className="grid-2">
@@ -465,6 +452,20 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                   ))}
                 </tbody>
               </table>
+
+              <div style={{ marginTop: "0.85rem", paddingTop: "0.6rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.8rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+                <span>Need batch multi-gene targeting or custom vendor sheets?</span>
+                <a
+                  href="../design/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.25rem", fontWeight: 500 }}
+                  title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
+                >
+                  <ExternalLink size={12} />
+                  <span>Open Standalone Designer ↗</span>
+                </a>
+              </div>
             </div>
 
             {/* Donor Repair Template Card */}

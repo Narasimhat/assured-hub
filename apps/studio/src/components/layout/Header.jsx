@@ -1,5 +1,5 @@
 import React from "react";
-import { Dna, Save, FolderOpen, Download, Upload, Plus, FlaskConical, ExternalLink } from "lucide-react";
+import { Dna, Save, FolderOpen, Download, Upload, Plus, FlaskConical } from "lucide-react";
 
 export function Header({
   activeStep,
@@ -29,33 +29,6 @@ export function Header({
           <a className="brand-title" href="../" title="ASSURED home" style={{ textDecoration: "none" }}>ASSURED Bench</a>
           <span className="brand-badge">v1.0</span>
         </div>
-      </div>
-
-      {/* Standalone Tools Links */}
-      <div className="header-tool-links" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <a
-          href="../design/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-secondary"
-          title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
-          style={{ padding: "0.45rem 0.75rem", fontSize: "0.85rem", textDecoration: "none", color: "#38bdf8", borderColor: "rgba(56, 189, 248, 0.4)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
-        >
-          <ExternalLink size={14} />
-          <span>Assured Design</span>
-        </a>
-
-        <a
-          href="../qc/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-secondary"
-          title="Open standalone Assured QC (Sanger chromatogram deconvolution & clone screening)"
-          style={{ padding: "0.45rem 0.75rem", fontSize: "0.85rem", textDecoration: "none", color: "#10b981", borderColor: "rgba(16, 185, 129, 0.4)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
-        >
-          <ExternalLink size={14} />
-          <span>Assured QC</span>
-        </a>
       </div>
 
       {/* Stepper Navigation */}
