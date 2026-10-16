@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef } from "react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { buildQcDesignSpec } from "../../engine/design/qcExport.js";
 import { downloadDesignJson, downloadReportHtml } from "../../services/designExport.js";
 
@@ -38,16 +39,50 @@ export function QcView({ currentProject, onUpdateProject }) {
   }, [design, qcOrigin]);
   return <div>
     <div className="card">
-      <h3>Trace Analysis</h3>
-      <p style={{ color: "var(--text-muted)", margin: "0.75rem 0" }}>Add your design <strong>HTML report or JSON</strong> and sequencing files below. Review pairings, then run analysis. View the analysis and figures in Bench's Reports step.</p>
-      <div className="project-controls">
-        {currentProject.designResult && <>
-          <button className="btn btn-secondary" onClick={() => downloadReportHtml(currentProject, currentProject.designResult)}>Download design HTML</button>
-          <button className="btn btn-secondary" onClick={() => downloadDesignJson(currentProject, currentProject.designResult)}>Download Design JSON</button>
-        </>}
-        <a className="btn btn-secondary" href="./demo_traces/apoe_qc_practice.zip" download>Download practice ZIP</a>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
+        <div>
+          <h3>Trace Analysis</h3>
+          <p style={{ color: "var(--text-muted)", margin: "0.5rem 0" }}>
+            Sanger chromatogram deconvolution & clone screening. Review sample/control pairings, then run analysis to generate clone rankings and publication figures.
+          </p>
+        </div>
+        <div className="project-controls" style={{ margin: 0 }}>
+          {currentProject.designResult && <>
+            <button className="btn btn-secondary" onClick={() => downloadReportHtml(currentProject, currentProject.designResult)}>Download design HTML</button>
+            <button className="btn btn-secondary" onClick={() => downloadDesignJson(currentProject, currentProject.designResult)}>Download Design JSON</button>
+          </>}
+          <a className="btn btn-secondary" href="./demo_traces/apoe_qc_practice.zip" download>Download practice ZIP</a>
+        </div>
       </div>
-      <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.75rem" }}>{design ? `Bench design supplied: ${design.name}. You can replace it with an HTML report or JSON below.` : "Add an HTML design report or JSON below, or upload the practice ZIP including its APOE design and traces."}</p>
+
+      {design ? (
+        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "rgba(16, 185, 129, 0.08)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            <CheckCircle size={20} style={{ color: "#10b981", flexShrink: 0 }} />
+            <div>
+              <div style={{ fontWeight: 600, color: "#10b981" }}>
+                Design active & parsed: {design.name}
+              </div>
+              <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
+                Target: <strong>{currentProject.gene || "Gene"}</strong> · Bench has automatically loaded this design into the trace engine.
+              </div>
+            </div>
+          </div>
+          <div style={{ fontSize: "0.85rem", background: "rgba(16, 185, 129, 0.15)", color: "#10b981", padding: "0.35rem 0.75rem", borderRadius: "6px", fontWeight: 500 }}>
+            Next: Provide matching Parental Control & Sample .ab1 files below
+          </div>
+        </div>
+      ) : (
+        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "rgba(245, 158, 11, 0.08)", border: "1px solid rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <AlertCircle size={20} style={{ color: "#f59e0b", flexShrink: 0 }} />
+          <div>
+            <div style={{ fontWeight: 600, color: "#f59e0b" }}>No active design loaded</div>
+            <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
+              Design an edit in <strong>Step 1</strong>, open a saved experiment from <strong>Projects</strong>, or upload a Design JSON / HTML report below with your traces.
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     <iframe ref={frame} src={source} title="Trace Analysis upload and analysis" style={{ width: "100%", height: "85vh", minHeight: 700, border: "1px solid var(--border-color)", borderRadius: 12, background: "#fff" }} />
   </div>;

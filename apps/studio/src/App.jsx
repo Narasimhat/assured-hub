@@ -83,9 +83,9 @@ export function App() {
     }
   };
 
-  const handleSelectProject = (proj) => {
+  const handleSelectProject = (proj, targetStep = "design") => {
     setCurrentProject(proj);
-    setActiveStep("design");
+    setActiveStep(targetStep);
     setShowProjectsModal(false);
     showToast(`Loaded '${proj.name}'`);
   };
@@ -250,13 +250,27 @@ export function App() {
                       </div>
                     </div>
 
-                    <button
-                      className="btn btn-secondary"
-                      onClick={(e) => handleDeleteProject(p.id, e)}
-                      style={{ padding: "0.4rem 0.6rem", color: "var(--danger)" }}
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      {(p.designResult || p.qcDesignSpec) && (
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={(e) => { e.stopPropagation(); handleSelectProject(p, "qc"); }}
+                          style={{ padding: "0.35rem 0.65rem", fontSize: "0.8rem", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
+                          title="Open this saved project directly in Trace Analysis"
+                        >
+                          <span>Analyse Traces 🔬</span>
+                        </button>
+                      )}
+                      <button
+                        className="btn btn-secondary"
+                        onClick={(e) => handleDeleteProject(p.id, e)}
+                        style={{ padding: "0.4rem 0.6rem", color: "var(--danger)" }}
+                        title="Delete saved experiment"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -125,11 +125,11 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
     <div className="card quick">
       <h2>Quick start: add files or a folder</h2>
       <div className={`drop${dragging ? " over" : ""}`} onDragOver={(e) => { e.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={(e) => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files); }}>
-        <p><b>Drop AB1 files, sequencing ZIPs and your design report here</b> (controls and samples together, forward and reverse reads), plus, if you have them, the design (report .html or file .json) a sample sheet (.csv) and the gene record (GenBank, .gb).</p>
+        <p><b>{designName ? "Please provide your parental control and sample .ab1 files:" : "Drop AB1 files, sequencing ZIPs and your design report here"}</b> {designName ? "(controls and samples together, forward and reverse reads, or a sequencing ZIP)" : "(controls and samples together, forward and reverse reads), plus, if you have them, the design (report .html or file .json) a sample sheet (.csv) and the gene record (GenBank, .gb)."}</p>
         <input ref={filePicker} hidden style={{ display: "none" }} type="file" multiple accept=".zip,.ab1,.abi,.csv,.tsv,.json,.html,.htm,.gb,.gbk,.gbff,.genbank,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose files" />
-        <p><button type="button" disabled={running} onClick={() => filePicker.current.click()}>Add files (AB1, ZIP, HTML, JSON, CSV or GenBank)</button></p>
+        <p><button type="button" disabled={running} onClick={() => filePicker.current.click()}>{designName ? "Add AB1 Traces or Sequencing ZIP" : "Add files (AB1, ZIP, HTML, JSON, CSV or GenBank)"}</button></p>
         <input ref={folderPicker} hidden style={{ display: "none" }} type="file" multiple webkitdirectory="" directory="" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose a folder" />
-        <p><button type="button" disabled={running} onClick={() => folderPicker.current.click()}>Add a folder</button> <span className="muted">Imports supported files inside a folder. To select an HTML report or sequencing ZIP, use Add files.</span></p>
+        <p><button type="button" disabled={running} onClick={() => folderPicker.current.click()}>{designName ? "Add a folder of AB1 traces" : "Add a folder"}</button> <span className="muted">Imports supported files inside a folder. To select an HTML report or sequencing ZIP, use Add files.</span></p>
         <p>Select files from one folder, then click Add files again for another folder. Earlier traces and your design stay loaded. You can also add folders one at a time.</p>
         <p className="muted">Nothing is uploaded: the files are read and analysed in this browser.</p>
       </div>
@@ -137,13 +137,17 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       <input ref={designPicker} hidden style={{ display: "none" }} id="q-design" aria-label="Design report file" type="file" accept=".html,.htm,.json,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
       {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or enter guides manually under “Guides, donor, nuclease, goal”.</p>}
       {designName && <div role="status">
-        <p><b>{design.error ? "Design needs attention:" : "Design loaded:"}</b> {designName} <button type="button" disabled={running} onClick={() => designPicker.current.click()}>Replace design</button> <button type="button" disabled={running} onClick={() => { setDesignName(""); setDesignText(""); setDesignIndex(0); setOutcome(null); setError(""); }}>Remove design</button></p>
+        <p><b>{design.error ? "Design needs attention:" : "Design loaded & parsed:"}</b> {designName} <button type="button" disabled={running} onClick={() => designPicker.current.click()}>Replace design</button> <button type="button" disabled={running} onClick={() => { setDesignName(""); setDesignText(""); setDesignIndex(0); setOutcome(null); setError(""); }}>Remove design</button></p>
         {design.error ? <p className="error">{design.error} Replace or remove this file to continue.</p> : design.kind === "report" ? <>
           {design.designs.length > 1 && <><label htmlFor="q-design-choice">Design in this report</label><select id="q-design-choice" disabled={running} value={designIndex} onChange={(e) => { setDesignIndex(Number(e.target.value)); setOutcome(null); }}>{design.designs.map((d, i) => <option key={i} value={i}>{d.title}</option>)}</select></>}
           <p>Imported {design.label}: {design.guides.length} guides, {design.donors.length} donors.{design.donors.filter((d) => d.recommended).length > 1 ? ` The ${design.donors.filter((d) => d.recommended).length} recommended donors are used together.` : ""}</p>
           <ul>{design.chosen.guides.map((g) => <li key={g.sequence}>{g.name}: <code>{g.sequence}</code></li>)}</ul>
-          {!traceNames.length && <p className="muted">Design ready. Add the control and sample AB1 files above to start analysis.</p>}
-        </> : design.kind === "spec" ? <p>Imported {design.label}.</p> : <p className="note">The design is empty or could not be read. Replace or remove it to continue.</p>}
+          {!traceNames.length && <p className="note" style={{ color: "var(--success)", fontWeight: 500, margin: "0.5rem 0" }}>✓ Design ready. Now please provide your matching parental control (e.g. Ctrl.ab1) and edited clone sample .ab1 files above.</p>}
+        </> : design.kind === "spec" ? <>
+          <p><b>Imported design:</b> {design.spec?.design?.gene ? `${design.spec.design.gene} — ` : ""}{design.label} ({design.spec?.guides?.length || 0} guide{design.spec?.guides?.length === 1 ? "" : "s"}{design.spec?.donors?.length ? `, ${design.spec.donors.length} donor${design.spec.donors.length === 1 ? "" : "s"}` : ""}).</p>
+          {design.spec?.guides?.length > 0 && <ul>{design.spec.guides.map((g, gi) => <li key={g.spacer || gi}><strong>{g.name || `Guide ${gi + 1}`}</strong>: <code>{g.spacer}</code> (PAM: {g.pam || "NGG"}{g.strand ? `, strand ${g.strand}` : ""})</li>)}</ul>}
+          {!traceNames.length && <p className="note" style={{ color: "var(--success)", fontWeight: 500, margin: "0.5rem 0" }}>✓ Design ready. Now please provide your matching parental control (e.g. Ctrl.ab1) and edited clone sample .ab1 files above.</p>}
+        </> : <p className="note">The design is empty or could not be read. Replace or remove it to continue.</p>}
       </div>}
       {traceNames.length > 0 && <details open>
         <summary>Loaded traces ({traceNames.length})</summary>

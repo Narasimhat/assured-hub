@@ -25,7 +25,16 @@ export function buildPairs({ traceNames, sheetText = "" }) {
 /** A design from what was dropped: a JSON spec, an HTML design report, or nothing (the guides then come from the text box or from the traces). */
 export function readDesign(text, { designIndex = 0 } = {}) {
   if (!text) return { kind: "none" };
-  if (/^\s*[{[]/.test(text)) { const spec = JSON.parse(text); return { kind: "spec", spec, label: spec.design?.label || spec.design?.gene || "design file" }; }
+  if (/^\s*[{[]/.test(text)) {
+    const spec = JSON.parse(text);
+    return {
+      kind: "spec",
+      spec,
+      label: spec.design?.label || spec.design?.gene || "design file",
+      guides: (spec.guides || []).map((g) => g.spacer || g.sequence || ""),
+      donors: spec.donors || []
+    };
+  }
   const designs = parseDesignReport(text); const chosen = designs[Math.min(designIndex, designs.length - 1)];
   return { kind: "report", designs, chosen, guides: chosen.guides.map((g) => g.sequence), donors: chosen.donors, label: chosen.title, protein: chosen.protein || [] };
 }
