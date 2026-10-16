@@ -11,7 +11,7 @@ const learningAreas = [
 ];
 
 export const App: React.FC = () => {
-  const [activePersonaId, setActivePersonaId] = useState<LearnerPersonaId>('technician');
+  const [activePersonaId, setActivePersonaId] = useState<LearnerPersonaId>('research_labs');
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">

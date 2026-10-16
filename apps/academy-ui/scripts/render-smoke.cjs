@@ -82,7 +82,7 @@ c("DonorIccPowerSimulator", React.createElement(R("components/simulator/DonorIcc
 c("IsoCellYieldCalculator", React.createElement(R("components/simulator/IsoCellYieldCalculator.js").IsoCellYieldCalculator));
 c("OffTargetDecisionMatrix", React.createElement(R("components/simulator/OffTargetDecisionMatrix.js").OffTargetDecisionMatrix));
 const PS = R("components/academy/PersonaSwitcher.js").PersonaSwitcher;
-for (const p of ["layperson", "student", "technician", "scientist", "core_facility", "cgt_industry"]) {
+for (const p of ["students", "research_labs", "core_facilities"]) {
   c(`PersonaSwitcher-${p}`, React.createElement(PS, { activePersonaId: p, onSelectPersona: noop }));
 }
 const App = require(path.join(OUT, "App.js")); c("App", React.createElement(App.default || App.App));

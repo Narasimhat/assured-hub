@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { 
-  HeartHandshake, 
   GraduationCap, 
-  FlaskConical, 
   Microscope, 
   Layers, 
-  ShieldCheck, 
   CheckCircle2, 
-  ArrowRight, 
-  Sparkles,
   ExternalLink,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Dna,
+  FlaskConical,
+  Activity,
+  ShieldCheck,
+  Sparkles
 } from 'lucide-react';
 import { LEARNER_PERSONAS } from '../../data/personas';
 import { LearnerPersonaId } from '../../types';
@@ -32,42 +32,120 @@ export const PersonaSwitcher: React.FC<PersonaSwitcherProps> = ({
   onSelectPersona,
 }) => {
   const [showSimulator, setShowSimulator] = useState<boolean>(true);
+  const [tier1SubView, setTier1SubView] = useState<'sandbox' | 'journey'>('sandbox');
+  const [tier2SubView, setTier2SubView] = useState<'state_machine' | 'icc_power'>('state_machine');
+  const [tier3SubView, setTier3SubView] = useState<'isocell' | 'off_target'>('isocell');
 
   const activePersona = LEARNER_PERSONAS.find(p => p.id === activePersonaId) || LEARNER_PERSONAS[0];
 
   const getPersonaIcon = (id: LearnerPersonaId) => {
     switch (id) {
-      case 'layperson':
-        return <HeartHandshake className="w-5 h-5 text-emerald-300" />;
-      case 'student':
-        return <GraduationCap className="w-5 h-5 text-cyan-300" />;
-      case 'technician':
-        return <FlaskConical className="w-5 h-5 text-amber-300" />;
-      case 'scientist':
-        return <Microscope className="w-5 h-5 text-purple-300" />;
-      case 'core_facility':
-        return <Layers className="w-5 h-5 text-blue-300" />;
-      case 'cgt_industry':
-        return <ShieldCheck className="w-5 h-5 text-rose-300" />;
+      case 'students':
+        return <GraduationCap className="w-6 h-6 text-cyan-300" />;
+      case 'research_labs':
+        return <Microscope className="w-6 h-6 text-amber-300" />;
+      case 'core_facilities':
+        return <Layers className="w-6 h-6 text-blue-300" />;
       default:
-        return <GraduationCap className="w-5 h-5 text-emerald-300" />;
+        return <GraduationCap className="w-6 h-6 text-cyan-300" />;
     }
   };
 
   const renderSimulator = () => {
     switch (activePersona.id) {
-      case 'layperson':
-        return <PatientJourneyTimeline />;
-      case 'student':
-        return <Sorcs1DesignSandbox />;
-      case 'technician':
-        return <WetLabFailureSimulator />;
-      case 'scientist':
-        return <DonorIccPowerSimulator />;
-      case 'core_facility':
-        return <IsoCellYieldCalculator />;
-      case 'cgt_industry':
-        return <OffTargetDecisionMatrix />;
+      case 'students':
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800 w-fit">
+              <button
+                type="button"
+                onClick={() => setTier1SubView('sandbox')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier1SubView === 'sandbox'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                SorCS1 RefSeq Architecture & Cut Distance
+              </button>
+              <button
+                type="button"
+                onClick={() => setTier1SubView('journey')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier1SubView === 'journey'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Sendai Reprogramming & Patient Journey
+              </button>
+            </div>
+            {tier1SubView === 'sandbox' ? <Sorcs1DesignSandbox /> : <PatientJourneyTimeline />}
+          </div>
+        );
+
+      case 'research_labs':
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800 w-fit">
+              <button
+                type="button"
+                onClick={() => setTier2SubView('state_machine')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier2SubView === 'state_machine'
+                    ? 'bg-amber-950 text-amber-300 border border-amber-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                9-Step Virtual Wet-Lab State Machine
+              </button>
+              <button
+                type="button"
+                onClick={() => setTier2SubView('icc_power')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier2SubView === 'icc_power'
+                    ? 'bg-amber-950 text-amber-300 border border-amber-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                51-Donor ICC Power & CRISPR-MiX Rescuer
+              </button>
+            </div>
+            {tier2SubView === 'state_machine' ? <WetLabFailureSimulator /> : <DonorIccPowerSimulator />}
+          </div>
+        );
+
+      case 'core_facilities':
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800 w-fit">
+              <button
+                type="button"
+                onClick={() => setTier3SubView('isocell')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier3SubView === 'isocell'
+                    ? 'bg-blue-950 text-blue-300 border border-blue-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                IsoCell Microfluidics & 50-Vial Seedbank
+              </button>
+              <button
+                type="button"
+                onClick={() => setTier3SubView('off_target')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  tier3SubView === 'off_target'
+                    ? 'bg-blue-950 text-blue-300 border border-blue-800'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Orthogonal Off-Target Cleavage Matrix
+              </button>
+            </div>
+            {tier3SubView === 'isocell' ? <IsoCellYieldCalculator /> : <OffTargetDecisionMatrix />}
+          </div>
+        );
+
       default:
         return <WetLabFailureSimulator />;
     }
@@ -78,19 +156,19 @@ export const PersonaSwitcher: React.FC<PersonaSwitcherProps> = ({
       <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-slate-800 pb-4">
         <div>
           <span className="text-xs uppercase font-bold tracking-widest text-emerald-400">
-            Role-Based Pedagogical Architecture
+            Three Focused Learning Tiers
           </span>
           <h2 id="personas-heading" className="mt-1 text-3xl font-bold text-white">
-            Six Learner Personas & Domain Simulators
+            Targeted Domain Curricula & Simulators
           </h2>
         </div>
         <p className="text-xs text-slate-400 max-w-md">
-          Tailored learning tracks and interactive wet-lab sandboxes engineered for every stakeholder in stem cell engineering.
+          Specialized curricula and interactive bioinformatic engines structured for Students, Research Labs, and Core Facilities.
         </p>
       </div>
 
-      {/* Six-Tier Persona Selector Buttons */}
-      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      {/* Three Focused Persona Selector Cards */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         {LEARNER_PERSONAS.map(persona => {
           const isSelected = persona.id === activePersonaId;
           return (
@@ -101,26 +179,32 @@ export const PersonaSwitcher: React.FC<PersonaSwitcherProps> = ({
                 onSelectPersona(persona.id);
                 setShowSimulator(true);
               }}
-              className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border text-left transition-all flex flex-col justify-between ${
                 isSelected
-                  ? 'border-emerald-400 bg-emerald-950/40 ring-1 ring-emerald-400 shadow-lg shadow-emerald-950/50'
-                  : 'border-slate-800 bg-slate-900/70 hover:border-slate-700 hover:bg-slate-900'
+                  ? 'border-emerald-400 bg-emerald-950/30 ring-1 ring-emerald-400 shadow-xl shadow-emerald-950/40'
+                  : 'border-slate-800 bg-slate-900/80 hover:border-slate-700 hover:bg-slate-900'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                     Tier {persona.tier}
                   </span>
                   {getPersonaIcon(persona.id)}
                 </div>
-                <h3 className="mt-2 text-xs font-bold text-white leading-tight line-clamp-2">
+                <h3 className="mt-3 text-lg font-bold text-white leading-snug">
                   {persona.title}
                 </h3>
+                <p className="mt-1.5 text-xs text-slate-400 line-clamp-2">
+                  {persona.subtitle}
+                </p>
               </div>
-              <span className="mt-3 inline-block text-[10px] text-slate-400 truncate">
-                {persona.badge}
-              </span>
+              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-emerald-300">
+                  {persona.badge}
+                </span>
+                <span className="text-[11px] text-slate-400">Select Track →</span>
+              </div>
             </button>
           );
         })}
@@ -161,7 +245,7 @@ export const PersonaSwitcher: React.FC<PersonaSwitcherProps> = ({
 
         {/* Key Competencies Chips */}
         <div className="mt-4 pt-4 border-t border-slate-800">
-          <span className="text-xs font-semibold text-slate-300">Core Curriculum Competencies:</span>
+          <span className="text-xs font-semibold text-slate-300">Key Competencies in this Track:</span>
           <div className="mt-2 grid sm:grid-cols-2 gap-2">
             {activePersona.keyCompetencies.map((comp, idx) => (
               <div key={idx} className="flex items-start gap-2 text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/60">
@@ -173,7 +257,7 @@ export const PersonaSwitcher: React.FC<PersonaSwitcherProps> = ({
         </div>
       </div>
 
-      {/* Dedicated Interactive Simulator Card */}
+      {/* Dedicated Interactive Simulator Section */}
       {showSimulator && (
         <div className="mt-6">
           {renderSimulator()}

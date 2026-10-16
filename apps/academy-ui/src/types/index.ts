@@ -34,12 +34,9 @@ export interface CurriculumTrack {
 }
 
 export type LearnerPersonaId = 
-  | 'layperson'
-  | 'student'
-  | 'technician'
-  | 'scientist'
-  | 'core_facility'
-  | 'cgt_industry';
+  | 'students'          // Tier 1: School & College Students
+  | 'research_labs'     // Tier 2: Research Labs (PhD, Postdocs, and PIs)
+  | 'core_facilities';  // Tier 3: Core Facilities
 
 export interface PersonaMetadata {
   id: LearnerPersonaId;
