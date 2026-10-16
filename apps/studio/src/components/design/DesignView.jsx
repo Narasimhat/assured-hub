@@ -316,6 +316,20 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             {error}
           </div>
         )}
+
+        <div style={{ marginTop: "1.25rem", paddingTop: "0.85rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+          <span>Need batch multi-gene targeting or custom vendor sheets?</span>
+          <a
+            href="../design/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 500 }}
+            title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
+          >
+            <ExternalLink size={13} />
+            <span>Open Standalone Designer ↗</span>
+          </a>
+        </div>
       </div>
 
       {/* Results Display */}
