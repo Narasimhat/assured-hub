@@ -44,7 +44,7 @@ test('a not-found result is not silently substituted and a missing local referen
 
 test('bundled TP53 reference checksum and primary CDS match the pinned annotation', () => {
   const provenance = JSON.parse(fs.readFileSync(new URL('../public/references/tp53-provenance.json', import.meta.url)));
-  assert.equal(createHash('sha256').update(raw).digest('hex'), provenance.derivedSha256);
+  assert.equal(createHash('sha256').update(raw.replace(/\r\n/g, '\n')).digest('hex'), provenance.derivedSha256);
   const model = normalizeGenBankToTranscriptModel(parseGB(raw), { expectedGene: 'TP53' });
   assert.equal(model.gene, 'TP53');
   assert.equal(model.transcriptId, 'NM_000546.5');

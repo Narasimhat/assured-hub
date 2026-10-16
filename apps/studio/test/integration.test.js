@@ -65,8 +65,10 @@ test("Assured Studio: In-silico dual-guide knockout design", () => {
   assert.ok(qcSpec.guides?.length >= 1, "QC spec must carry guides");
 });
 
+import { fileURLToPath } from "node:url";
+
 test("Assured Studio: In-silico point mutation design with CFD blocking", () => {
-  const apoeGbPath = "/Users/ntelugu/.gemini/antigravity/scratch/Assured_CRISPR_Design/assured-crispr-designer/test/fixtures/apoe-r154s.gb";
+  const apoeGbPath = fileURLToPath(new URL("../../design/assured-crispr-designer/test/fixtures/apoe-r154s.gb", import.meta.url));
   const apoeGb = fs.readFileSync(apoeGbPath, "utf8");
 
   const result = runDesign("pm", apoeGb, "R154S", "", 400, {

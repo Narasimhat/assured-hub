@@ -5,7 +5,7 @@ import { fetchGeneGenbank } from "../../services/ensembl.js";
 import { downloadReportHtml, downloadDesignJson, downloadSchemeSvg } from "../../services/designExport.js";
 import { GuideAlternatives } from "./GuideAlternatives.jsx";
 import { GelSimulator } from "./GelSimulator.jsx";
-import { Search, Play, CheckCircle, AlertTriangle, XCircle, ArrowRight, Upload, Download, FileText, FlaskConical } from "lucide-react";
+import { Search, Play, CheckCircle, AlertTriangle, XCircle, ArrowRight, Upload, Download, FileText, FlaskConical, ExternalLink } from "lucide-react";
 
 export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, onProceedToQc, onOpenProtocol }) {
   const geneInput = currentProject.gene ?? "";
@@ -135,9 +135,22 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
       <div className="card">
         <div className="card-title">
           <span>1. Design your edit</span>
-          <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>
-            Choose a target, load its reference, then generate a design.
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>
+              Choose a target, load its reference, then generate a design.
+            </span>
+            <a
+              href="../design/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              title="Open standalone Assured CRISPR Designer (advanced multi-row batch guide design & vendor export)"
+              style={{ padding: "0.3rem 0.65rem", fontSize: "0.8rem", textDecoration: "none", color: "#38bdf8", borderColor: "rgba(56, 189, 248, 0.4)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
+            >
+              <ExternalLink size={13} />
+              <span>Standalone Assured Design ↗</span>
+            </a>
+          </div>
         </div>
 
         <div className="grid-2">
