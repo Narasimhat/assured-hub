@@ -75,6 +75,16 @@ c("AcademyHub", React.createElement(R("components/academy/AcademyHub.js").Academ
 c("CertificateModal", React.createElement(R("components/certificate/CertificateModal.js").CertificateModal, { onClose: noop, masteryPoints: 10, totalQuizzesPassed: 3 }));
 c("VirtualLab", React.createElement(R("components/simulator/VirtualLab.js").VirtualLab, { onAwardMastery: noop }));
 c("UnifiedPipeline", React.createElement(R("components/pipeline/UnifiedPipeline.js").UnifiedPipeline));
+c("PatientJourneyTimeline", React.createElement(R("components/simulator/PatientJourneyTimeline.js").PatientJourneyTimeline));
+c("Sorcs1DesignSandbox", React.createElement(R("components/simulator/Sorcs1DesignSandbox.js").Sorcs1DesignSandbox));
+c("WetLabFailureSimulator", React.createElement(R("components/simulator/WetLabFailureSimulator.js").WetLabFailureSimulator));
+c("DonorIccPowerSimulator", React.createElement(R("components/simulator/DonorIccPowerSimulator.js").DonorIccPowerSimulator));
+c("IsoCellYieldCalculator", React.createElement(R("components/simulator/IsoCellYieldCalculator.js").IsoCellYieldCalculator));
+c("OffTargetDecisionMatrix", React.createElement(R("components/simulator/OffTargetDecisionMatrix.js").OffTargetDecisionMatrix));
+const PS = R("components/academy/PersonaSwitcher.js").PersonaSwitcher;
+for (const p of ["layperson", "student", "technician", "scientist", "core_facility", "cgt_industry"]) {
+  c(`PersonaSwitcher-${p}`, React.createElement(PS, { activePersonaId: p, onSelectPersona: noop }));
+}
 const App = require(path.join(OUT, "App.js")); c("App", React.createElement(App.default || App.App));
 const curriculum = R("data/curriculum.js"); const tracks = curriculum.CURRICULUM || Object.values(curriculum).find(Array.isArray);
 const LV = R("components/academy/LessonViewer.js").LessonViewer; let lessons = 0;

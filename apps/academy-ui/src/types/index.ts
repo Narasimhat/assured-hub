@@ -30,6 +30,37 @@ export interface CurriculumTrack {
   color: string;
   badgeName: string;
   lessons: Lesson[];
+  targetPersona?: LearnerPersonaId;
+}
+
+export type LearnerPersonaId = 
+  | 'layperson'
+  | 'student'
+  | 'technician'
+  | 'scientist'
+  | 'core_facility'
+  | 'cgt_industry';
+
+export interface PersonaMetadata {
+  id: LearnerPersonaId;
+  tier: number;
+  title: string;
+  subtitle: string;
+  tagline: string;
+  badge: string;
+  targetAudience: string;
+  coreObjective: string;
+  iconName: string;
+  colorScheme: {
+    bg: string;
+    border: string;
+    text: string;
+    accent: string;
+    gradient: string;
+  };
+  keyCompetencies: string[];
+  simulatorTitle: string;
+  simulatorDescription: string;
 }
 
 export interface VirtualLabState {
