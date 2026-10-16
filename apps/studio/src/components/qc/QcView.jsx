@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { ExternalLink } from "lucide-react";
 import { buildQcDesignSpec } from "../../engine/design/qcExport.js";
 import { downloadDesignJson, downloadReportHtml } from "../../services/designExport.js";
 
@@ -47,17 +46,6 @@ export function QcView({ currentProject, onUpdateProject }) {
           <button className="btn btn-secondary" onClick={() => downloadDesignJson(currentProject, currentProject.designResult)}>Download Design JSON</button>
         </>}
         <a className="btn btn-secondary" href="./demo_traces/apoe_qc_practice.zip" download>Download practice ZIP</a>
-        <a
-          className="btn btn-secondary"
-          href="../qc/"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Open standalone Assured QC Trace Engine in a separate tab"
-          style={{ textDecoration: "none", color: "#10b981", borderColor: "rgba(16, 185, 129, 0.4)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
-        >
-          <ExternalLink size={14} />
-          <span>Standalone Assured QC ↗</span>
-        </a>
       </div>
       <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.75rem" }}>{design ? `Bench design supplied: ${design.name}. You can replace it with an HTML report or JSON below.` : "Add an HTML design report or JSON below, or upload the practice ZIP including its APOE design and traces."}</p>
     </div>
