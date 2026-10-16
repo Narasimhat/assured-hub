@@ -89,13 +89,13 @@ const { PERSONAS } = require("@assured/protocol");
 // ampersand in it is not reported as missing.
 const unescape = (t) => t.replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const TIER_PAGES = {
-  public: ["tiers/Tier1PatientJourney", "Tier1PatientJourney"],
-  student: ["tiers/Tier2ExonSandbox", "Tier2ExonSandbox"],
-  bench: ["tiers/Tier3WetLabSimulator", "Tier3WetLabSimulator"],
-  scientist: ["tiers/Tier4PowerExplorer", "Tier4PowerExplorer"],
-  core: ["tiers/Tier5CoreFacility", "Tier5CoreFacility"],
-  cgt: ["tiers/Tier6OffTargetMatrix", "Tier6OffTargetMatrix"],
+  student: ["tiers/TierStudents", "TierStudents"],
+  lab: ["tiers/TierResearchLab", "TierResearchLab"],
+  core: ["tiers/TierCoreFacility", "TierCoreFacility"],
 };
+// Sections are composed by the tier pages above; each must still render on its own.
+const SECTIONS = ["PatientJourney", "ExonSandbox", "WetLabSimulator", "PowerAndCrisprMix", "CoreOperations", "OffTargetMatrix"];
+for (const name of SECTIONS) c(`section ${name}`, React.createElement(R(`components/tiers/sections/${name}.js`)[name]));
 expect("every persona in @assured/protocol has a page", PERSONAS.every((p) => TIER_PAGES[p.id]));
 expect("every tier page belongs to a persona", Object.keys(TIER_PAGES).every((id) => PERSONAS.some((p) => p.id === id)));
 
@@ -113,18 +113,29 @@ for (const persona of PERSONAS) {
 
 // Anything a simulator computes must be visibly labelled as a teaching model, and anything
 // published must carry its citation. docs/FINDINGS.md is the reason these are enforced.
-const simulatorTiers = ["bench", "scientist", "core"];
-for (const id of simulatorTiers) {
-  const [file, exportName] = TIER_PAGES[id];
-  const body = text(renderToString(React.createElement(R(`components/${file}.js`)[exportName])));
-  expect(`tier ${id} labels its model as a teaching model`, /Teaching model/.test(body));
+const sectionHtml = (name) => text(renderToString(React.createElement(R(`components/tiers/sections/${name}.js`)[name])));
+for (const name of ["WetLabSimulator", "PowerAndCrisprMix", "CoreOperations"]) {
+  expect(`${name} labels its model as a teaching model`, /Teaching model/.test(sectionHtml(name)));
 }
-const benchBody = text(renderToString(React.createElement(R("components/tiers/Tier3WetLabSimulator.js").Tier3WetLabSimulator)));
-expect("the wet-lab simulator cites the ASSURED protocol", /STAR Protocols/.test(benchBody));
-expect("the wet-lab simulator cites CRISPR-MiX", /Molecular Therapy Nucleic Acids|Mol Ther Nucleic Acids/.test(benchBody));
+const benchBody = sectionHtml("WetLabSimulator");
 expect("the wet-lab simulator keeps the two pulse widths apart", /30 ms/.test(benchBody) && /20 ms/.test(benchBody));
-const scientistBody = text(renderToString(React.createElement(R("components/tiers/Tier4PowerExplorer.js").Tier4PowerExplorer)));
-expect("the power explorer admits the ICC source was not located", /No publication was found/.test(scientistBody));
+expect("the power explorer admits the ICC source was not located", /No publication was found/.test(sectionHtml("PowerAndCrisprMix")));
+
+// The research-lab tier carries all three of its sections and their citations.
+const labBody = text(renderToString(React.createElement(R("components/tiers/TierResearchLab.js").TierResearchLab)));
+expect("the research-lab tier cites the ASSURED protocol", /STAR Protocols/.test(labBody));
+expect("the research-lab tier cites CRISPR-MiX", /Molecular Therapy Nucleic Acids|Mol Ther Nucleic Acids/.test(labBody));
+expect("the research-lab tier offers all three sections", /Run the plate/.test(labBody) && /Design the comparison/.test(labBody) && /Evidence the specificity/.test(labBody));
+
+// The patient-journey and off-target material survived the move from six tiers to three.
+const studentBody = unescape(text(renderToString(React.createElement(R("components/tiers/TierStudents.js").TierStudents))));
+expect("the student tier keeps the plain-language journey", /From a blood draw to a disease model/.test(studentBody));
+expect("the student tier keeps the glossary", /Glossary/.test(studentBody) && /Pluripotent/.test(studentBody));
+expect("the student tier keeps the somatic vs germline material", /germline/i.test(studentBody));
+expect("the student tier keeps the design sandbox", /Choose an exon to target|Two edits, two different rules/.test(studentBody));
+const offTargetBody = sectionHtml("OffTargetMatrix");
+expect("the off-target matrix survived", /GUIDE-seq/.test(offTargetBody) && /CIRCLE-seq/.test(offTargetBody));
+expect("the GMP and CMC material was dropped", !/Research protocol to GMP process/.test(offTargetBody));
 
 // --- routing ----------------------------------------------------------------
 // The App is rendered at each route. Before this expansion, every module below was built and
@@ -141,7 +152,8 @@ for (const route of ROUTES) {
   globalThis.window = { location: { hash: `#${route}` }, addEventListener: noop, removeEventListener: noop };
   globalThis.document = { getElementById: () => null };
   const html = render(`App at ${route}`, React.createElement(AppComponent));
-  if (route === "/tier/bench") expect("the bench route reaches the wet-lab simulator", /Run the plate/.test(html));
+  if (route === "/tier/lab") expect("the research-lab route reaches the wet-lab simulator", /Run the plate/.test(html));
+  if (route === "/tier/student") expect("the student route reaches both halves", /What is being made, and why/.test(text(html)) && /Choosing where to cut/.test(text(html)));
   if (route === "/workbench") expect("the workbench route reaches the pipeline", html.length > 2000);
   if (route === "/nonsense/route") expect("an unknown route still renders the home view", /Start where you are/.test(text(html)));
 }
@@ -149,5 +161,5 @@ delete globalThis.window;
 delete globalThis.document;
 
 fs.rmSync(OUT, { recursive: true, force: true });
-console.log(`rendered ${rendered} components (${projects.length} projects x 5 stages, ${lessons} lessons, ${tiers} tiers, ${ROUTES.length} routes, 8 tabs); ${problems.length} problem(s)`);
+console.log(`rendered ${rendered} components (${projects.length} projects x 5 stages, ${lessons} lessons, ${tiers} tiers, ${SECTIONS.length} sections, ${ROUTES.length} routes, 8 tabs); ${problems.length} problem(s)`);
 if (problems.length) { for (const p of problems) console.error("  " + p); process.exit(1); }

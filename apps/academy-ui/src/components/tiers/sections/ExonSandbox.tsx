@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { ASSURED, MAX_GUIDE_CUT_DISTANCE, LAB_CONVENTIONS } from '@assured/protocol';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList, TeachingModelNotice } from '../common/ProvenanceBadge';
-import { benchHandoffUrl } from '../../services/benchBridge';
+import { TeachingModelNotice } from '../../common/ProvenanceBadge';
+import { benchHandoffUrl } from '../../../services/benchBridge';
 
 /**
- * Tier 2 - students. Exon and isoform mapping, and the two placement rules.
+ * Exon and isoform mapping, and the two placement rules. The student tier's design sandbox.
  *
  * IMPORTANT, and stated on the page: the exon map is a SCHEMATIC. This repository ships sequences
  * only when a reference record backs them (see docs/FINDINGS.md: the previous Academy shipped
@@ -100,7 +99,7 @@ function assessKnockin(cutDistance: number, guides: number, blocksAllGuides: boo
   return issues;
 }
 
-export const Tier2ExonSandbox: React.FC = () => {
+export const ExonSandbox: React.FC = () => {
   const [mode, setMode] = useState<Mode>('knockout');
   const [selectedExon, setSelectedExon] = useState<number | null>(null);
   const [cutDistance, setCutDistance] = useState(4);
@@ -120,7 +119,6 @@ export const Tier2ExonSandbox: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      <PersonaHeader personaId="student" />
 
       <TeachingModelNotice>
         The exon map below is a <strong>schematic</strong>: the boxes show which exons are shared across isoforms and
@@ -342,7 +340,6 @@ export const Tier2ExonSandbox: React.FC = () => {
         </div>
       </section>
 
-      <SourceList sourceIds={['ASSURED_2023']} />
     </div>
   );
 };

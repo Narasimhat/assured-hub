@@ -10,12 +10,11 @@ import {
   type RunResult,
   type Severity,
 } from '@assured/protocol';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList, TeachingModelNotice, StatedValue } from '../common/ProvenanceBadge';
-import { benchHandoffUrl } from '../../services/benchBridge';
+import { TeachingModelNotice, StatedValue } from '../../common/ProvenanceBadge';
+import { benchHandoffUrl } from '../../../services/benchBridge';
 
 /**
- * Tier 3 - bench users. A nine-step state machine over the ASSURED and CRISPR-MiX bench workflow.
+ * A nine-step state machine over the ASSURED and CRISPR-MiX bench workflow, for the research-lab tier.
  *
  * Every choice the learner makes is either the protocol's or a named deviation. The outcome is
  * computed by @assured/protocol's scoreRun, which starts from the protocol's own pool scores and
@@ -59,7 +58,7 @@ const VERDICT_STYLE: Record<string, string> = {
   failed: 'border-rose-700 bg-rose-950/30',
 };
 
-export const Tier3WetLabSimulator: React.FC = () => {
+export const WetLabSimulator: React.FC = () => {
   const [protocolId, setProtocolId] = useState<ProtocolId>('assured');
   const [editKind, setEditKind] = useState<EditKind>('knockin');
   const [deviations, setDeviations] = useState<Record<string, boolean>>({});
@@ -102,7 +101,6 @@ export const Tier3WetLabSimulator: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      <PersonaHeader personaId="bench" />
 
       <TeachingModelNotice>
         The penalties this simulator applies are teaching defaults, chosen so the ranking of mistakes is right and the
@@ -390,7 +388,6 @@ export const Tier3WetLabSimulator: React.FC = () => {
         </a>
       </section>
 
-      <SourceList sourceIds={['ASSURED_2023', 'CRISPR_MIX_2026', 'PLATFORM_SPEC']} />
     </div>
   );
 };

@@ -1,14 +1,18 @@
 import React, { useMemo, useState } from 'react';
 import { ASSAYS, ASSAY_CLASSES, REGULATORY_RULES, SOURCES, recommendPanel, type Assay } from '@assured/protocol';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList, StatedValue } from '../common/ProvenanceBadge';
+import { StatedValue } from '../../common/ProvenanceBadge';
 
 /**
- * Tier 6 - CGT industry and CMC. The off-target assay decision matrix, plus the GMP transition notes.
+ * Which off-target assay answers which question. Shown in the research-lab tier, because choosing
+ * what off-target evidence to generate is the decision a PI makes and then has to defend.
  *
  * The recommendation logic lives in @assured/protocol so it is unit-tested: the panel it returns is
- * always orthogonal (one cell-based, one cell-free) and always verified for an IND, and it reports
- * its own gaps when it is not.
+ * always orthogonal (one cell-based, one cell-free), it adds quantitative verification when the work
+ * is heading for a clinical programme, and it reports its own gaps when it is not complete.
+ *
+ * The GMP, CMC and IND-filing material that accompanied this matrix in an earlier draft was dropped:
+ * no tier in this Academy is an industry audience. What stays is the assay comparison and the
+ * expectations a reviewer will hold the evidence to, both of which a research lab needs.
  */
 
 type CellType = 'hipsc' | 'primary' | 'cell-line';
@@ -21,40 +25,8 @@ const CLASS_STYLE: Record<string, string> = {
   structural: 'border-amber-800 bg-amber-950/30 text-amber-200',
 };
 
-const GMP_TOPICS = [
-  {
-    id: 'xeno-free',
-    heading: 'Xeno-free and chemically defined substitution',
-    body:
-      'Basement-membrane extracts are animal-derived and lot-variable; recombinant laminin fragments are the usual clinical-grade substitute. Every substitution is a process change, and a line that was characterised on one matrix has not been characterised on the other. Make the swap early, re-characterise after it, and never on the batch you intend to file.',
-  },
-  {
-    id: 'rnp',
-    heading: 'RNP delivery is an advantage you should state',
-    body:
-      'Protein and synthetic RNA are cleared within days and leave nothing to integrate. There is no vector sequence to test for, no copy number to measure, and no insertional-mutagenesis argument to make. That is a shorter characterisation package than a plasmid or viral route, and it is worth saying so explicitly rather than leaving the reviewer to notice.',
-  },
-  {
-    id: 'somatic-memory',
-    heading: 'Donor somatic memory and starting-material choice',
-    body:
-      'Reprogrammed lines retain epigenetic traces of the tissue they came from, strongest at early passage. Cord blood, adult fibroblast and T-cell-derived lines are not interchangeable starting materials: T-cell-derived lines additionally carry rearranged TCR loci, which is either a feature or a confound depending on the product. Fix the source early; changing it late invalidates the comparability package.',
-  },
-  {
-    id: 'potency',
-    heading: 'Lot release and potency',
-    body:
-      'A release assay has to measure what the product is supposed to do, in a validated, quantitative way, with a specification set before the lot is tested. Marker expression is identity, not potency. Decide which functional readout carries the potency claim early, because validating it takes longer than developing it.',
-  },
-  {
-    id: 'comparability',
-    heading: 'Comparability across the scale-up',
-    body:
-      'Every move — flask to bioreactor, manual to automated, one matrix to another — needs a comparability exercise against the pre-change material. Build the bridging panel before you change anything, so the pre-change arm exists.',
-  },
-];
 
-export const Tier6OffTargetMatrix: React.FC = () => {
+export const OffTargetMatrix: React.FC = () => {
   const [cellType, setCellType] = useState<CellType>('hipsc');
   const [dnaAvailability, setDnaAvailability] = useState<DnaAvailability>('abundant');
   const [multiplexed, setMultiplexed] = useState(false);
@@ -68,16 +40,15 @@ export const Tier6OffTargetMatrix: React.FC = () => {
 
   return (
     <div className="space-y-14">
-      <PersonaHeader personaId="cgt" />
 
       <section aria-labelledby="selector-heading">
         <h2 id="selector-heading" className="text-2xl font-semibold text-white">
           Build the panel
         </h2>
         <p className="mt-3 max-w-3xl leading-relaxed text-slate-300">
-          Describe the programme and the matrix proposes a panel, with the reason for each assay and the gaps it leaves.
-          The rule it will not break: nomination by two orthogonal methods, then quantification at every nominated site
-          in the actual product.
+          Describe the experiment and the matrix proposes a panel, with the reason for each assay and the gaps it
+          leaves. The rule it will not break: nominate with two orthogonal methods, one cell-based and one cell-free,
+          then quantify at every nominated site in the cells you will actually use.
         </p>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[340px_1fr]">
@@ -123,7 +94,7 @@ export const Tier6OffTargetMatrix: React.FC = () => {
             </label>
             <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-300">
               <input type="checkbox" checked={indEnabling} onChange={(event) => setIndEnabling(event.target.checked)} className="mt-1 accent-rose-500" />
-              IND-enabling (destined for a regulatory filing)
+              Heading for a clinical programme, not only a paper
             </label>
           </form>
 
@@ -236,27 +207,13 @@ export const Tier6OffTargetMatrix: React.FC = () => {
         </ul>
       </section>
 
-      <section aria-labelledby="gmp-heading">
-        <h2 id="gmp-heading" className="text-2xl font-semibold text-white">
-          Research protocol to GMP process
-        </h2>
-        <div className="mt-6 grid gap-5 md:grid-cols-2">
-          {GMP_TOPICS.map((topic) => (
-            <article key={topic.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-              <h3 className="text-base font-semibold text-white">{topic.heading}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-400">{topic.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
 
       <p className="rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-relaxed text-slate-400">
-        This module teaches how the assays differ and what a package needs to contain. It is not regulatory advice, it
-        is not a substitute for reading the current guidance, and the guidance moves. Confirm the current expectations
-        with your regulatory function before they shape a filing.
+        This section teaches how the assays differ and what evidence each one can support. It is not regulatory advice
+        and the guidance moves. If the work is heading for a clinical programme, confirm the current expectations with
+        a regulatory function before they shape anything.
       </p>
 
-      <SourceList sourceIds={['FDA_2024_GENOME_EDITING', 'ICH_Q2R2', 'PLATFORM_SPEC']} />
     </div>
   );
 };

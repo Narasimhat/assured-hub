@@ -262,25 +262,40 @@ test("multiplexed editing adds a structural assay; research-only skips verificat
   assert.deepEqual(research.gaps, []);
 });
 
-test("six personas, unique ids, unique routes, each with an objective", () => {
-  assert.equal(PERSONAS.length, 6);
-  assert.deepEqual(PERSONAS.map((p) => p.tier), [1, 2, 3, 4, 5, 6]);
-  assert.equal(new Set(PERSONA_IDS).size, 6);
-  assert.equal(new Set(PERSONAS.map((p) => p.route)).size, 6);
+test("three personas, unique ids, unique routes, each with an objective", () => {
+  assert.equal(PERSONAS.length, 3);
+  assert.deepEqual(PERSONAS.map((p) => p.id), ["student", "lab", "core"]);
+  assert.deepEqual(PERSONAS.map((p) => p.tier), [1, 2, 3]);
+  assert.equal(new Set(PERSONA_IDS).size, 3);
+  assert.equal(new Set(PERSONAS.map((p) => p.route)).size, 3);
+  assert.equal(new Set(PERSONAS.map((p) => p.depth)).size, 3, "tiers must be orderable by depth");
   for (const p of PERSONAS) {
     assert.ok(p.objective.length > 30, `${p.id} objective is too thin`);
     assert.ok(p.teaches.length >= 4, `${p.id} lists too few topics`);
     assert.match(p.route, /^\/tier\//);
   }
-  assert.equal(getPersona("bench").tier, 3);
+  assert.equal(getPersona("lab").tier, 2);
   assert.equal(getPersona("nobody"), null);
 });
 
+test("the material from the retired tiers is still taught somewhere", () => {
+  // The six-tier draft had a patient/public tier and a CGT industry tier. Both were folded in, not
+  // deleted: this fails if a later edit quietly drops the plain-language entry point or the
+  // off-target assay material along with the tiers they used to live in.
+  const everything = PERSONAS.flatMap((p) => [p.objective, p.module, ...p.teaches]).join(" ").toLowerCase();
+  assert.match(everything, /blood draw|stem cell model/, "the plain-language entry point is gone");
+  assert.match(everything, /germline/, "the somatic vs germline ethics material is gone");
+  assert.match(everything, /off-target/, "the off-target assay material is gone");
+});
+
 test("explainFor falls back to the nearest depth that has a variant", () => {
-  const variants = { public: "plain words", scientist: "variance components" };
-  assert.equal(explainFor(variants, "public"), "plain words");
-  assert.equal(explainFor(variants, "scientist"), "variance components");
-  assert.equal(explainFor(variants, "student"), "plain words", "student is nearer to public than to scientist");
-  assert.equal(explainFor(variants, "cgt"), "variance components", "cgt is nearer to scientist");
-  assert.equal(explainFor({}, "bench"), "");
+  const variants = { student: "plain words", core: "throughput and release" };
+  assert.equal(explainFor(variants, "student"), "plain words");
+  assert.equal(explainFor(variants, "core"), "throughput and release");
+  // "lab" sits between the two and has no variant; the tie is broken by persona order, so it takes
+  // the student wording rather than rendering nothing.
+  assert.equal(explainFor(variants, "lab"), "plain words");
+  assert.equal(explainFor({ core: "only this" }, "student"), "only this");
+  assert.equal(explainFor({}, "lab"), "");
+  assert.equal(explainFor({ student: "fallback" }, "nobody"), "fallback");
 });

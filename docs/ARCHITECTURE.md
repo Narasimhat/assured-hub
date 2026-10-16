@@ -69,10 +69,10 @@ apps/academy-ui/public/sample_data/**               real .ab1 files, designs, re
 
 `npm run build:ui-data` regenerates; the `ui-data` test fails if anything on disk has drifted. Clone calls in the UI come from Assured QC output and are shown next to the lab's own call; the CSV import path labels its colour rule as the app's rule. The free-form design tool is a labelled teaching sketch, not the Design engine. The Virtual Lab is a decision game with no invented numbers. Deploy it as its own Vercel project with Root Directory `apps/academy-ui`.
 
-## The six-tier Academy
+## The three-tier Academy
 
 `apps/academy-ui` routes by hash (`src/router.ts`; no routing dependency) because the same build is
-served standalone and under `/academy/` in the hub. Six tier pages under `#/tier/<persona>`, and five
+served standalone and under `/academy/` in the hub. Three tier pages under `#/tier/<persona>` (students, research labs, core facilities), and five
 modules that existed before but had no route (`#/workbench`, `#/simulator`, `#/missions`, `#/tools`,
 `#/frugal`). An Academy lesson can open Bench on a prepared experiment through a URL-fragment
 hand-off that Bench validates with its own `parseProject`. See `docs/ACADEMY_TIERS.md`, and

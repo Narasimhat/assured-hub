@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList } from '../common/ProvenanceBadge';
+
 
 /**
- * Tier 1 - laypersons and patient advocates.
+ * The plain-language entry point: what a stem cell model is, before any sequence appears.
  *
- * No numbers, no reagent names a reader cannot look up, and nothing that implies a treatment.
- * The job here is for someone to finish able to ask a researcher a good question.
+ * Written for a school pupil and useful to anyone meeting the field for the first time, including a
+ * patient or family member. No numbers, no reagent names a reader cannot look up, and nothing that
+ * implies a treatment. The job is for a reader to finish able to ask a researcher a good question.
  */
 
 interface Step {
@@ -115,17 +115,15 @@ const ETHICS = [
   },
 ];
 
-export const Tier1PatientJourney: React.FC = () => {
+export const PatientJourney: React.FC = () => {
   const [openStep, setOpenStep] = useState<string | null>(JOURNEY[0].id);
 
   return (
     <div className="space-y-12">
-      <PersonaHeader personaId="public">
-        <p className="mt-6 max-w-3xl rounded-xl border border-sky-900 bg-sky-950/30 p-4 text-sm leading-relaxed text-sky-100">
-          Every technical word on this page is explained where it is first used and again in the glossary at the bottom.
-          If something here is unclear, that is a problem with the page, not with you.
-        </p>
-      </PersonaHeader>
+      <p className="max-w-3xl rounded-xl border border-sky-900 bg-sky-950/30 p-4 text-sm leading-relaxed text-sky-100">
+        Every technical word on this page is explained where it is first used and again in the glossary at the bottom.
+        If something here is unclear, that is a problem with the page, not with you.
+      </p>
 
       <section aria-labelledby="journey-heading">
         <h2 id="journey-heading" className="text-2xl font-semibold text-white">
@@ -208,7 +206,6 @@ export const Tier1PatientJourney: React.FC = () => {
         </dl>
       </section>
 
-      <SourceList sourceIds={['ASSURED_2023', 'ISSCR_STANDARDS']} heading="Where this comes from" />
     </div>
   );
 };

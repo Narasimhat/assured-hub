@@ -4,12 +4,9 @@ import { PERSONAS, getPersona } from '@assured/protocol';
 
 import { CurriculumSection } from './components/academy/CurriculumSection';
 import { PersonaBar, PersonaCards } from './components/academy/PersonaSwitcher';
-import { Tier1PatientJourney } from './components/tiers/Tier1PatientJourney';
-import { Tier2ExonSandbox } from './components/tiers/Tier2ExonSandbox';
-import { Tier3WetLabSimulator } from './components/tiers/Tier3WetLabSimulator';
-import { Tier4PowerExplorer } from './components/tiers/Tier4PowerExplorer';
-import { Tier5CoreFacility } from './components/tiers/Tier5CoreFacility';
-import { Tier6OffTargetMatrix } from './components/tiers/Tier6OffTargetMatrix';
+import { TierStudents } from './components/tiers/TierStudents';
+import { TierResearchLab } from './components/tiers/TierResearchLab';
+import { TierCoreFacility } from './components/tiers/TierCoreFacility';
 import { UnifiedPipeline } from './components/pipeline/UnifiedPipeline';
 import { VirtualLab } from './components/simulator/VirtualLab';
 import { RareDiseaseHub } from './components/missions/RareDiseaseHub';
@@ -63,12 +60,9 @@ const MODULES: Record<string, { title: string; blurb: string; render: () => Reac
 };
 
 const TIER_PAGES: Record<string, () => React.ReactElement> = {
-  public: () => <Tier1PatientJourney />,
-  student: () => <Tier2ExonSandbox />,
-  bench: () => <Tier3WetLabSimulator />,
-  scientist: () => <Tier4PowerExplorer />,
-  core: () => <Tier5CoreFacility />,
-  cgt: () => <Tier6OffTargetMatrix />,
+  student: () => <TierStudents />,
+  lab: () => <TierResearchLab />,
+  core: () => <TierCoreFacility />,
 };
 
 export const App: React.FC = () => {
@@ -202,8 +196,8 @@ const Home: React.FC<{ activePersona: string | null; onChoose: (id: string) => v
         Start where you are
       </h2>
       <p className="mt-3 max-w-3xl text-slate-400">
-        Six tiers. Each one has its own module and its own depth of explanation, and you can move between them at any
-        time &mdash; nothing is hidden from anyone.
+        Three tiers. Each one has its own module and its own depth of explanation, and you can move between them at
+        any time &mdash; nothing is hidden from anyone.
       </p>
       <PersonaCards activeId={activePersona} onChoose={onChoose} />
     </section>

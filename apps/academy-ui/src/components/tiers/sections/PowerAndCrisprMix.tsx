@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { ICC_REFERENCE, compareDesigns, effectiveNCurve, CRISPR_MIX, type CrisprMixLocus } from '@assured/protocol';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList, StatedValue, TeachingModelNotice } from '../common/ProvenanceBadge';
+import { StatedValue, TeachingModelNotice } from '../../common/ProvenanceBadge';
 
 /**
- * Tier 4 - principal scientists.
+ * Experimental power and CRISPR-MiX, for the research-lab tier.
  *
  * Two halves: the design-effect explorer that makes the isogenic argument quantitative, and the
  * CRISPR-MiX guide including where pooling stops helping.
@@ -14,7 +13,7 @@ import { SourceList, StatedValue, TeachingModelNotice } from '../common/Provenan
  * need a specific value. The page says so.
  */
 
-export const Tier4PowerExplorer: React.FC = () => {
+export const PowerAndCrisprMix: React.FC = () => {
   const [icc, setIcc] = useState(ICC_REFERENCE.medianIcc.value);
   const [totalSamples, setTotalSamples] = useState(6);
   const [linesPerDonor, setLinesPerDonor] = useState(3);
@@ -26,7 +25,6 @@ export const Tier4PowerExplorer: React.FC = () => {
 
   return (
     <div className="space-y-14">
-      <PersonaHeader personaId="scientist" />
 
       <section aria-labelledby="power-heading">
         <h2 id="power-heading" className="text-2xl font-semibold text-white">
@@ -320,7 +318,6 @@ export const Tier4PowerExplorer: React.FC = () => {
         variance estimate from your own pilot data.
       </TeachingModelNotice>
 
-      <SourceList sourceIds={['CRISPR_MIX_2026', 'ASSURED_2023', 'PLATFORM_SPEC', 'NOT_SOURCED']} />
     </div>
   );
 };

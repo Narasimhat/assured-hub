@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { ISOCELL, projectCloneYield, planSeedbank } from '@assured/protocol';
-import { PersonaHeader } from '../academy/PersonaSwitcher';
-import { SourceList, StatedValue, TeachingModelNotice } from '../common/ProvenanceBadge';
+import { StatedValue, TeachingModelNotice } from '../../common/ProvenanceBadge';
 
 /**
- * Tier 5 - core facilities. Yield planning and the ISSCR five tenets as a working checklist.
+ * Yield planning and the ISSCR five tenets as a working checklist, for the core-facility tier.
  *
  * The checklist state is kept in localStorage so a facility can work through it across visits,
  * and the page says plainly that a tick here is a note to self, not a release record.
@@ -101,7 +100,7 @@ function readChecked(): Record<string, boolean> {
   }
 }
 
-export const Tier5CoreFacility: React.FC = () => {
+export const CoreOperations: React.FC = () => {
   const [poolScorePercent, setPoolScorePercent] = useState(40);
   const [survivalPercent, setSurvivalPercent] = useState(Math.round(ISOCELL.survivalRate.value * 100));
   const [clonesNeeded, setClonesNeeded] = useState(5);
@@ -132,7 +131,6 @@ export const Tier5CoreFacility: React.FC = () => {
 
   return (
     <div className="space-y-14">
-      <PersonaHeader personaId="core" />
 
       <section aria-labelledby="yield-heading">
         <h2 id="yield-heading" className="text-2xl font-semibold text-white">
@@ -250,7 +248,6 @@ export const Tier5CoreFacility: React.FC = () => {
         are planning approximations, not biology. They are useful for sizing a job and wrong for predicting one.
       </TeachingModelNotice>
 
-      <SourceList sourceIds={['ISSCR_STANDARDS', 'ASSURED_2023', 'PLATFORM_SPEC']} />
     </div>
   );
 };
