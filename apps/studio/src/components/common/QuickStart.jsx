@@ -40,8 +40,8 @@ export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
         </section>
         <section aria-labelledby="experiment-heading">
           <h3 id="experiment-heading">Use your own experiment</h3>
-          <p>Follow the four steps above. Use your experiment's design and matching parental control for trace analysis. Bench supplies its design automatically. From another session or the standalone tools (<a href="../design/" target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8", textDecoration: "underline" }}>Assured Design ↗</a> and <a href="../qc/" target="_blank" rel="noopener noreferrer" style={{ color: "#10b981", textDecoration: "underline" }}>Assured QC ↗</a>), export the HTML design report or Design JSON and add it with your traces in Trace Analysis. Start a new experiment before switching between sample data and your own traces.</p>
-          <p><strong>Save</strong> stores your project on this device. <strong>Export</strong> downloads a portable backup. Save or export before starting a new experiment.</p>
+          <p>Work through the steps in order. When your edit is designed, click <strong>Save</strong> (or <strong>Export</strong> for a portable lab backup) to preserve your experiment during the 2–3 week wet-lab cycle.</p>
+          <p>When your sequencing traces arrive, open <strong>Projects</strong>, select your experiment, and Bench will automatically carry your design into <strong>Trace Analysis</strong>—simply upload your <code>.ab1</code> clone traces and matching parental control. You can repeat analysis across multiple clone batches or plates anytime.</p>
         </section>
       </div>
     </details>
