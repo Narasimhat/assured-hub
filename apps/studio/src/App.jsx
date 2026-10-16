@@ -8,6 +8,7 @@ import { DecisionView } from "./components/qc/DecisionView.jsx";
 import { saveProject, listProjects, deleteProject, exportProjectBundle } from "./services/storage.js";
 import { ProtocolModal } from "./components/common/ProtocolModal.jsx";
 import { createProject, updateProject, parseProject } from "./services/projectState.js";
+import { readHandoff, clearHandoff } from "./services/academyHandoff.js";
 import { X, Trash2, FolderOpen } from "lucide-react";
 
 export function App() {
@@ -22,6 +23,21 @@ export function App() {
 
   useEffect(() => {
     loadProjects();
+  }, []);
+
+  // An ASSURED Academy lesson can open Bench with a prepared experiment (#handoff=...).
+  // The payload goes through the same parseProject the Import button uses; nothing else is trusted.
+  useEffect(() => {
+    const handoff = readHandoff(window.location.hash);
+    if (!handoff) return;
+    clearHandoff(window.location, window.history);
+    if (handoff.error) {
+      showToast(handoff.error);
+      return;
+    }
+    setCurrentProject(handoff.project);
+    setActiveStep("design");
+    showToast("Loaded the experiment from ASSURED Academy. Review the inputs, then click Generate design.");
   }, []);
 
   const showToast = (msg) => {

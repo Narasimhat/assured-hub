@@ -2,10 +2,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CURRICULUM_TRACKS } from '../../data/curriculum';
 import { LessonViewer } from './LessonViewer';
 
-const lessons = CURRICULUM_TRACKS.flatMap(track => track.lessons);
-const lessonIds = new Set(lessons.map(lesson => lesson.id));
+const lessonIds = new Set(CURRICULUM_TRACKS.flatMap(track => track.lessons).map(lesson => lesson.id));
 
-export const CurriculumSection: React.FC = () => {
+interface CurriculumSectionProps {
+  /** Show only these tracks, in this order. Omit for the whole curriculum. */
+  trackIds?: string[];
+  /** Replaces the default heading text when a tier shows a subset. */
+  heading?: string;
+  intro?: string;
+}
+
+export const CurriculumSection: React.FC<CurriculumSectionProps> = ({ trackIds, heading, intro }) => {
+  const tracks = trackIds
+    ? trackIds.map(id => CURRICULUM_TRACKS.find(track => track.id === id)).filter((track): track is typeof CURRICULUM_TRACKS[number] => Boolean(track))
+    : CURRICULUM_TRACKS;
+  const lessons = tracks.flatMap(track => track.lessons);
   const lessonPanel = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => {
@@ -20,18 +31,18 @@ export const CurriculumSection: React.FC = () => {
     catch { setStorageNotice('Progress is available for this visit, but cannot be saved on this device.'); }
   }, [completed]);
   useEffect(() => { if (activeId) lessonPanel.current?.focus(); }, [activeId]);
-  const activeTrack = CURRICULUM_TRACKS.find(track => track.lessons.some(lesson => lesson.id === activeId));
+  const activeTrack = tracks.find(track => track.lessons.some(lesson => lesson.id === activeId));
   const activeLesson = activeTrack?.lessons.find(lesson => lesson.id === activeId);
   const nextLesson = activeLesson ? lessons[lessons.findIndex(lesson => lesson.id === activeLesson.id) + 1] : undefined;
 
   return (
     <section id="curriculum" aria-labelledby="curriculum-heading" className="mt-12 scroll-mt-6">
-      <h2 id="curriculum-heading" className="text-3xl font-semibold">Curriculum</h2>
-      <p className="mt-3 text-slate-400">Four learning tracks, from stem-cell foundations to interpreting sequencing results. Choose a lesson, read the material, and check your understanding with its quiz.</p>
+      <h2 id="curriculum-heading" className="text-3xl font-semibold">{heading ?? 'Curriculum'}</h2>
+      <p className="mt-3 text-slate-400">{intro ?? 'Four learning tracks, from stem-cell foundations to interpreting sequencing results. Choose a lesson, read the material, and check your understanding with its quiz.'}</p>
       <p className="mt-3 text-sm text-emerald-300" role="status">{completed.length} of {lessons.length} lesson quizzes completed · {storageNotice ? "Progress for this visit" : "Progress saved on this device"}</p>
       {storageNotice && <p role="status" className="mt-2 text-sm text-amber-300">{storageNotice}</p>}
       <div className="mt-6 grid lg:grid-cols-2 gap-6">
-        {CURRICULUM_TRACKS.map(track => (
+        {tracks.map(track => (
           <article key={track.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
             <p className="text-xs uppercase tracking-widest text-emerald-300">Track {track.trackNumber}</p>
             <h3 className="mt-2 text-xl font-semibold">{track.title}</h3>

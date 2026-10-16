@@ -80,6 +80,74 @@ const curriculum = R("data/curriculum.js"); const tracks = curriculum.CURRICULUM
 const LV = R("components/academy/LessonViewer.js").LessonViewer; let lessons = 0;
 for (const tr of tracks) for (const l of tr.lessons) { lessons += 1; c(`lesson ${l.id}`, React.createElement(LV, { lesson: l, trackColor: "from-cyan-500 to-blue-600", isCompleted: false, onPassQuiz: noop })); }
 
+
+// --- the six persona tiers --------------------------------------------------
+// Each tier page is rendered on its own, then the whole App is rendered at that tier's hash route,
+// which is what proves the route actually reaches the page rather than falling through to the home view.
+const { PERSONAS } = require("@assured/protocol");
+// React escapes &, ' and " in text nodes; compare against decoded text so a module name with an
+// ampersand in it is not reported as missing.
+const unescape = (t) => t.replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+const TIER_PAGES = {
+  public: ["tiers/Tier1PatientJourney", "Tier1PatientJourney"],
+  student: ["tiers/Tier2ExonSandbox", "Tier2ExonSandbox"],
+  bench: ["tiers/Tier3WetLabSimulator", "Tier3WetLabSimulator"],
+  scientist: ["tiers/Tier4PowerExplorer", "Tier4PowerExplorer"],
+  core: ["tiers/Tier5CoreFacility", "Tier5CoreFacility"],
+  cgt: ["tiers/Tier6OffTargetMatrix", "Tier6OffTargetMatrix"],
+};
+expect("every persona in @assured/protocol has a page", PERSONAS.every((p) => TIER_PAGES[p.id]));
+expect("every tier page belongs to a persona", Object.keys(TIER_PAGES).every((id) => PERSONAS.some((p) => p.id === id)));
+
+let tiers = 0;
+for (const persona of PERSONAS) {
+  const [file, exportName] = TIER_PAGES[persona.id];
+  const Page = R(`components/${file}.js`)[exportName];
+  const html = render(`tier ${persona.id}`, React.createElement(Page));
+  tiers += 1;
+  const body = unescape(text(html));
+  // Every tier must name itself and state what it is for, or the persona switcher is lying.
+  expect(`tier ${persona.id} names its module`, body.includes(persona.module));
+  expect(`tier ${persona.id} states its objective`, body.includes(persona.objective.slice(0, 40)));
+}
+
+// Anything a simulator computes must be visibly labelled as a teaching model, and anything
+// published must carry its citation. docs/FINDINGS.md is the reason these are enforced.
+const simulatorTiers = ["bench", "scientist", "core"];
+for (const id of simulatorTiers) {
+  const [file, exportName] = TIER_PAGES[id];
+  const body = text(renderToString(React.createElement(R(`components/${file}.js`)[exportName])));
+  expect(`tier ${id} labels its model as a teaching model`, /Teaching model/.test(body));
+}
+const benchBody = text(renderToString(React.createElement(R("components/tiers/Tier3WetLabSimulator.js").Tier3WetLabSimulator)));
+expect("the wet-lab simulator cites the ASSURED protocol", /STAR Protocols/.test(benchBody));
+expect("the wet-lab simulator cites CRISPR-MiX", /Molecular Therapy Nucleic Acids|Mol Ther Nucleic Acids/.test(benchBody));
+expect("the wet-lab simulator keeps the two pulse widths apart", /30 ms/.test(benchBody) && /20 ms/.test(benchBody));
+const scientistBody = text(renderToString(React.createElement(R("components/tiers/Tier4PowerExplorer.js").Tier4PowerExplorer)));
+expect("the power explorer admits the ICC source was not located", /No publication was found/.test(scientistBody));
+
+// --- routing ----------------------------------------------------------------
+// The App is rendered at each route. Before this expansion, every module below was built and
+// smoke-rendered but unreachable; these expectations are what stop that happening again.
+const { normalise, personaIdFromRoute } = R("router.js");
+expect("router normalises an empty hash to home", normalise("") === "/" && normalise("#") === "/" && normalise("#/") === "/");
+expect("router normalises a missing leading slash", normalise("#tier/bench") === "/tier/bench");
+expect("router strips a trailing slash", normalise("#/tier/bench/") === "/tier/bench");
+expect("router reads the persona out of a tier route", personaIdFromRoute("/tier/bench") === "bench" && personaIdFromRoute("/workbench") === null);
+
+const AppComponent = App.default || App.App;
+const ROUTES = ["/", ...PERSONAS.map((p) => p.route), "/workbench", "/simulator", "/missions", "/tools", "/frugal", "/nonsense/route"];
+for (const route of ROUTES) {
+  globalThis.window = { location: { hash: `#${route}` }, addEventListener: noop, removeEventListener: noop };
+  globalThis.document = { getElementById: () => null };
+  const html = render(`App at ${route}`, React.createElement(AppComponent));
+  if (route === "/tier/bench") expect("the bench route reaches the wet-lab simulator", /Run the plate/.test(html));
+  if (route === "/workbench") expect("the workbench route reaches the pipeline", html.length > 2000);
+  if (route === "/nonsense/route") expect("an unknown route still renders the home view", /Start where you are/.test(text(html)));
+}
+delete globalThis.window;
+delete globalThis.document;
+
 fs.rmSync(OUT, { recursive: true, force: true });
-console.log(`rendered ${rendered} components (${projects.length} projects x 5 stages, ${lessons} lessons, 8 tabs); ${problems.length} problem(s)`);
+console.log(`rendered ${rendered} components (${projects.length} projects x 5 stages, ${lessons} lessons, ${tiers} tiers, ${ROUTES.length} routes, 8 tabs); ${problems.length} problem(s)`);
 if (problems.length) { for (const p of problems) console.error("  " + p); process.exit(1); }

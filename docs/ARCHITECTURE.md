@@ -38,6 +38,7 @@ Rules enforced by `validateAcademyProject`: pseudonymous student ids only (no na
 |---|---|---|
 | `@assured/spec` | `QC_SPEC_SCHEMA`, `EDIT_KINDS`, `validateDesignSpec`, `reverseSpec` (moved verbatim from Assured_QC `src/designSpec.js`) | Design (`qcExport.js`), QC (`designSpec.js` is now a re-export), Academy |
 | `@assured/rules` | engine limits (`MAX_GUIDE_CUT_DISTANCE`=15, `MIN_PAIR_CUT_SEPARATION`=10, `MAX_BLOCKING_CHANGES`=3), donor tiers (`DONOR_FORMATS`, ssODN below 120 bp, cloned/AAV above 500 bp, `recommendDonorFormat`), and `LAB_CONVENTIONS` | Design (`designEngine.js`, `pairBlocking.js`, `donorFormat.js`), grader |
+| `@assured/protocol` | ASSURED and CRISPR-MiX as two named protocol variants, culture conventions, IsoCell yields, the Tier 3 scoring model, the donor-ICC design-effect model, the off-target assay matrix, and the six learner tiers. Every value carries a provenance level and a source id | Academy UI. Plain ESM with a `.d.ts`, so Bench can read it too |
 
 `LAB_CONVENTIONS` (two guides always; donors carry blocking changes for all guides; ssODN for SNPs and HA/V5, block with 250 bp arms, AAV with 500 bp arms) is **stated by the lab, not derived from the engine**, and every grader check says whether its source is `engine`, `convention`, `contract` or `key`. `test/rules.test.js` fails if the lab's arm lengths drift from the engine's defaults.
 
@@ -68,6 +69,15 @@ apps/academy-ui/public/sample_data/**               real .ab1 files, designs, re
 
 `npm run build:ui-data` regenerates; the `ui-data` test fails if anything on disk has drifted. Clone calls in the UI come from Assured QC output and are shown next to the lab's own call; the CSV import path labels its colour rule as the app's rule. The free-form design tool is a labelled teaching sketch, not the Design engine. The Virtual Lab is a decision game with no invented numbers. Deploy it as its own Vercel project with Root Directory `apps/academy-ui`.
 
+## The six-tier Academy
+
+`apps/academy-ui` routes by hash (`src/router.ts`; no routing dependency) because the same build is
+served standalone and under `/academy/` in the hub. Six tier pages under `#/tier/<persona>`, and five
+modules that existed before but had no route (`#/workbench`, `#/simulator`, `#/missions`, `#/tools`,
+`#/frugal`). An Academy lesson can open Bench on a prepared experiment through a URL-fragment
+hand-off that Bench validates with its own `parseProject`. See `docs/ACADEMY_TIERS.md`, and
+`docs/AUDIT_2026-10-16.md` for the state this replaced.
+
 ## Not built
 
-Cohort codes and authentication, PDF bench checklist, troubleshooting tree, SorCS1 missions from the paper (needs the reference sequence), a ClinVar-driven case selector, wiring the calibrated `academy-core` simulator into the UI (the Virtual Lab outcomes are still illustrative), and any Vercel deployment of the Academy app.
+Cohort codes and authentication, PDF bench checklist, troubleshooting tree, SorCS1 missions from the paper (needs the reference sequence), a ClinVar-driven case selector, wiring the calibrated `academy-core` simulator into the UI (the Virtual Lab outcomes and the Tier 3 penalties in `@assured/protocol` are still illustrative), cohort accounts and assessment that counts, and any Vercel deployment of the Academy app.
