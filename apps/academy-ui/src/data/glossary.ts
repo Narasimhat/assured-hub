@@ -1,0 +1,138 @@
+export interface GlossaryEntry {
+  id: string;
+  term: string;
+  aliases: string[];
+  category: 'CRISPR Mechanism' | 'Stem Cell Biology' | 'Donor & Design' | 'Sequencing & QC';
+  simpleAnalogy: string;
+  scientificDefinition: string;
+  whyItMatters: string;
+}
+
+export const IGI_GLOSSARY: GlossaryEntry[] = [
+  {
+    id: 'crispr',
+    term: 'CRISPR-Cas9',
+    aliases: ['CRISPR', 'Cas9', 'SpCas9', 'HiFi Cas9'],
+    category: 'CRISPR Mechanism',
+    simpleAnalogy: 'A programmable pair of molecular scissors guided by a 20-letter GPS address to cut DNA at one exact spot.',
+    scientificDefinition: 'An RNA-guided endonuclease system derived from Streptococcus pyogenes where Cas9 complexes with a guide RNA to cleave double-stranded DNA 3 bp upstream of an NGG PAM.',
+    whyItMatters: 'High-fidelity variants (Alt-R HiFi Cas9 V3) eliminate >99% of off-target cuts while preserving on-target activity in human stem cells.',
+  },
+  {
+    id: 'rnp',
+    term: 'RNP (Ribonucleoprotein)',
+    aliases: ['RNP', 'Ribonucleoprotein', 'RNP complex'],
+    category: 'CRISPR Mechanism',
+    simpleAnalogy: 'Pre-assembled protein scissors and guide RNA delivered directly into the cell so they work immediately and then vanish cleanly.',
+    scientificDefinition: 'A pre-complexed assembly of purified recombinant Cas9 protein and synthetic guide RNA (typically 3:1 sgRNA:Cas9 molar ratio) delivered via electroporation without DNA vectors.',
+    whyItMatters: 'Transient RNP delivery acts immediately and degrades within 24–48 hours, preventing plasmid integration and minimizing off-target cleavage and p53 toxicity.',
+  },
+  {
+    id: 'pam',
+    term: 'PAM (Protospacer Adjacent Motif)',
+    aliases: ['PAM', 'Protospacer Adjacent Motif', '5\'-NGG-3\''],
+    category: 'CRISPR Mechanism',
+    simpleAnalogy: 'A 3-letter "permission tag" (NGG) right next to the target DNA that Cas9 must check before it is allowed to unzip and cut.',
+    scientificDefinition: 'A short 3-nucleotide motif (5\'-NGG-3\' for SpCas9) on the non-target DNA strand immediately downstream of the 20-nt protospacer required for Cas9 binding and R-loop formation.',
+    whyItMatters: 'Without an intact PAM, Cas9 cannot cleave DNA—making silent mutations in the PAM the most effective way to prevent Cas9 from re-cutting a repaired allele.',
+  },
+  {
+    id: 'seed-region',
+    term: 'Seed Region',
+    aliases: ['seed region', 'seed sequence'],
+    category: 'CRISPR Mechanism',
+    simpleAnalogy: 'The 8 to 10 letters closest to the PAM that act like a security PIN—any mismatch here stops Cas9 from cutting.',
+    scientificDefinition: 'The 8–10 nucleotides of the guide RNA spacer immediately adjacent to the PAM where base-pairing initiates DNA strand invasion.',
+    whyItMatters: 'When the PAM itself cannot be silently mutated, introducing a synonymous change inside the last 5 nucleotides of the seed region blocks Cas9 re-cleavage.',
+  },
+  {
+    id: 'hdr',
+    term: 'HDR (Homology-Directed Repair)',
+    aliases: ['HDR', 'Homology-Directed Repair'],
+    category: 'Donor & Design',
+    simpleAnalogy: 'The cell’s "copy-and-paste" proofreading pathway that uses a DNA template to fix a cut with letter-by-letter precision.',
+    scientificDefinition: 'A template-dependent cellular DNA repair pathway active primarily in S and G2 phases that uses a homologous donor sequence to execute precise nucleotide substitutions or insertions.',
+    whyItMatters: 'HDR efficiency drops exponentially as distance between the Cas9 cut site and target edit increases, requiring cleavage within 1–10 bp of the mutation.',
+  },
+  {
+    id: 'nhej',
+    term: 'NHEJ (Non-Homologous End Joining)',
+    aliases: ['NHEJ', 'indel', 'indels'],
+    category: 'CRISPR Mechanism',
+    simpleAnalogy: 'The cell’s rapid emergency repair crew that glues broken DNA ends back together, often adding or deleting a few letters.',
+    scientificDefinition: 'A template-independent DNA repair pathway active throughout the cell cycle that ligates double-strand break ends, frequently introducing small insertions or deletions (indels).',
+    whyItMatters: 'Frameshift indels in an early constitutive exon disrupt the reading frame and trigger nonsense-mediated decay to produce a gene knockout (KO).',
+  },
+  {
+    id: 'ssodn',
+    term: 'Asymmetric ssODN',
+    aliases: ['ssODN', 'ssODNs', 'asymmetric ssODN'],
+    category: 'Donor & Design',
+    simpleAnalogy: 'A single-stranded DNA "replacement patch" lopsided around the cut site so it grabs the first loose DNA strand released by Cas9.',
+    scientificDefinition: 'A 127-nucleotide single-stranded oligodeoxynucleotide donor template with 36 nt of homology on the PAM-distal side and 91 nt on the PAM-proximal side of the cut.',
+    whyItMatters: 'Because Cas9 releases the PAM-distal non-target strand first, this 36 nt / 91 nt asymmetry boosts HDR efficiency in human pluripotent stem cells.',
+  },
+  {
+    id: 'silent-block',
+    term: 'Silent Blocking Mutation',
+    aliases: ['silent blocking', 'silent PAM block', 'synonymous mutation', 'blocking changes'],
+    category: 'Donor & Design',
+    simpleAnalogy: 'Changing a DNA letter so the Cas9 scissors no longer recognize the site, while spelling the exact same protein building block.',
+    scientificDefinition: 'A synonymous nucleotide substitution incorporated into the donor template within the PAM or seed region that preserves the amino acid sequence (using degenerate codons) while abolishing Cas9 recognition.',
+    whyItMatters: 'Without a silent blocking mutation, Cas9 repeatedly re-cuts the newly repaired HDR allele until an error-prone indel destroys the edit.',
+  },
+  {
+    id: 'hipsc',
+    term: 'hiPSCs (Induced Pluripotent Stem Cells)',
+    aliases: ['hiPSCs', 'hiPSC', 'iPSCs', 'iPSC', 'pluripotent stem cells'],
+    category: 'Stem Cell Biology',
+    simpleAnalogy: 'Adult blood or skin cells rewound back to an embryonic-like master state so they can become beating heart cells, neurons, or liver cells.',
+    scientificDefinition: 'Human somatic cells reprogrammed via transient expression of OCT4, SOX2, KLF4, and c-MYC (typically via non-integrating Sendai RNA virus) into self-renewing pluripotent cells.',
+    whyItMatters: 'hiPSCs capture a patient’s exact genome and can differentiate into any human tissue for disease modeling and regenerative medicine.',
+  },
+  {
+    id: 'isogenic',
+    term: 'Isogenic Control',
+    aliases: ['isogenic', 'isogenic comparison', 'isogenic clones'],
+    category: 'Stem Cell Biology',
+    simpleAnalogy: 'Identical twin cell lines that share 99.999% of the same DNA and differ ONLY at the single disease-causing letter.',
+    scientificDefinition: 'A pair of cell lines derived from the same parental donor background where a single genetic variant is either introduced or corrected by precision genome editing.',
+    whyItMatters: 'Across 51 human donors, genetic background accounts for a median 43.2% of gene expression variance—making isogenic controls essential to prove a mutation causes a phenotype.',
+  },
+  {
+    id: 'p53',
+    term: 'p53 DNA Damage Response',
+    aliases: ['p53', 'p53 checkpoint', 'anoikis'],
+    category: 'Stem Cell Biology',
+    simpleAnalogy: 'The cell’s ultra-sensitive alarm system that triggers self-destruction if it detects broken DNA or detachment from neighbors.',
+    scientificDefinition: 'A tumor-suppressor transcription factor pathway hyper-active in human pluripotent stem cells that induces p21 cell-cycle arrest or PUMA-mediated apoptosis upon double-strand breaks.',
+    whyItMatters: 'Because stem cells have hypersensitive p53 checkpoints, successful editing requires transient RNP delivery, physiological hypoxia (5% O2), and CloneR2 survival supplementation.',
+  },
+  {
+    id: 'cloner2',
+    term: 'CloneR2 & Hypoxia (5% O2)',
+    aliases: ['CloneR2', 'StemFlex', 'hypoxia'],
+    category: 'Stem Cell Biology',
+    simpleAnalogy: 'A protective nutrient blanket and low-oxygen womb environment that keeps solitary stem cells alive after editing.',
+    scientificDefinition: 'A defined xeno-free supplement paired with StemFlex medium and physiological 5% O2 incubation to suppress detachment-induced apoptosis and oxidative DNA damage during single-cell cloning.',
+    whyItMatters: 'Enables ~65% single-cell clonal survival in IsoCell microfluidic chambers after Neon electroporation.',
+  },
+  {
+    id: 'deconvolution',
+    term: 'Sanger Trace Deconvolution (ICE)',
+    aliases: ['deconvolution', 'deconvolute', 'ICE', 'Assured QC', 'chromatogram'],
+    category: 'Sequencing & QC',
+    simpleAnalogy: 'Unscrambling two overlapping musical chords in a DNA readout to see the exact percentage of edited versus unedited strands.',
+    scientificDefinition: 'Mathematical decomposition (using non-negative least squares alignment against an unedited wild-type control trace) of mixed Sanger .ab1 sequencing chromatograms into constituent allele frequencies.',
+    whyItMatters: 'Distinguishes true homozygous knock-in clones from compound heterozygotes that hide a destructive frameshift indel on the second chromosome.',
+  },
+  {
+    id: 'crispr-mix',
+    term: 'CRISPR-MiX Pooled Donors',
+    aliases: ['CRISPR-MiX', 'pooled ssODNs'],
+    category: 'Donor & Design',
+    simpleAnalogy: 'Providing repair templates for both strands of the DNA zipper at once so difficult genomic spots can heal cleanly.',
+    scientificDefinition: 'A rational donor pooling strategy (60 pmol sgRNA : 20 pmol SpCas9 : 120 pmol pooled sense/antisense ssODNs) designed to overcome strand-specific HDR bottlenecks at refractory loci.',
+    whyItMatters: 'Rescues scarless, selection-free HDR editing across challenging cardiac and neurological loci such as PLN, TPM1, and TNNT2.',
+  },
+];

@@ -81,6 +81,9 @@ c("WetLabFailureSimulator", React.createElement(R("components/simulator/WetLabFa
 c("DonorIccPowerSimulator", React.createElement(R("components/simulator/DonorIccPowerSimulator.js").DonorIccPowerSimulator));
 c("IsoCellYieldCalculator", React.createElement(R("components/simulator/IsoCellYieldCalculator.js").IsoCellYieldCalculator));
 c("OffTargetDecisionMatrix", React.createElement(R("components/simulator/OffTargetDecisionMatrix.js").OffTargetDecisionMatrix));
+c("CrisprVisualExplainer", React.createElement(R("components/academy/CrisprVisualExplainer.js").CrisprVisualExplainer));
+c("CrisprpediaGlossary", React.createElement(R("components/academy/GlossaryText.js").CrisprpediaGlossary));
+c("GlossaryText", React.createElement(R("components/academy/GlossaryText.js").GlossaryText, { text: "CRISPR-Cas9 RNP complexes scan for a PAM and use HDR or NHEJ in hiPSCs." }));
 const PS = R("components/academy/PersonaSwitcher.js").PersonaSwitcher;
 for (const p of ["students", "research_labs", "core_facilities"]) {
   c(`PersonaSwitcher-${p}`, React.createElement(PS, { activePersonaId: p, onSelectPersona: noop }));

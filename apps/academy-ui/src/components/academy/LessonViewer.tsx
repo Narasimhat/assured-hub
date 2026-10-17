@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Lesson } from '../../types';
 import { QuizModal } from './QuizModal';
+import { GlossaryText } from './GlossaryText';
 
 interface LessonViewerProps {
   lesson: Lesson;
@@ -32,7 +33,7 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
       {/* Lesson Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800/80 mb-6">
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center flex-wrap gap-2 mb-2">
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800/60">
               Lesson
             </span>
@@ -40,6 +41,9 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
               <Clock className="w-3.5 h-3.5" />
               <span>{lesson.duration}</span>
             </div>
+            <span className="text-[11px] text-emerald-300/90 bg-emerald-950/50 border border-emerald-800/40 px-2.5 py-0.5 rounded-full">
+              Tip: Click dashed-underline terms for definitions
+            </span>
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             {lesson.title}
@@ -69,17 +73,17 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
 
       {/* Summary Box */}
       <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 mb-6">
-        <p className="text-sm text-cyan-200/90 font-medium leading-relaxed">
-          {lesson.summary}
-        </p>
+        <div className="text-sm text-cyan-200/90 font-medium leading-relaxed">
+          <GlossaryText text={lesson.summary} />
+        </div>
       </div>
 
       {/* Main Educational Paragraphs */}
       <div className="space-y-4 mb-8 text-sm leading-relaxed text-slate-300">
         {lesson.content.map((para, idx) => (
-          <p key={idx} className="tracking-wide">
-            {para}
-          </p>
+          <div key={idx} className="tracking-wide">
+            <GlossaryText text={para} />
+          </div>
         ))}
       </div>
 
