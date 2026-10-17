@@ -320,7 +320,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
         <div style={{ marginTop: "1.25rem", paddingTop: "0.85rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
           <span>Need batch multi-gene targeting or custom vendor sheets?</span>
           <a
-            href="../design/"
+            href="/design/"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 500 }}
@@ -470,7 +470,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               <div style={{ marginTop: "0.85rem", paddingTop: "0.6rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.8rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
                 <span>Need batch multi-gene targeting or custom vendor sheets?</span>
                 <a
-                  href="../design/"
+                  href="/design/"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.25rem", fontWeight: 500 }}

@@ -538,7 +538,7 @@ export const WetLabFailureSimulator: React.FC = () => {
           Ready to formulate these RNP and delivery parameters on the real bench?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-semibold text-sm hover:bg-amber-400 transition-colors focus-visible:outline focus-visible:outline-amber-400"
         >
           Open ASSURED Bench <ExternalLink className="w-4 h-4" />

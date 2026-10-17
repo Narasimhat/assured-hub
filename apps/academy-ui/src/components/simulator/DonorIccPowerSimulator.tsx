@@ -331,7 +331,7 @@ export const DonorIccPowerSimulator: React.FC = () => {
           Ready to design pooled ssODNs or isogenic controls for your gene of interest?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 text-white font-semibold text-sm hover:bg-purple-500 transition-colors focus-visible:outline focus-visible:outline-purple-400"
         >
           Open ASSURED Bench <ExternalLink className="w-4 h-4" />

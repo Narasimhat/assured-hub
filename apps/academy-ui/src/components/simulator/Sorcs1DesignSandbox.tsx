@@ -266,7 +266,7 @@ export const Sorcs1DesignSandbox: React.FC = () => {
           Ready to export this SorCS1 design and order Alt-R synthetic reagents?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 text-white font-semibold text-sm hover:bg-cyan-500 transition-colors focus-visible:outline focus-visible:outline-cyan-400"
         >
           Open ASSURED Bench <ExternalLink className="w-4 h-4" />

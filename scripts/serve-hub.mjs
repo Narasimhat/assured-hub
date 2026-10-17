@@ -33,24 +33,17 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Handle nested subpaths from /academy/ e.g. /academy/studio/ -> /studio/
-  if (reqPath.startsWith('/academy/studio')) {
-    const target = reqPath.replace(/^\/academy\/studio/, '/studio');
-    res.writeHead(302, { Location: target || '/studio/' });
-    res.end();
-    return;
-  }
-  if (reqPath.startsWith('/academy/design')) {
-    const target = reqPath.replace(/^\/academy\/design/, '/design');
-    res.writeHead(302, { Location: target || '/design/' });
-    res.end();
-    return;
-  }
-  if (reqPath.startsWith('/academy/qc')) {
-    const target = reqPath.replace(/^\/academy\/qc/, '/qc');
-    res.writeHead(302, { Location: target || '/qc/' });
-    res.end();
-    return;
+  // Handle nested subpaths across apps (e.g. /academy/studio/ -> /studio/)
+  const subApps = ['academy', 'studio', 'design', 'qc'];
+  for (const fromApp of subApps) {
+    for (const toApp of subApps) {
+      if (fromApp !== toApp && reqPath.startsWith(`/${fromApp}/${toApp}`)) {
+        const target = reqPath.replace(new RegExp(`^/${fromApp}/${toApp}`), `/${toApp}`);
+        res.writeHead(302, { Location: target || `/${toApp}/` });
+        res.end();
+        return;
+      }
+    }
   }
 
   let filePath = path.join(distDir, reqPath);

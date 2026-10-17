@@ -38,6 +38,21 @@
       "source": "/academy/qc/:path*",
       "destination": "/qc/:path*",
       "permanent": false
+    },
+    {
+      "source": "/studio/academy/:path*",
+      "destination": "/academy/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/studio/design/:path*",
+      "destination": "/design/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/studio/qc/:path*",
+      "destination": "/qc/:path*",
+      "permanent": false
     }
   ]
 }

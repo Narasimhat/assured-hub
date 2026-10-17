@@ -165,7 +165,7 @@ export const PatientJourneyTimeline: React.FC = () => {
           Interested in seeing how scientists plan these experiments on the bench?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-500 transition-colors focus-visible:outline focus-visible:outline-emerald-400"
         >
           Explore ASSURED Bench <ExternalLink className="w-4 h-4" />

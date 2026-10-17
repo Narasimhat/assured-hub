@@ -255,7 +255,7 @@ export const IsoCellYieldCalculator: React.FC = () => {
           Ready to track your 96-well clone plates and log trace QC calls in ASSURED Bench?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-500 transition-colors focus-visible:outline focus-visible:outline-blue-400"
         >
           Open ASSURED Bench <ExternalLink className="w-4 h-4" />

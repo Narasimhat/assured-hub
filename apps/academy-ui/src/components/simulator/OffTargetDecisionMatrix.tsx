@@ -197,7 +197,7 @@ export const OffTargetDecisionMatrix: React.FC = () => {
           Ready to review Sanger trace deconvolution and audit report exports in ASSURED Bench?
         </p>
         <a
-          href="../studio/"
+          href="/studio/"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-600 text-white font-semibold text-sm hover:bg-rose-500 transition-colors focus-visible:outline focus-visible:outline-rose-400"
         >
           Open ASSURED Bench <ExternalLink className="w-4 h-4" />
