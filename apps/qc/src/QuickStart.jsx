@@ -195,7 +195,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       </div>}
 
       {/* Prominent gRNA and Donor Sequences Section */}
-      <div className="card sequence-config" style={{ marginTop: "1rem", border: "1px solid var(--border-color)", borderRadius: "10px", padding: "14px 16px", background: "rgba(15, 23, 42, 0.4)" }}>
+      <div className="card sequence-config" style={{ marginTop: "1rem", border: "1px solid var(--border-color)", borderRadius: "10px", padding: "14px 16px", background: "var(--bg-surface)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
           <div>
             <h3 style={{ margin: 0, fontSize: "14px", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "6px" }}>
@@ -297,9 +297,9 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
                           fontFamily: "monospace",
                           padding: "2px 6px",
                           borderRadius: "4px",
-                          background: isStandardLen ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
-                          color: isStandardLen ? "#34d399" : "#fbbf24",
-                          border: `1px solid ${isStandardLen ? "rgba(16, 185, 129, 0.4)" : "rgba(245, 158, 11, 0.4)"}`
+                          background: isStandardLen ? "#ecfdf5" : "#fffbeb",
+                          color: isStandardLen ? "#047857" : "#b45309",
+                          border: `1px solid ${isStandardLen ? "#a7f3d0" : "#fde68a"}`
                         }}
                       >
                         gRNA {gi + 1}: {g.length} nt {isStandardLen ? "✓" : "(standard: 20 nt)"}

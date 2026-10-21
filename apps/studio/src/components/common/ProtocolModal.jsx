@@ -253,7 +253,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s1") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s1") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
@@ -280,7 +280,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s2") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s2") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
@@ -307,7 +307,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s3") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s3") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
@@ -334,7 +334,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s4") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s4") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
@@ -361,7 +361,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s5") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s5") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
@@ -388,7 +388,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                background: checkedSteps.has("s6") ? "rgba(16, 185, 129, 0.08)" : "#0f172a",
+                background: checkedSteps.has("s6") ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface)",
                 border: "1px solid var(--border-color)",
                 cursor: "pointer",
                 alignItems: "flex-start"
