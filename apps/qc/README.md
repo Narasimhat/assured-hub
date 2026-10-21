@@ -35,7 +35,7 @@ node cli/assured-qc.mjs figure --control control.ab1 --edited edited.ab1 --desig
 
 It writes `results.csv`, `results.json`, `report.html`, `plate.html`, `resequence.csv` and `run.json` (input hashes, parameters, engine version). 399 simulated pairs take 44 s on 11 threads (about 32,000 pairs per hour).
 
-**Design file.** Export the design from the design app as a QC design file (JSON, schema `assured-qc-design/1`; see `docs/design-handoff.md`; needed for the reporter workflow), or type the guide sequence(s) and donor into the app. Other nucleases (SpCas9, SpCas9-NG, SaCas9, Cas12a, SpRY) are supported, and the cut can be inferred from the traces when no guide is given (simulation-validated only).
+**Design file.** Export the design from the design app as a QC design file (JSON, schema `assured-qc-design/1`; see `docs/design-handoff.md`; needed for the reporter workflow), or type your gRNA sequence(s) and donor(s) into the panel "No design file? Enter your gRNA and donor sequences" (up to three gRNAs, one or more donors; each sequence is checked as you type and can be placed on the control trace before you analyse). Two ssODNs for a two-gRNA design are used together: the change they share is taken as the intended edit. Other nucleases (SpCas9, SpCas9-NG, SaCas9, Cas12a, SpRY) are supported, and the cut can be inferred from the traces when no guide is given (simulation-validated only).
 
 ## What it does with a trace
 

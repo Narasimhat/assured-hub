@@ -78,7 +78,7 @@ export function QcView({ currentProject, onUpdateProject }) {
           <div>
             <div style={{ fontWeight: 600, color: "#f59e0b" }}>No active design loaded</div>
             <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
-              Design an edit in <strong>Step 1</strong>, open a saved experiment from <strong>Projects</strong>, or upload a Design JSON / HTML report below with your traces.
+              Design an edit in <strong>Step 1</strong>, open a saved experiment from <strong>Projects</strong>, upload a Design JSON / HTML report below with your traces, or type your gRNA and donor sequences there.
             </div>
           </div>
         </div>
