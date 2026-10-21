@@ -154,7 +154,7 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
           <span><strong>{stats.hold}</strong> Hold / Review</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#8da196", display: "inline-block" }}></span>
+          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#94a3b8", display: "inline-block" }}></span>
           <span><strong>{stats.reject}</strong> WT / Reject</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>

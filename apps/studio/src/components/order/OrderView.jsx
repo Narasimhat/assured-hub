@@ -51,7 +51,7 @@ export function OrderView({ currentProject, onProceedToQc, onOpenProtocol }) {
             <button
               className="btn btn-secondary"
               onClick={onOpenProtocol}
-              style={{ color: "var(--primary)", borderColor: "rgba(15, 118, 110, 0.4)", fontWeight: 600 }}
+              style={{ color: "var(--primary)", borderColor: "rgba(2, 132, 199, 0.4)", fontWeight: 600 }}
               title="View wet-lab bench protocol and pipetting checklist"
             >
               <FlaskConical size={16} />

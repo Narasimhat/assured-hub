@@ -181,7 +181,7 @@ export function DecisionView({ currentProject }) {
               <span style={{ width: 10, height: 10, borderRadius: "50%", background: "var(--warning)" }} /> Hold
             </span>
             <span style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#8da196" }} /> Reject
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#94a3b8" }} /> Reject
             </span>
           </div>
         </div>
