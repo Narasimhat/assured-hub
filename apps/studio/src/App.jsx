@@ -237,7 +237,7 @@ export function App() {
                       justifyContent: "space-between",
                       padding: "0.85rem 1rem",
                       borderRadius: "8px",
-                      background: "#0f172a",
+                      background: "var(--bg-app)",
                       border: "1px solid var(--border-color)",
                       cursor: "pointer",
                       transition: "border-color 0.15s ease"

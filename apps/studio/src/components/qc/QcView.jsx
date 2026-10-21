@@ -56,11 +56,11 @@ export function QcView({ currentProject, onUpdateProject }) {
       </div>
 
       {design ? (
-        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "rgba(16, 185, 129, 0.08)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
+        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "var(--success-bg)", border: "1px solid var(--success-border)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-            <CheckCircle size={20} style={{ color: "#10b981", flexShrink: 0 }} />
+            <CheckCircle size={20} style={{ color: "var(--success)", flexShrink: 0 }} />
             <div>
-              <div style={{ fontWeight: 600, color: "#10b981" }}>
+              <div style={{ fontWeight: 600, color: "var(--success)" }}>
                 Design active & parsed: {design.name}
               </div>
               <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
@@ -68,15 +68,15 @@ export function QcView({ currentProject, onUpdateProject }) {
               </div>
             </div>
           </div>
-          <div style={{ fontSize: "0.85rem", background: "rgba(16, 185, 129, 0.15)", color: "#10b981", padding: "0.35rem 0.75rem", borderRadius: "6px", fontWeight: 500 }}>
+          <div style={{ fontSize: "0.85rem", background: "var(--success-bg)", color: "var(--success)", border: "1px solid var(--success-border)", padding: "0.35rem 0.75rem", borderRadius: "6px", fontWeight: 500 }}>
             Next: Provide matching Parental Control &amp; Sample .ab1 files below
           </div>
         </div>
       ) : (
-        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "rgba(245, 158, 11, 0.08)", border: "1px solid rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", gap: "0.6rem" }}>
-          <AlertCircle size={20} style={{ color: "#f59e0b", flexShrink: 0 }} />
+        <div style={{ marginTop: "1rem", padding: "0.85rem 1rem", borderRadius: "8px", background: "var(--warning-bg)", border: "1px solid var(--warning-border)", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <AlertCircle size={20} style={{ color: "var(--warning)", flexShrink: 0 }} />
           <div>
-            <div style={{ fontWeight: 600, color: "#f59e0b" }}>No active design loaded</div>
+            <div style={{ fontWeight: 600, color: "var(--warning)" }}>No active design loaded</div>
             <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
               Provide your <strong>gRNA sequences and donor sequence</strong> directly in the workspace below, upload a Design JSON / HTML report, or design an edit in <strong>Step 1</strong>.
             </div>

@@ -123,7 +123,7 @@ export function DecisionView({ currentProject }) {
               <div
                 key={idx}
                 style={{
-                  background: "#0f172a",
+                  background: "var(--bg-app)",
                   border: "1px solid var(--border-color)",
                   borderRadius: "10px",
                   padding: "1.25rem",
@@ -181,7 +181,7 @@ export function DecisionView({ currentProject }) {
               <span style={{ width: 10, height: 10, borderRadius: "50%", background: "var(--warning)" }} /> Hold
             </span>
             <span style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#475569" }} /> Reject
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#94a3b8" }} /> Reject
             </span>
           </div>
         </div>

@@ -253,7 +253,7 @@ export function GelSimulator({ designResult, currentProject }) {
       </p>
 
       {/* Control Sliders & Options */}
-      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", background: "#0f172a", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "1.25rem", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", background: "var(--bg-app)", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "1.25rem", alignItems: "center" }}>
         {/* Agarose % */}
         <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
           <label style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
@@ -447,17 +447,17 @@ export function GelSimulator({ designResult, currentProject }) {
 
       {/* Amplicon Size Diagnostic Summary */}
       <div style={{ marginTop: "1rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem", fontSize: "0.85rem" }}>
-        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "rgba(15, 23, 42, 0.6)", border: "1px solid var(--border-color)" }}>
+        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
           <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>Wild-Type Amplicon</div>
-          <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text)" }}>{ampliconInfo.wtBp} bp</div>
+          <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-main)" }}>{ampliconInfo.wtBp} bp</div>
         </div>
 
-        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "rgba(15, 23, 42, 0.6)", border: "1px solid var(--border-color)" }}>
+        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
           <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>Edited Amplicon</div>
           <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--success)" }}>{ampliconInfo.editedBp} bp</div>
         </div>
 
-        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "rgba(15, 23, 42, 0.6)", border: "1px solid var(--border-color)" }}>
+        <div style={{ padding: "0.75rem", borderRadius: "6px", background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
           <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>Predicted Size Shift (Δ)</div>
           <div style={{ fontSize: "1.1rem", fontWeight: 700, color: ampliconInfo.wtBp !== ampliconInfo.editedBp ? "var(--warning)" : "var(--text-dim)" }}>
             {ampliconInfo.wtBp !== ampliconInfo.editedBp

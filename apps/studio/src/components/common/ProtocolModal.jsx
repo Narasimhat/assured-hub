@@ -164,7 +164,7 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
         </div>
 
         {/* Configuration Strip */}
-        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", background: "#0f172a", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "1.25rem" }}>
+        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", background: "var(--bg-app)", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "1.25rem" }}>
           <div>
             <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "0.3rem" }}>
               Host Cell Platform

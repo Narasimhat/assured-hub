@@ -47,9 +47,9 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
   const getWellStyle = (well) => {
     if (well.isEmpty) {
       return {
-        background: "#0f172a",
-        border: "1px dashed #334155",
-        opacity: 0.35,
+        background: "var(--bg-app)",
+        border: "1px dashed var(--border-light)",
+        opacity: 0.6,
         cursor: "default"
       };
     }
@@ -124,7 +124,7 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
 
         {/* Filter Controls */}
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: "0.25rem", background: "#0f172a", padding: "0.2rem", borderRadius: "6px", border: "1px solid var(--border-color)" }}>
+          <div style={{ display: "flex", gap: "0.25rem", background: "var(--bg-app)", padding: "0.2rem", borderRadius: "6px", border: "1px solid var(--border-color)" }}>
             <button
               className={`btn ${filterMode === "all" ? "btn-primary" : "btn-secondary"}`}
               onClick={() => setFilterMode("all")}
@@ -167,7 +167,7 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
       </div>
 
       {/* 96-Well Microplate Grid Container */}
-      <div style={{ overflowX: "auto", background: "#090d16", padding: "1.25rem", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
+      <div style={{ overflowX: "auto", background: "var(--bg-app)", padding: "1.25rem", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
         <div style={{ minWidth: "580px", margin: "0 auto" }}>
           {/* Column Headers (1 to 12) */}
           <div style={{ display: "grid", gridTemplateColumns: "32px repeat(12, 1fr)", gap: "6px", textAlign: "center", marginBottom: "6px" }}>
@@ -238,11 +238,11 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
                           bottom: "115%",
                           left: "50%",
                           transform: "translateX(-50%)",
-                          background: "#1e293b",
+                          background: "var(--bg-surface)",
                           border: "1px solid var(--border-color)",
                           padding: "0.6rem 0.8rem",
                           borderRadius: "6px",
-                          boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                          boxShadow: "0 4px 14px rgba(0,0,0,0.12)",
                           zIndex: 100,
                           pointerEvents: "none",
                           minWidth: "180px",

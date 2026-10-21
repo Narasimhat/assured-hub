@@ -220,7 +220,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
                 <button
                   type="button"
                   className="link"
-                  style={{ fontSize: "12px", background: "rgba(245, 158, 11, 0.15)", borderColor: "rgba(245, 158, 11, 0.4)", color: "#fbbf24", fontWeight: 600, margin: 0 }}
+                  style={{ fontSize: "12px", background: "var(--warning-bg)", borderColor: "var(--warning-border)", color: "var(--warning)", fontWeight: 600, margin: 0 }}
                   onClick={() => setCustomSequenceMode(false)}
                 >
                   ↺ Revert to Parsed Design File
@@ -231,9 +231,9 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
         </div>
 
         {designName && !customSequenceMode ? (
-          <div style={{ padding: "10px 14px", background: "rgba(16, 185, 129, 0.08)", borderRadius: "8px", border: "1px solid rgba(16, 185, 129, 0.3)", fontSize: "13px" }}>
+          <div style={{ padding: "10px 14px", background: "var(--success-bg)", borderRadius: "8px", border: "1px solid var(--success-border)", fontSize: "13px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-              <span style={{ fontWeight: 600, color: "#34d399" }}>✓ Using sequences from design: {designName}</span>
+              <span style={{ fontWeight: 600, color: "var(--success)" }}>✓ Using sequences from design: {designName}</span>
               <span className="muted" style={{ fontSize: "11px" }}>Click &quot;Customize / Override&quot; to test alternate gRNAs or donors</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "10px" }}>
@@ -262,7 +262,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {customSequenceMode && designName && (
-              <div style={{ padding: "8px 12px", background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.35)", borderRadius: "6px", fontSize: "12px", color: "#fbbf24" }}>
+              <div style={{ padding: "8px 12px", background: "var(--warning-bg)", border: "1px solid var(--warning-border)", borderRadius: "6px", fontSize: "12px", color: "var(--warning)" }}>
                 ⚠️ <strong>Manual Override Active:</strong> The analysis will use your custom gRNA and donor sequences below instead of the design file.
               </div>
             )}

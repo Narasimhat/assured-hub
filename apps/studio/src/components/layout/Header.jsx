@@ -52,7 +52,7 @@ export function Header({
           href="/academy/"
           className="btn btn-secondary"
           title="Learn stem cell genome engineering in ASSURED Academy"
-          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "#34d399", borderColor: "rgba(52, 211, 153, 0.4)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
+          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "var(--success)", borderColor: "var(--success-border)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
         >
           <span>Academy</span>
           <span style={{ fontSize: "0.75rem" }}>↗</span>
@@ -62,7 +62,7 @@ export function Header({
           className="btn btn-secondary"
           onClick={onOpenProtocol}
           title="View wet-lab bench protocol and pipetting checklist"
-          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "#38bdf8", borderColor: "rgba(56, 189, 248, 0.4)" }}
+          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "var(--primary)", borderColor: "rgba(2, 132, 199, 0.4)" }}
         >
           <FlaskConical size={16} />
           <span>Bench Protocol</span>

@@ -499,7 +499,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                       <div
                         className="mono"
                         style={{
-                          background: "#0f172a",
+                          background: "var(--bg-app)",
                           padding: "0.85rem",
                           borderRadius: "8px",
                           wordBreak: "break-all",
