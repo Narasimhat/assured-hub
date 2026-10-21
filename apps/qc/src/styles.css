@@ -14,10 +14,10 @@
   --border-light: #cee0d3;
   --border-strong: #96b5a0;
 
-  /* Deep Pine Ink Typography */
-  --text-main: #112b23;
-  --text-muted: #49685d;
-  --text-dim: #708c80;
+  /* Razor-Sharp Obsidian & Slate Typography (High-Contrast WCAG AAA) */
+  --text-main: #09090b;
+  --text-muted: #334155;
+  --text-dim: #475569;
 
   /* Bio-Atelier Jade Primary */
   --primary: #0f766e;

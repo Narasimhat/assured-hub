@@ -196,8 +196,8 @@ export function ProtocolModal({ isOpen, onClose, currentProject }) {
           </div>
 
           <div style={{ flex: 1, minWidth: "220px", fontSize: "0.8rem", color: "var(--text-muted)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div>Lonza Buffer: <strong style={{ color: "#38bdf8" }}>{platform.nucleofectionSolution}</strong></div>
-            <div>4D Pulse Code: <strong style={{ color: "#38bdf8" }}>{platform.program}</strong></div>
+            <div>Lonza Buffer: <strong style={{ color: "var(--primary)" }}>{platform.nucleofectionSolution}</strong></div>
+            <div>4D Pulse Code: <strong style={{ color: "var(--primary)" }}>{platform.program}</strong></div>
             <div>Cell Density: <strong>{platform.cellCount}</strong></div>
           </div>
         </div>

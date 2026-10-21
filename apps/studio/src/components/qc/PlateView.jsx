@@ -259,7 +259,7 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
                           <div style={{ marginTop: "4px", fontSize: "0.75rem" }}>
                             Status: <strong style={{ textTransform: "uppercase" }}>{well.decision}</strong>
                             {well.result.summary && (
-                              <div style={{ color: "#38bdf8", marginTop: "2px" }}>
+                              <div style={{ color: "var(--primary)", marginTop: "2px", fontWeight: 600 }}>
                                 Intended Edit: {well.result.summary.intendedEditPct || well.result.summary.koScorePct || 0}%
                               </div>
                             )}

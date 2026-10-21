@@ -312,7 +312,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
 
         {!genbankRaw && <p style={{ marginTop: "1rem", color: "var(--text-muted)" }}>Fetch a gene or upload a GenBank reference to enable design.</p>}
         {error && (
-          <div role="alert" style={{ marginTop: "1rem", padding: "0.75rem", borderRadius: "8px", background: "var(--danger-bg)", border: "1px solid var(--danger-border)", color: "#fca5a5", fontSize: "0.9rem" }}>
+          <div role="alert" style={{ marginTop: "1rem", padding: "0.75rem", borderRadius: "8px", background: "var(--danger-bg)", border: "1px solid var(--danger-border)", color: "var(--danger)", fontSize: "0.9rem", fontWeight: 600 }}>
             {error}
           </div>
         )}
@@ -323,7 +323,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             href="/design/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 500 }}
+            style={{ color: "var(--primary)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 600 }}
             title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
           >
             <ExternalLink size={13} />
@@ -371,7 +371,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
               <button
                 className="btn btn-secondary"
                 onClick={onOpenProtocol}
-                style={{ color: "#38bdf8", borderColor: "rgba(56, 189, 248, 0.4)" }}
+                style={{ color: "var(--primary)", borderColor: "rgba(15, 118, 110, 0.4)", fontWeight: 600 }}
                 title="View wet-lab bench protocol and pipetting checklist"
               >
                 <FlaskConical size={16} />
@@ -473,7 +473,7 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                   href="/design/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "#38bdf8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.25rem", fontWeight: 500 }}
+                  style={{ color: "var(--primary)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.25rem", fontWeight: 600 }}
                   title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
                 >
                   <ExternalLink size={12} />
