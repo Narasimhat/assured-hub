@@ -14,6 +14,7 @@ import { cloneSelectionFigure } from "./selectionFigure.js";
 import { saveSvg, savePng, savePdf } from "./saveFigure.js";
 import { NUCLEASES } from "./nucleases.js";
 import { expandImportFiles } from "./importFiles.js";
+import { cleanDna } from "./seq.js";
 import Detail from "./Detail.jsx";
 import IceExport from "./IceExport.jsx";
 
@@ -27,6 +28,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
   const files = useRef(new Map()); const buffers = useRef(new Map());
   const [traceNames, setTraceNames] = useState([]); const [sheetText, setSheetText] = useState(""); const [designText, setDesignText] = useState(""); const [designName, setDesignName] = useState(""); const [geneText, setGeneText] = useState(""); const [geneName, setGeneName] = useState(""); const [regionsText, setRegionsText] = useState(""); const [epitopeText, setEpitopeText] = useState("");
   const [guidesText, setGuidesText] = useState(""); const [donorText, setDonorText] = useState(""); const [nuclease, setNuclease] = useState("SpCas9"); const [typeOverride, setTypeOverride] = useState(""); const [goal, setGoal] = useState("homozygous");
+  const [customSequenceMode, setCustomSequenceMode] = useState(false);
   const [pairsEdit, setPairsEdit] = useState({}); const [running, setRunning] = useState(false); const [progress, setProgress] = useState(null);
   const [outcome, setOutcome] = useState(null); const [picked, setPicked] = useState(0); const [panel, setPanel] = useState(0); const [figureBusy, setFigureBusy] = useState(false); const [error, setError] = useState("");
   const [importStatus, setImportStatus] = useState("");
@@ -79,12 +81,35 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
   const built = useMemo(() => (traceNames.length ? buildPairs({ traceNames, sheetText }) : { pairs: [], problems: [] }), [traceNames, sheetText]);
   const design = useMemo(() => { try { return { ...readDesign(designText, { designIndex }), error: "" }; } catch (e) { return { kind: "none", error: e.message }; } }, [designText, designIndex]);
   const pairs = built.pairs.map((p, i) => ({ ...p, ...(pairsEdit[i] || {}) }));
-  const guides = guidesText.split(/[,;\s]+/).filter(Boolean);
+  const guides = guidesText.split(/[,;\s]+/).map(cleanDna).filter(Boolean);
   const lowCount = pairs.filter((p) => p.confidence === "low").length;
-  const guideSource = design.kind === "spec" ? `the design file (${design.label})` : design.kind === "report" ? `the design report (${design.label}: ${design.guides.length} guide${design.guides.length === 1 ? "" : "s"})` : guides.length ? "the guides typed below" : "none: the cut site will be inferred from where the traces depart from the control";
+
+  const designGuides = useMemo(() => {
+    if (design.kind === "report") return design.guides || [];
+    if (design.kind === "spec") return (design.spec?.guides || []).map((g) => g.spacer || g.sequence || "");
+    return [];
+  }, [design]);
+
+  const designDonors = useMemo(() => {
+    if (design.kind === "report") return design.donors || [];
+    if (design.kind === "spec") return design.spec?.donors || [];
+    return [];
+  }, [design]);
+
+  const handlePopulateFromDesign = () => {
+    if (designGuides.length) setGuidesText(designGuides.join(", "));
+    const dSeq = typeof designDonors[0] === "string" ? designDonors[0] : (designDonors[0]?.sequence || "");
+    if (dSeq) setDonorText(dSeq);
+    setCustomSequenceMode(true);
+  };
+
+  const isUsingCustom = customSequenceMode || !designName;
+  const guideSource = isUsingCustom
+    ? (guides.length ? `the guides entered below (${guides.length} guide${guides.length === 1 ? "" : "s"})` : "none: the cut site will be inferred from where the traces depart from the control")
+    : (design.kind === "spec" ? `the design file (${design.label})` : design.kind === "report" ? `the design report (${design.label}: ${design.guides.length} guide${design.guides.length === 1 ? "" : "s"})` : guides.length ? "the guides entered below" : "none: the cut site will be inferred from where the traces depart from the control");
 
   const run = async () => {
-    if (design.error || (designName && !designText)) { setError("Replace or remove the unreadable design before analysing."); return; }
+    if (!customSequenceMode && (design.error || (designName && !designText))) { setError("Replace or remove the unreadable design before analysing."); return; }
     setRunning(true); setOutcome(null); setPicked(0); setError("");
     try {
       const needed = new Set(pairs.flatMap((p) => [...p.control, ...p.edited]));
@@ -92,7 +117,9 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       const parsed = new Map(); const getTrace = (name) => { if (!parsed.has(name)) parsed.set(name, parseAbif(buffers.current.get(name).slice(0), name)); return parsed.get(name); };
       const coding = geneText ? parseCodingFields({ regionsText, epitopeText }) : { options: {}, problems: [] };
       if (coding.problems.length) { setError(coding.problems.join(" ")); setRunning(false); return; }
-      const { tasks, problems } = planTasks({ pairs, getTrace, design, guides, donor: donorText.replace(/\s+/g, ""), nuclease, sampleType: typeOverride, goal, genbank: geneText, codingOptions: coding.options });
+      const effectiveDesign = customSequenceMode || !designName ? { kind: "none" } : design;
+      const cleanDonor = cleanDna(donorText.replace(/^>.*$/gm, "").replace(/\d+/g, ""));
+      const { tasks, problems } = planTasks({ pairs, getTrace, design: effectiveDesign, guides, donor: cleanDonor, nuclease, sampleType: typeOverride, goal, genbank: geneText, codingOptions: coding.options });
       if (!tasks.length) { setError(problems.join(" ") || "Nothing to analyse."); setRunning(false); return; }
       setProgress({ done: 0, total: tasks.length });
       const size = Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 4) - 1));
@@ -125,17 +152,34 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
     <div className="card quick">
       <h2>Quick start: add files or a folder</h2>
       <div className={`drop${dragging ? " over" : ""}`} onDragOver={(e) => { e.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={(e) => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files); }}>
-        <p><b>{designName ? "Please provide your parental control and sample .ab1 files:" : "Drop AB1 files, sequencing ZIPs and your design report here"}</b> {designName ? "(controls and samples together, forward and reverse reads, or a sequencing ZIP)" : "(controls and samples together, forward and reverse reads), plus, if you have them, the design (report .html or file .json) a sample sheet (.csv) and the gene record (GenBank, .gb)."}</p>
-        <input ref={filePicker} hidden style={{ display: "none" }} type="file" multiple accept=".zip,.ab1,.abi,.csv,.tsv,.json,.html,.htm,.gb,.gbk,.gbff,.genbank,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose files" />
-        <p><button type="button" disabled={running} onClick={() => filePicker.current.click()}>{designName ? "Add AB1 Traces or Sequencing ZIP" : "Add files (AB1, ZIP, HTML, JSON, CSV or GenBank)"}</button></p>
-        <input ref={folderPicker} hidden style={{ display: "none" }} type="file" multiple webkitdirectory="" directory="" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose a folder" />
-        <p><button type="button" disabled={running} onClick={() => folderPicker.current.click()}>{designName ? "Add a folder of AB1 traces" : "Add a folder"}</button> <span className="muted">Imports supported files inside a folder. To select an HTML report or sequencing ZIP, use Add files.</span></p>
-        <p>Select files from one folder, then click Add files again for another folder. Earlier traces and your design stay loaded. You can also add folders one at a time.</p>
-        <p className="muted">Nothing is uploaded: the files are read and analysed in this browser.</p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "8px" }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-main)" }}>
+              {designName ? "Provide parental control and sample .ab1 files" : "Drop AB1 chromatogram files, sequencing ZIPs, or design reports"}
+            </div>
+            <div className="muted" style={{ fontSize: "12px", marginTop: "2px" }}>
+              {designName ? "Upload control & sample traces together (forward and reverse reads supported)." : "Accepts .ab1 traces, sequencing ZIPs, design reports (.html/.json), sample sheets (.csv), and GenBank files."}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <input ref={filePicker} hidden style={{ display: "none" }} type="file" multiple accept=".zip,.ab1,.abi,.csv,.tsv,.json,.html,.htm,.gb,.gbk,.gbff,.genbank,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose files" />
+            <button type="button" disabled={running} onClick={() => filePicker.current.click()}>
+              {designName ? "Add AB1 Traces or ZIP" : "Add files (AB1, ZIP, HTML, JSON)"}
+            </button>
+            <input ref={folderPicker} hidden style={{ display: "none" }} type="file" multiple webkitdirectory="" directory="" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} aria-label="Choose a folder" />
+            <button type="button" disabled={running} onClick={() => folderPicker.current.click()}>
+              {designName ? "Add trace folder" : "Add folder"}
+            </button>
+          </div>
+        </div>
+        <div style={{ fontSize: "11px", color: "var(--text-dim)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+          <span>Traces and design files stay loaded. Add folders or files one at a time.</span>
+          <span>🔒 Files are processed 100% locally in your browser; never uploaded.</span>
+        </div>
       </div>
       {importStatus && <p role="status" className="note">{importStatus}</p>}
       <input ref={designPicker} hidden style={{ display: "none" }} id="q-design" aria-label="Design report file" type="file" accept=".html,.htm,.json,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
-      {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or enter guides manually under “Guides, donor, nuclease, goal”.</p>}
+      {!designName && <p className="muted" style={{ margin: "8px 0" }}>Add a design report (HTML or JSON) using Add files above, or enter gRNA and donor sequences directly below.</p>}
       {designName && <div role="status">
         <p><b>{design.error ? "Design needs attention:" : "Design loaded & parsed:"}</b> {designName} <button type="button" disabled={running} onClick={() => designPicker.current.click()}>Replace design</button> <button type="button" disabled={running} onClick={() => { setDesignName(""); setDesignText(""); setDesignIndex(0); setOutcome(null); setError(""); }}>Remove design</button></p>
         {design.error ? <p className="error">{design.error} Replace or remove this file to continue.</p> : design.kind === "report" ? <>
@@ -149,6 +193,192 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
           {!traceNames.length && <p className="note" style={{ color: "var(--success)", fontWeight: 500, margin: "0.5rem 0" }}>✓ Design ready. Now please provide your matching parental control (e.g. Ctrl.ab1) and edited clone sample .ab1 files above.</p>}
         </> : <p className="note">The design is empty or could not be read. Replace or remove it to continue.</p>}
       </div>}
+
+      {/* Prominent gRNA and Donor Sequences Section */}
+      <div className="card sequence-config" style={{ marginTop: "1rem", border: "1px solid var(--border-color)", borderRadius: "10px", padding: "14px 16px", background: "rgba(15, 23, 42, 0.4)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: "14px", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "6px" }}>
+              <span>🧬 CRISPR Sequences: gRNA &amp; Donor</span>
+            </h3>
+            <p className="muted" style={{ margin: "2px 0 0", fontSize: "12px" }}>
+              Specify gRNA spacer sequences (for cut site determination) and donor ssODN (for knock-in / point-mutation calling).
+            </p>
+          </div>
+          {designName && (
+            <div>
+              {!customSequenceMode ? (
+                <button
+                  type="button"
+                  className="link"
+                  style={{ fontSize: "12px", background: "var(--bg-input)", borderColor: "var(--primary)", color: "var(--primary)", fontWeight: 600, margin: 0 }}
+                  onClick={handlePopulateFromDesign}
+                >
+                  ✎ Customize / Override Sequences
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="link"
+                  style={{ fontSize: "12px", background: "rgba(245, 158, 11, 0.15)", borderColor: "rgba(245, 158, 11, 0.4)", color: "#fbbf24", fontWeight: 600, margin: 0 }}
+                  onClick={() => setCustomSequenceMode(false)}
+                >
+                  ↺ Revert to Parsed Design File
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        {designName && !customSequenceMode ? (
+          <div style={{ padding: "10px 14px", background: "rgba(16, 185, 129, 0.08)", borderRadius: "8px", border: "1px solid rgba(16, 185, 129, 0.3)", fontSize: "13px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+              <span style={{ fontWeight: 600, color: "#34d399" }}>✓ Using sequences from design: {designName}</span>
+              <span className="muted" style={{ fontSize: "11px" }}>Click &quot;Customize / Override&quot; to test alternate gRNAs or donors</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "10px" }}>
+              <div>
+                <strong style={{ fontSize: "12px", color: "var(--text-muted)" }}>gRNA Spacers:</strong>
+                {designGuides.length > 0 ? (
+                  <ul style={{ margin: "4px 0 0 16px", padding: 0 }}>
+                    {designGuides.map((g, idx) => (
+                      <li key={idx} style={{ fontFamily: "monospace", fontSize: "12px" }}>
+                        <strong>Guide {idx + 1}:</strong> <code>{g}</code> ({g.length} nt)
+                      </li>
+                    ))}
+                  </ul>
+                ) : <span className="muted"> (none specified; cut site will be inferred)</span>}
+              </div>
+              <div>
+                <strong style={{ fontSize: "12px", color: "var(--text-muted)" }}>Donor (ssODN):</strong>
+                {designDonors.length > 0 && (typeof designDonors[0] === "string" ? designDonors[0] : designDonors[0]?.sequence) ? (
+                  <div style={{ marginTop: "4px", fontFamily: "monospace", fontSize: "12px", wordBreak: "break-all", background: "var(--bg-input)", color: "var(--text-main)", border: "1px solid var(--border-color)", padding: "4px 8px", borderRadius: "4px", maxHeight: "60px", overflowY: "auto" }}>
+                    {typeof designDonors[0] === "string" ? designDonors[0] : designDonors[0].sequence} ({((typeof designDonors[0] === "string" ? designDonors[0] : designDonors[0].sequence) || "").length} nt)
+                  </div>
+                ) : <div className="muted" style={{ fontSize: "12px", marginTop: "2px" }}>No donor (knockout / deletion workflow)</div>}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {customSequenceMode && designName && (
+              <div style={{ padding: "8px 12px", background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.35)", borderRadius: "6px", fontSize: "12px", color: "#fbbf24" }}>
+                ⚠️ <strong>Manual Override Active:</strong> The analysis will use your custom gRNA and donor sequences below instead of the design file.
+              </div>
+            )}
+
+            <div className="row" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+              {/* gRNA sequence input */}
+              <div style={{ flex: "1 1 320px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "4px" }}>
+                  <label htmlFor="q-guides-main" style={{ fontWeight: 600, fontSize: "13px", color: "var(--text-main)" }}>
+                    gRNA Sequence(s)
+                  </label>
+                  <span style={{ fontSize: "11px", color: "var(--text-dim)" }}>
+                    {guides.length > 0 ? `${guides.length} guide(s) entered` : "optional (inferred if blank)"}
+                  </span>
+                </div>
+                <input
+                  id="q-guides-main"
+                  type="text"
+                  value={guidesText}
+                  onChange={(e) => setGuidesText(e.target.value.toUpperCase())}
+                  placeholder="e.g. AACCAGTTGCAGGCGCCCCA (comma-separate multiple)"
+                  style={{ fontFamily: "monospace", letterSpacing: "0.5px" }}
+                />
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px", alignItems: "center" }}>
+                  {guides.map((g, gi) => {
+                    const isStandardLen = g.length === 20;
+                    return (
+                      <span
+                        key={gi}
+                        style={{
+                          fontSize: "11px",
+                          fontFamily: "monospace",
+                          padding: "2px 6px",
+                          borderRadius: "4px",
+                          background: isStandardLen ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
+                          color: isStandardLen ? "#34d399" : "#fbbf24",
+                          border: `1px solid ${isStandardLen ? "rgba(16, 185, 129, 0.4)" : "rgba(245, 158, 11, 0.4)"}`
+                        }}
+                      >
+                        gRNA {gi + 1}: {g.length} nt {isStandardLen ? "✓" : "(standard: 20 nt)"}
+                      </span>
+                    );
+                  })}
+                  <span className="muted" style={{ fontSize: "11px" }}>
+                    Enter 1–3 spacers without PAM (e.g. 20 nt).
+                  </span>
+                </div>
+              </div>
+
+              {/* Donor sequence input */}
+              <div style={{ flex: "1 1 320px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "4px" }}>
+                  <label htmlFor="q-donor-main" style={{ fontWeight: 600, fontSize: "13px", color: "var(--text-main)" }}>
+                    Donor Sequence (ssODN, ≤ 300 nt)
+                  </label>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: cleanDna(donorText).length > 300 ? "#f87171" : "var(--text-muted)" }}>
+                    {cleanDna(donorText).length} / 300 nt
+                  </span>
+                </div>
+                <textarea
+                  id="q-donor-main"
+                  value={donorText}
+                  onChange={(e) => setDonorText(e.target.value.toUpperCase())}
+                  placeholder="Paste single-stranded donor sequence (ssODN) with intended edit and silent blocking mutations..."
+                  style={{ fontFamily: "monospace", minHeight: "68px", resize: "vertical", fontSize: "12px" }}
+                />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "2px" }}>
+                  <span className="muted" style={{ fontSize: "11px" }}>
+                    Required for SNP corrections &amp; small tag knock-ins with ≥15 nt homology arms.
+                  </span>
+                  {(guidesText || donorText) && (
+                    <button
+                      type="button"
+                      className="link"
+                      style={{ fontSize: "11px", padding: "1px 6px", border: "none", color: "var(--text-dim)", textDecoration: "underline", background: "none", cursor: "pointer", margin: 0 }}
+                      onClick={() => { setGuidesText(""); setDonorText(""); }}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Presets / Examples */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", paddingTop: "6px", borderTop: "1px dashed var(--border-color)" }}>
+              <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)" }}>Quick sample sequences:</span>
+              <button
+                type="button"
+                className="link"
+                style={{ fontSize: "11px", padding: "2px 8px", margin: 0 }}
+                onClick={() => {
+                  setGuidesText("GACCGTAGCTACGTACGTAG");
+                  setDonorText("TGCAGGCGCCCCACGTACCGGACCGTAGCTACGTACGTAGTTCTACCGGAACGTCCGGTACGTAGCTACGTACGTAGACCGT");
+                  setCustomSequenceMode(true);
+                }}
+              >
+                APOE R176C ssODN Example
+              </button>
+              <button
+                type="button"
+                className="link"
+                style={{ fontSize: "11px", padding: "2px 8px", margin: 0 }}
+                onClick={() => {
+                  setGuidesText("CCTCAGTGTCTTCGAGCTGG, ACTGAGGCCGAGCTGTACCG");
+                  setDonorText("");
+                  setCustomSequenceMode(true);
+                }}
+              >
+                Dual-Guide Deletion Example
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
       {traceNames.length > 0 && <details open>
         <summary>Loaded traces ({traceNames.length})</summary>
         <ul>{traceNames.map((name) => <li key={name}><span>{name}</span> <button type="button" disabled={running} aria-label={`Remove trace ${name}`} onClick={() => {
@@ -170,11 +400,13 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
               ))}
             </tbody></table>
           </div>
-          <details><summary>Guides, donor, nuclease, goal (optional)</summary>
-            <label className="field" htmlFor="q-guides">Guide sequence(s) if there is no design</label>
-            <input id="q-guides" type="text" value={guidesText} onChange={(e) => setGuidesText(e.target.value)} placeholder="leave empty to infer the cut from the traces" />
-            <label className="field" htmlFor="q-donor">Donor (ssODN, up to 300 nt) for SNP corrections and small tags</label>
-            <textarea id="q-donor" value={donorText} onChange={(e) => setDonorText(e.target.value)} />
+          <details><summary>Additional settings: Nuclease, Sample type, Protein assessment</summary>
+            <label className="field" htmlFor="q-nuc">Nuclease</label>
+            <select id="q-nuc" value={nuclease} onChange={(e) => setNuclease(e.target.value)}>{Object.entries(NUCLEASES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select>
+            <label className="field" htmlFor="q-type">Sample type (overrides the guess for every sample)</label>
+            <select id="q-type" value={typeOverride} onChange={(e) => setTypeOverride(e.target.value)}><option value="">as paired</option><option value="clone">clones</option><option value="pool">pools</option></select>
+            <label className="field" htmlFor="q-goal">Accept</label>
+            <select id="q-goal" value={goal} onChange={(e) => setGoal(e.target.value)}><option value="homozygous">homozygous edits only (heterozygous clones are held)</option><option value="any">heterozygous edits too</option></select>
             <label className="field" htmlFor="q-gene">Gene record (GenBank, optional): judges knockouts on the protein</label>
             <input id="q-gene" type="file" accept=".gb,.gbk,.gbff,.genbank,.txt" onChange={async (e) => { const f = e.target.files && e.target.files[0]; if (f) { setGeneText(await f.text()); setGeneName(f.name); } else { setGeneText(""); setGeneName(""); } }} />
             {geneName && <p className="muted">Using {geneName}: each allele is translated, nonsense-mediated decay and splice sites are assessed, and the knockout is called on the predicted protein.</p>}
@@ -186,14 +418,8 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
                 <input id="q-epitope" type="text" value={epitopeText} onChange={(e) => setEpitopeText(e.target.value)} placeholder="200-250" />
               </>
             )}
-            <label className="field" htmlFor="q-nuc">Nuclease</label>
-            <select id="q-nuc" value={nuclease} onChange={(e) => setNuclease(e.target.value)}>{Object.entries(NUCLEASES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select>
-            <label className="field" htmlFor="q-type">Sample type (overrides the guess for every sample)</label>
-            <select id="q-type" value={typeOverride} onChange={(e) => setTypeOverride(e.target.value)}><option value="">as paired</option><option value="clone">clones</option><option value="pool">pools</option></select>
-            <label className="field" htmlFor="q-goal">Accept</label>
-            <select id="q-goal" value={goal} onChange={(e) => setGoal(e.target.value)}><option value="homozygous">homozygous edits only (heterozygous clones are held)</option><option value="any">heterozygous edits too</option></select>
           </details>
-          <p><button type="button" className="primary" disabled={running || !pairs.length || !!design.error || !!(designName && !designText)} onClick={run}>{running ? "Analysing..." : `Analyse ${pairs.length} sample${pairs.length === 1 ? "" : "s"}`}</button> {progress && <span className="muted">{progress.done} of {progress.total}</span>}</p>
+          <p><button type="button" className="primary" disabled={running || !pairs.length || (!customSequenceMode && (!!design.error || !!(designName && !designText)))} onClick={run}>{running ? "Analysing..." : `Analyse ${pairs.length} sample${pairs.length === 1 ? "" : "s"}`}</button> {progress && <span className="muted">{progress.done} of {progress.total}</span>}</p>
         </>
       )}
       {error && <p className="error">{error}</p>}

@@ -35,10 +35,16 @@ export const StudioDeconvModal: React.FC<StudioDeconvModalProps> = ({
   const [isDeconvolving, setIsDeconvolving] = useState(false);
   const [deconvResults, setDeconvResults] = useState<QCCloneResult[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [customGuides, setCustomGuides] = useState<string>(
+    project.target.guides?.map(g => g.sequence).join(', ') || ''
+  );
+  const [customDonor, setCustomDonor] = useState<string>(
+    project.target.donor?.sequence || ''
+  );
 
   if (!isOpen) return null;
 
-  const isKnockout = project.target.targetType === 'KNOCKOUT' || !project.target.donor?.sequence;
+  const isKnockout = project.target.targetType === 'KNOCKOUT' || !customDonor.trim();
 
   // Handle Control .ab1 upload
   const handleControlUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +102,8 @@ export const StudioDeconvModal: React.FC<StudioDeconvModalProps> = ({
     try {
       if (gene === 'APOE') {
         setControlName('BIHi005-A_wt_1124_EF74344326.ab1');
+        setCustomGuides('GACCGTAGCTACGTACGTAG');
+        setCustomDonor('TGCAGGCGCCCCACGTACCGGACCGTAGCTACGTACGTAGTTCTACCGGAACGTCCGGTACGTAGCTACGTACGTAGACCGT');
         const simulatedClones: QCCloneResult[] = [];
         const wells = ['A01', 'A02', 'A03', 'A04', 'B01', 'B02', 'B03', 'B04', 'C01', 'C02', 'C03', 'C04'];
         
@@ -125,6 +133,8 @@ export const StudioDeconvModal: React.FC<StudioDeconvModalProps> = ({
         setDeconvResults(simulatedClones);
       } else {
         setControlName('BIHi005-A_wt_1172_EF74668951.ab1');
+        setCustomGuides('CCTCAGTGTCTTCGAGCTGG, ACTGAGGCCGAGCTGTACCG');
+        setCustomDonor('');
         const simulatedClones: QCCloneResult[] = [];
         const wells = ['A01', 'A02', 'A03', 'A04', 'B01', 'B02', 'B03', 'B04'];
 
@@ -166,7 +176,8 @@ export const StudioDeconvModal: React.FC<StudioDeconvModalProps> = ({
 
     try {
       const centre = project.target.traceViewCentre || 50;
-      const results = deconvolveBatchTraces(sampleTraces, controlTrace, centre, isKnockout);
+      const isTargetKo = !customDonor.trim();
+      const results = deconvolveBatchTraces(sampleTraces, controlTrace, centre, isTargetKo);
       setDeconvResults(results);
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : 'Deconvolution analysis failed.');
@@ -300,6 +311,56 @@ export const StudioDeconvModal: React.FC<StudioDeconvModalProps> = ({
               </label>
             </div>
 
+          </div>
+
+          {/* CRISPR Target Sequences: gRNA & Donor */}
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🧬 3. CRISPR Sequences (gRNA &amp; Donor)</span>
+              </span>
+              <span className="text-[10px] text-purple-300 font-mono font-medium">
+                {customDonor.trim() ? 'Knock-in / Point-edit Mode' : 'Knockout / Deletion Mode'}
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-300 mb-1">
+                  gRNA Spacer Sequence(s)
+                </label>
+                <input
+                  type="text"
+                  value={customGuides}
+                  onChange={(e) => setCustomGuides(e.target.value.toUpperCase())}
+                  placeholder="e.g. GACCGTAGCTACGTACGTAG (20 nt)"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-purple-500"
+                />
+                <span className="text-[10px] text-slate-500 block mt-1">
+                  1–2 guides for single cut or dual-guide deletion (comma separated).
+                </span>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="block text-[11px] font-bold text-slate-300">
+                    Donor ssODN Sequence
+                  </label>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    {customDonor.replace(/[^A-Za-z]/g, '').length} nt
+                  </span>
+                </div>
+                <textarea
+                  value={customDonor}
+                  onChange={(e) => setCustomDonor(e.target.value.toUpperCase())}
+                  placeholder="Paste single-stranded donor oligonucleotide sequence (ssODN)..."
+                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-purple-500 min-h-[64px] resize-vertical"
+                />
+                <span className="text-[10px] text-slate-500 block mt-1">
+                  Leave blank for knockouts, or enter oligo sequence for knock-in analysis.
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Error Message */}

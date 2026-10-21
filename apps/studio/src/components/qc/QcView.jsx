@@ -64,12 +64,12 @@ export function QcView({ currentProject, onUpdateProject }) {
                 Design active & parsed: {design.name}
               </div>
               <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
-                Target: <strong>{currentProject.gene || "Gene"}</strong> · Bench has automatically loaded this design into the trace engine.
+                Target: <strong>{currentProject.gene || "Gene"}</strong> · Bench loaded this design. You can review or override gRNA &amp; donor sequences directly in the workspace below.
               </div>
             </div>
           </div>
           <div style={{ fontSize: "0.85rem", background: "rgba(16, 185, 129, 0.15)", color: "#10b981", padding: "0.35rem 0.75rem", borderRadius: "6px", fontWeight: 500 }}>
-            Next: Provide matching Parental Control & Sample .ab1 files below
+            Next: Provide matching Parental Control &amp; Sample .ab1 files below
           </div>
         </div>
       ) : (
@@ -78,12 +78,12 @@ export function QcView({ currentProject, onUpdateProject }) {
           <div>
             <div style={{ fontWeight: 600, color: "#f59e0b" }}>No active design loaded</div>
             <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
-              Design an edit in <strong>Step 1</strong>, open a saved experiment from <strong>Projects</strong>, or upload a Design JSON / HTML report below with your traces.
+              Provide your <strong>gRNA sequences and donor sequence</strong> directly in the workspace below, upload a Design JSON / HTML report, or design an edit in <strong>Step 1</strong>.
             </div>
           </div>
         </div>
       )}
     </div>
-    <iframe ref={frame} src={source} title="Trace Analysis upload and analysis" style={{ width: "100%", height: "85vh", minHeight: 700, border: "1px solid var(--border-color)", borderRadius: 12, background: "#fff" }} />
+    <iframe ref={frame} src={source} title="Trace Analysis upload and analysis" style={{ width: "100%", height: "88vh", minHeight: 760, border: "none", borderRadius: 12, background: "transparent" }} />
   </div>;
 }

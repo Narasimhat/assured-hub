@@ -10,8 +10,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "Two guides, two ssODNs, three variants (D172D, R176C, L177L). The ssODNs are reconstructed from the manifest, not the lab's order sheet. Use it with the five APOE traces and Ctrl.ab1 in Assured QC.",
     "url": "/sample_data/designs/apoe_r176c_run.reconstructed.design.json",
     "downloadFilename": "apoe_r176c_run.reconstructed.design.json",
-    "bytes": 4113,
-    "sha256": "31153fe7c7282600f174e2d12161e521d3e955d26daed08a405a0c59912aecbc"
+    "bytes": 4250,
+    "sha256": "fb451165851dd36e29122ac9451cbecf7f11f6e2affdfa9550763093f83e5519"
   },
   {
     "id": "design-apoe-engine",
@@ -20,8 +20,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "Produced on RefSeqGene NG_007084.2: two guides, two 127-nt ssODNs with 36/91 arms.",
     "url": "/sample_data/designs/APOE_R176C.engine.design.json",
     "downloadFilename": "APOE_R176C.engine.design.json",
-    "bytes": 7507,
-    "sha256": "8fc5852d5c7dd60d405738f674a1f90343c5c2df2531ec1b7819fd0c8647fa50"
+    "bytes": 7690,
+    "sha256": "945f1f897d5e41f53151bade614bc79a0b5ea697ca41f9359a97bee27f599294"
   },
   {
     "id": "design-hbb-engine",
@@ -30,8 +30,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "Produced on RefSeqGene NG_059281.1: one guide and one 127-nt ssODN. The file labels the edit base with role 'blocking' (documented export issue). On 7 synthetic clones, Assured QC's calls and numbers did not change with that label, but its text omits '(intended edit absent)' for blocking-only clones.",
     "url": "/sample_data/designs/HBB_E7V.engine.design.json",
     "downloadFilename": "HBB_E7V.engine.design.json",
-    "bytes": 5649,
-    "sha256": "da73e6a6fc95395fb6475e3f9e6828fff1bf74e59bfc4f16533095068318c0a2"
+    "bytes": 5788,
+    "sha256": "c02f2cc7c172b58405d31bd016820d509f4a8863becb6c4722274b2840d3e32f"
   },
   {
     "id": "ref-apoe",
@@ -40,8 +40,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "The reference record the APOE designs were built on.",
     "url": "/sample_data/references/NG_007084.2.gb",
     "downloadFilename": "NG_007084.2.gb",
-    "bytes": 34687,
-    "sha256": "b552cf69a04eb9ce3b8fffbe266d690fcd43bd33b3df843339b97df576d8dbc3"
+    "bytes": 35248,
+    "sha256": "6d6b9c8ca7025a6eb4f5658ad1fa83d052552d912b220c8638470524abc0b0fc"
   },
   {
     "id": "ref-hbb",
@@ -50,8 +50,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "The reference record the HBB design was built on (LRG_1232).",
     "url": "/sample_data/references/NG_059281.1.gb",
     "downloadFilename": "NG_059281.1.gb",
-    "bytes": 31151,
-    "sha256": "3c8ad9f8a369ffba4ef930850e876e56f45e978b37e05b84cd8e6240f1b6f02b"
+    "bytes": 31657,
+    "sha256": "ebf017d1fc061b55a3e8c217546cf6dff80fcc78fce008798d418e7520ed9118"
   },
   {
     "id": "ab1-apoe-ctrl",
@@ -180,8 +180,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "Per-clone output of the lab's analysis pipeline for the whole run. The file name says Synthego ICE, but the columns come from the lab's own pipeline. Absolute paths were removed.",
     "url": "/sample_data/apoe/Synthego_ICE_Analysis_batch.csv",
     "downloadFilename": "Synthego_ICE_Analysis_batch.csv",
-    "bytes": 6388,
-    "sha256": "e3b70c5c7f7deab7d8814f5eb30dd57133d56fa3639417635a13b44a635d137a"
+    "bytes": 6413,
+    "sha256": "98abc59981738618441159e4bd5a4af50e169c1f000a92f5fcf7e5834aa7a012"
   },
   {
     "id": "csv-myd88-lab",
@@ -190,8 +190,8 @@ export const SAMPLE_DATASETS: SampleDataset[] = [
     "description": "As above, for the MYD88 knockout run. Absolute paths were removed.",
     "url": "/sample_data/myd88/Synthego_ICE_Analysis_2023_08_09_1691566838.csv",
     "downloadFilename": "Synthego_ICE_Analysis_2023_08_09_1691566838.csv",
-    "bytes": 1985,
-    "sha256": "28b3fcfcdfe0e6b7ebac0729e959ca05879d0beb3cbaf624dd1fb37e62b94c91"
+    "bytes": 1994,
+    "sha256": "993b86d47003f581ae02ed579cea3bfe6f7dfec94c8cf91966f7bfa1fb0ce04c"
   },
   {
     "id": "csv-comparison",

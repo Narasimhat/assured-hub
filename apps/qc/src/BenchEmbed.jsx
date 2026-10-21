@@ -19,11 +19,7 @@ function BenchEmbed() {
     window.parent.postMessage({ type: "assured:qc:results", ...payload }, parentOrigin);
   }, [parentOrigin]);
   return (
-    <div className="page">
-      <h1>Trace Analysis</h1>
-      <p className="muted">
-        {initialDesign ? `Design ready from Bench (${initialDesign.name || "Bench design"}). Please provide your matching parental control (e.g. Ctrl.ab1) and edited clone sample .ab1 files below.` : "Upload an Assured Design HTML report or JSON, then add AB1 files, a folder, or a sequencing ZIP. Review sample/control pairings before analysis. Files stay in your browser."}
-      </p>
+    <div className="page embedded">
       <QuickStart initialDesign={initialDesign} onResults={onResults} />
     </div>
   );
