@@ -16,6 +16,8 @@ import { NUCLEASES } from "./nucleases.js";
 import { expandImportFiles } from "./importFiles.js";
 import Detail from "./Detail.jsx";
 import IceExport from "./IceExport.jsx";
+import ManualSequences from "./ManualSequences.jsx";
+import { checkManual, toPlanInput, previewManual } from "./manualInput.js";
 
 const LABEL = { accept: "Accept", hold: "Hold", "re-sequence": "Sequence again", reject: "Reject" };
 const download = (name, data, type) => { const url = URL.createObjectURL(new Blob([data], { type })); const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000); };
@@ -26,7 +28,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
   const filePicker = useRef(null); const folderPicker = useRef(null); const designPicker = useRef(null);
   const files = useRef(new Map()); const buffers = useRef(new Map());
   const [traceNames, setTraceNames] = useState([]); const [sheetText, setSheetText] = useState(""); const [designText, setDesignText] = useState(""); const [designName, setDesignName] = useState(""); const [geneText, setGeneText] = useState(""); const [geneName, setGeneName] = useState(""); const [regionsText, setRegionsText] = useState(""); const [epitopeText, setEpitopeText] = useState("");
-  const [guidesText, setGuidesText] = useState(""); const [donorText, setDonorText] = useState(""); const [nuclease, setNuclease] = useState("SpCas9"); const [typeOverride, setTypeOverride] = useState(""); const [goal, setGoal] = useState("homozygous");
+  const [guideRows, setGuideRows] = useState([{ text: "" }, { text: "" }]); const [donorRows, setDonorRows] = useState([{ name: "", text: "" }]); const [preview, setPreview] = useState(null); const [checking, setChecking] = useState(false); const [nuclease, setNuclease] = useState("SpCas9"); const [typeOverride, setTypeOverride] = useState(""); const [goal, setGoal] = useState("homozygous");
   const [pairsEdit, setPairsEdit] = useState({}); const [running, setRunning] = useState(false); const [progress, setProgress] = useState(null);
   const [outcome, setOutcome] = useState(null); const [picked, setPicked] = useState(0); const [panel, setPanel] = useState(0); const [figureBusy, setFigureBusy] = useState(false); const [error, setError] = useState("");
   const [importStatus, setImportStatus] = useState("");
@@ -79,12 +81,31 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
   const built = useMemo(() => (traceNames.length ? buildPairs({ traceNames, sheetText }) : { pairs: [], problems: [] }), [traceNames, sheetText]);
   const design = useMemo(() => { try { return { ...readDesign(designText, { designIndex }), error: "" }; } catch (e) { return { kind: "none", error: e.message }; } }, [designText, designIndex]);
   const pairs = built.pairs.map((p, i) => ({ ...p, ...(pairsEdit[i] || {}) }));
-  const guides = guidesText.split(/[,;\s]+/).filter(Boolean);
+  // gRNA and donor sequences typed below. A loaded design supplies its own, and typed ones must never override it.
+  const manualActive = !designName;
+  const manual = useMemo(() => checkManual({ guideRows, donorRows, nuclease }), [guideRows, donorRows, nuclease]);
+  const plan = useMemo(() => (manualActive && manual.entered ? toPlanInput(manual) : { guides: [], donor: "" }), [manualActive, manual]);
+  const guides = plan.guides;
+  const blockedByManual = manualActive && manual.entered && !manual.ready;
   const lowCount = pairs.filter((p) => p.confidence === "low").length;
   const guideSource = design.kind === "spec" ? `the design file (${design.label})` : design.kind === "report" ? `the design report (${design.label}: ${design.guides.length} guide${design.guides.length === 1 ? "" : "s"})` : guides.length ? "the guides typed below" : "none: the cut site will be inferred from where the traces depart from the control";
 
+  const previewKey = JSON.stringify([plan, nuclease, pairs[0]?.control?.[0] || ""]);
+  const shownPreview = preview && preview.key === previewKey ? preview : null;
+  const checkAgainstControl = async () => {
+    const name = pairs[0]?.control?.[0]; if (!name) return;
+    setChecking(true);
+    try {
+      if (!buffers.current.has(name)) buffers.current.set(name, await arrayBufferOf(files.current.get(name)));
+      const control = parseAbif(buffers.current.get(name).slice(0), name);
+      setPreview({ key: previewKey, control: name, ...previewManual({ control, guides: plan.guides, donor: plan.donor, nuclease }) });
+    } catch (e) { setPreview({ key: previewKey, control: name, ok: false, error: `Could not read the control trace: ${e.message || e}` }); }
+    setChecking(false);
+  };
+
   const run = async () => {
     if (design.error || (designName && !designText)) { setError("Replace or remove the unreadable design before analysing."); return; }
+    if (blockedByManual) { setError("Fix the gRNA and donor entries marked above before analysing."); return; }
     setRunning(true); setOutcome(null); setPicked(0); setError("");
     try {
       const needed = new Set(pairs.flatMap((p) => [...p.control, ...p.edited]));
@@ -92,7 +113,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       const parsed = new Map(); const getTrace = (name) => { if (!parsed.has(name)) parsed.set(name, parseAbif(buffers.current.get(name).slice(0), name)); return parsed.get(name); };
       const coding = geneText ? parseCodingFields({ regionsText, epitopeText }) : { options: {}, problems: [] };
       if (coding.problems.length) { setError(coding.problems.join(" ")); setRunning(false); return; }
-      const { tasks, problems } = planTasks({ pairs, getTrace, design, guides, donor: donorText.replace(/\s+/g, ""), nuclease, sampleType: typeOverride, goal, genbank: geneText, codingOptions: coding.options });
+      const { tasks, problems } = planTasks({ pairs, getTrace, design, guides, donor: plan.donor, nuclease, sampleType: typeOverride, goal, genbank: geneText, codingOptions: coding.options });
       if (!tasks.length) { setError(problems.join(" ") || "Nothing to analyse."); setRunning(false); return; }
       setProgress({ done: 0, total: tasks.length });
       const size = Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 4) - 1));
@@ -135,7 +156,9 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       </div>
       {importStatus && <p role="status" className="note">{importStatus}</p>}
       <input ref={designPicker} hidden style={{ display: "none" }} id="q-design" aria-label="Design report file" type="file" accept=".html,.htm,.json,text/html,application/json" disabled={running} onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
-      {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or enter guides manually under “Guides, donor, nuclease, goal”.</p>}
+      {!designName && <p className="muted">Add a design report (HTML or JSON) using Add files above, or type your gRNA and donor sequences here.</p>}
+      {!designName && <ManualSequences guideRows={guideRows} donorRows={donorRows} setGuideRows={setGuideRows} setDonorRows={setDonorRows} manual={manual} nuclease={nuclease} setNuclease={setNuclease}
+        disabled={running} canCheck={pairs.length > 0} onCheck={checkAgainstControl} checking={checking} preview={shownPreview} />}
       {designName && <div role="status">
         <p><b>{design.error ? "Design needs attention:" : "Design loaded & parsed:"}</b> {designName} <button type="button" disabled={running} onClick={() => designPicker.current.click()}>Replace design</button> <button type="button" disabled={running} onClick={() => { setDesignName(""); setDesignText(""); setDesignIndex(0); setOutcome(null); setError(""); }}>Remove design</button></p>
         {design.error ? <p className="error">{design.error} Replace or remove this file to continue.</p> : design.kind === "report" ? <>
@@ -170,11 +193,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
               ))}
             </tbody></table>
           </div>
-          <details><summary>Guides, donor, nuclease, goal (optional)</summary>
-            <label className="field" htmlFor="q-guides">Guide sequence(s) if there is no design</label>
-            <input id="q-guides" type="text" value={guidesText} onChange={(e) => setGuidesText(e.target.value)} placeholder="leave empty to infer the cut from the traces" />
-            <label className="field" htmlFor="q-donor">Donor (ssODN, up to 300 nt) for SNP corrections and small tags</label>
-            <textarea id="q-donor" value={donorText} onChange={(e) => setDonorText(e.target.value)} />
+          <details><summary>More settings: gene record, nuclease, sample type, goal (optional)</summary>
             <label className="field" htmlFor="q-gene">Gene record (GenBank, optional): judges knockouts on the protein</label>
             <input id="q-gene" type="file" accept=".gb,.gbk,.gbff,.genbank,.txt" onChange={async (e) => { const f = e.target.files && e.target.files[0]; if (f) { setGeneText(await f.text()); setGeneName(f.name); } else { setGeneText(""); setGeneName(""); } }} />
             {geneName && <p className="muted">Using {geneName}: each allele is translated, nonsense-mediated decay and splice sites are assessed, and the knockout is called on the predicted protein.</p>}
@@ -186,14 +205,16 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
                 <input id="q-epitope" type="text" value={epitopeText} onChange={(e) => setEpitopeText(e.target.value)} placeholder="200-250" />
               </>
             )}
-            <label className="field" htmlFor="q-nuc">Nuclease</label>
-            <select id="q-nuc" value={nuclease} onChange={(e) => setNuclease(e.target.value)}>{Object.entries(NUCLEASES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select>
+            {designName && <>
+              <label className="field" htmlFor="q-nuc">Nuclease</label>
+              <select id="q-nuc" value={nuclease} onChange={(e) => setNuclease(e.target.value)}>{Object.entries(NUCLEASES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select>
+            </>}
             <label className="field" htmlFor="q-type">Sample type (overrides the guess for every sample)</label>
             <select id="q-type" value={typeOverride} onChange={(e) => setTypeOverride(e.target.value)}><option value="">as paired</option><option value="clone">clones</option><option value="pool">pools</option></select>
             <label className="field" htmlFor="q-goal">Accept</label>
             <select id="q-goal" value={goal} onChange={(e) => setGoal(e.target.value)}><option value="homozygous">homozygous edits only (heterozygous clones are held)</option><option value="any">heterozygous edits too</option></select>
           </details>
-          <p><button type="button" className="primary" disabled={running || !pairs.length || !!design.error || !!(designName && !designText)} onClick={run}>{running ? "Analysing..." : `Analyse ${pairs.length} sample${pairs.length === 1 ? "" : "s"}`}</button> {progress && <span className="muted">{progress.done} of {progress.total}</span>}</p>
+          <p><button type="button" className="primary" disabled={running || !pairs.length || !!design.error || !!(designName && !designText) || blockedByManual} onClick={run}>{running ? "Analysing..." : `Analyse ${pairs.length} sample${pairs.length === 1 ? "" : "s"}`}</button> {progress && <span className="muted">{progress.done} of {progress.total}</span>}</p>
         </>
       )}
       {error && <p className="error">{error}</p>}
