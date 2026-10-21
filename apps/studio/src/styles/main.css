@@ -1,47 +1,47 @@
-/* Clean Scientific Light Theme for Assured Genome Studio */
+/* Sage & Warm Alabaster (Bio-Atelier) Theme for Assured Genome Studio */
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   
-  /* Canvas & Card Surfaces */
-  --bg-app: #f8fafc;
+  /* Canvas & Card Surfaces (Warm Alabaster & Crisp Ceramic) */
+  --bg-app: #f7f9f7;
   --bg-surface: #ffffff;
-  --bg-surface-hover: #f1f5f9;
+  --bg-surface-hover: #eef4f0;
   --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
+  --bg-card-hover: #f7faf8;
   --bg-input: #ffffff;
   
-  /* Scientific Borders */
-  --border-color: #e2e8f0;
-  --border-light: #cbd5e1;
-  --border-strong: #94a3b8;
+  /* Celadon & Sage Borders */
+  --border-color: #e0ece3;
+  --border-light: #cee0d3;
+  --border-strong: #96b5a0;
   
-  /* Scientific Ink Typography */
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-dim: #64748b;
+  /* Deep Pine Ink Typography */
+  --text-main: #112b23;
+  --text-muted: #49685d;
+  --text-dim: #708c80;
   
-  /* Biotech Brand & Accent */
-  --primary: #0284c7;
-  --primary-hover: #0369a1;
-  --primary-glow: rgba(2, 132, 199, 0.15);
-  --primary-bg: #f0f9ff;
+  /* Bio-Atelier Jade Primary */
+  --primary: #0f766e;
+  --primary-hover: #115e59;
+  --primary-glow: rgba(15, 118, 110, 0.16);
+  --primary-bg: #f0fdfa;
   
-  /* Semantics Calibrated for Light Background */
+  /* Semantics Calibrated for Warm Alabaster */
   --success: #059669;
   --success-bg: #ecfdf5;
   --success-border: #a7f3d0;
   
-  --warning: #d97706;
-  --warning-bg: #fffbeb;
-  --warning-border: #fde68a;
+  --warning: #c2410c;
+  --warning-bg: #fff7ed;
+  --warning-border: #fed7aa;
   
   --danger: #dc2626;
   --danger-bg: #fef2f2;
   --danger-border: #fecaca;
 
-  --accent-purple: #7c3aed;
-  --accent-blue: #2563eb;
+  --accent-purple: #6d28d9;
+  --accent-blue: #0284c7;
 }
 
 * {
@@ -94,12 +94,13 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem 2rem;
-  background-color: var(--bg-surface);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(18, 43, 35, 0.04);
 }
 
 .brand {
@@ -111,7 +112,7 @@ input:focus, select:focus, textarea:focus {
 .brand-icon {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, #0f766e 0%, #059669 100%);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -119,13 +120,14 @@ input:focus, select:focus, textarea:focus {
   color: #fff;
   font-weight: 700;
   font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
 }
 
 .brand-title {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, #0f172a, #334155);
+  background: linear-gradient(90deg, #112b23, #1e4d3e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -134,9 +136,9 @@ input:focus, select:focus, textarea:focus {
   font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  background-color: #f1f5f9;
-  border: 1px solid var(--border-color);
-  color: #475569;
+  background-color: #e8f2eb;
+  border: 1px solid #d0e4d6;
+  color: #2e5445;
   font-weight: 600;
   margin-left: 0.4rem;
 }
@@ -146,10 +148,10 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #f1f5f9;
+  background: #ebf3ed;
   padding: 0.35rem 0.5rem;
   border-radius: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #d4e5d9;
 }
 
 .step-btn {
@@ -165,14 +167,14 @@ input:focus, select:focus, textarea:focus {
 
 .step-btn:hover {
   color: var(--text-main);
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .step-btn.active {
   background-color: #ffffff;
   color: var(--primary);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 4px rgba(18, 43, 35, 0.08);
 }
 
 .step-btn.completed {
@@ -187,8 +189,8 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  background: #e2e8f0;
-  color: #475569;
+  background: #d6e6db;
+  color: #325647;
   font-weight: 600;
 }
 
@@ -216,7 +218,7 @@ input:focus, select:focus, textarea:focus {
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(18, 43, 35, 0.04), 0 4px 12px rgba(18, 43, 35, 0.03);
 }
 
 .card-title {
@@ -277,17 +279,17 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
-  box-shadow: 0 2px 8px var(--primary-glow);
+  box-shadow: 0 2px 10px var(--primary-glow);
 }
 
 .btn-secondary {
-  background-color: #f1f5f9;
+  background-color: #edf5ef;
   color: var(--text-main);
-  border: 1px solid var(--border-light);
+  border: 1px solid #d2e3d6;
 }
 
 .btn-secondary:hover {
-  background-color: #e2e8f0;
+  background-color: #e0ede4;
   border-color: var(--border-strong);
 }
 
@@ -323,28 +325,29 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  background-color: #f8fafc;
-  border-bottom: 2px solid var(--border-color);
+  background-color: #f1f7f3;
+  border-bottom: 2px solid #d7e7dc;
+  font-weight: 600;
 }
 
 td {
   padding: 0.85rem;
   font-size: 0.9rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #e7f0ea;
   color: var(--text-main);
 }
 
 tr:hover td {
-  background-color: #f8fafc;
+  background-color: #f5f9f6;
 }
 
 /* Dropzone */
 .dropzone {
-  border: 2px dashed var(--border-light);
+  border: 2px dashed #c9dcd0;
   border-radius: 12px;
   padding: 3rem 2rem;
   text-align: center;
-  background: #f8fafc;
+  background: #f7f9f7;
   color: var(--text-muted);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -361,9 +364,9 @@ tr:hover td {
   grid-template-columns: repeat(12, 1fr);
   gap: 6px;
   padding: 1rem;
-  background: #f1f5f9;
+  background: #ebf3ed;
   border-radius: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #d4e5d9;
 }
 
 .well {
@@ -380,7 +383,7 @@ tr:hover td {
 
 .well:hover {
   transform: scale(1.15);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(18, 43, 35, 0.15);
   z-index: 10;
 }
 
@@ -395,14 +398,14 @@ tr:hover td {
 }
 
 .well-reject {
-  background-color: #94a3b8;
+  background-color: #8da196;
   color: #ffffff;
 }
 
 .well-empty {
-  background-color: #e2e8f0;
-  border: 1px solid #cbd5e1;
-  color: #94a3b8;
+  background-color: #dde9e0;
+  border: 1px solid #c9dcd0;
+  color: #819b8d;
 }
 
 .project-controls {

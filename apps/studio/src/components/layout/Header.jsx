@@ -62,7 +62,7 @@ export function Header({
           className="btn btn-secondary"
           onClick={onOpenProtocol}
           title="View wet-lab bench protocol and pipetting checklist"
-          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "var(--primary)", borderColor: "rgba(2, 132, 199, 0.4)" }}
+          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", color: "var(--primary)", borderColor: "rgba(15, 118, 110, 0.4)" }}
         >
           <FlaskConical size={16} />
           <span>Bench Protocol</span>

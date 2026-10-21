@@ -146,19 +146,19 @@ export function PlateView({ traces = [], results = [], selectedResult, onSelectR
       {/* Metrics Bar */}
       <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "1rem", fontSize: "0.85rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#10b981", display: "inline-block" }}></span>
+          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "var(--success)", display: "inline-block" }}></span>
           <span><strong>{stats.accept}</strong> Accepted ({stats.successRate}%)</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f59e0b", display: "inline-block" }}></span>
+          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "var(--warning)", display: "inline-block" }}></span>
           <span><strong>{stats.hold}</strong> Hold / Review</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444", display: "inline-block" }}></span>
+          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#8da196", display: "inline-block" }}></span>
           <span><strong>{stats.reject}</strong> WT / Reject</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#3b82f6", display: "inline-block" }}></span>
+          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "var(--accent-blue)", display: "inline-block" }}></span>
           <span><strong>{stats.control}</strong> WT Control</span>
         </div>
         <div style={{ marginLeft: "auto", color: "var(--text-muted)" }}>
