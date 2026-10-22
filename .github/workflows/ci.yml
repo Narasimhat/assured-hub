@@ -29,6 +29,12 @@ jobs:
           cache: npm
       - name: Install from the committed lockfile (creates the @assured/* workspace links)
         run: npm ci --no-audit --no-fund
+      - name: Test @assured/provenance
+        if: always()
+        run: npm test -w @assured/provenance
+      - name: Test Bench workflow
+        if: always()
+        run: npm run test:studio
       - name: Test @assured/spec
         if: always()
         run: npm test -w @assured/spec

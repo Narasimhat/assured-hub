@@ -17,7 +17,8 @@
     "@assured/spec": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "@assured/provenance": "*"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
