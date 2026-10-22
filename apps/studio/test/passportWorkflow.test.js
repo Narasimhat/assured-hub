@@ -46,3 +46,11 @@ test('new designs clear captured run provenance while historical passports persi
  await assert.rejects(validateStoredPassports(p),/Invalid/);
  for (const patch of [{fairPassports:{}},{qcRunProvenance:[]}]) assert.throws(()=>parseProject(JSON.stringify({...createProject(),...patch})));
 });
+
+test('import keeps chain submissions as unverified references and rejects malformed or orphan proofs',async()=>{
+ const p=await project();
+ const reference={...p,fairAnchorSubmissions:{['ab'.repeat(32)]:'0x'+'cd'.repeat(32)}};
+ assert.equal(await validateStoredPassports(reference),reference);
+ for(const patch of [{fairChainProofs:[null]},{fairChainProofs:[{recordSha256:'wrong'}]},{fairAnchorSubmissions:{bad:'0x123'}}])await assert.rejects(validateStoredPassports({...p,...patch}));
+ for(const patch of [{fairChainProofs:{}},{fairAnchorSubmissions:[]}])assert.throws(()=>parseProject(JSON.stringify({...p,...patch})));
+});
