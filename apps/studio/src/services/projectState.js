@@ -12,7 +12,9 @@ export function createProject() {
     geneMeta: null,
     genbankRaw: "",
     designResult: null,
-    qcResults: []
+    qcResults: [],
+    qcRunProvenance: null,
+    fairPassports: []
   };
 }
 
@@ -24,9 +26,9 @@ export function updateProject(project, fields) {
   const next = { ...project, ...fields };
   if (changed || ("designResult" in fields && fields.designResult !== project.designResult)) {
     // A new target or design cannot retain the previous experiment's screening results.
-    Object.assign(next, { designResult: null, svgScheme: null, caption: null, status: null, qcResults: [], qcDesignSpec: null, qcDesignSource: null, qcImportedDesignText: null }, fields);
+    Object.assign(next, { designResult: null, svgScheme: null, caption: null, status: null, qcResults: [], qcRunProvenance: null, qcDesignSpec: null, qcDesignSource: null, qcImportedDesignText: null }, fields);
   }
-  if ("qcDesignSpec" in fields && fields.qcDesignSpec !== project.qcDesignSpec) next.qcResults = [];
+  if ("qcDesignSpec" in fields && fields.qcDesignSpec !== project.qcDesignSpec) { next.qcResults = []; next.qcRunProvenance = null; }
   return next;
 }
 
@@ -34,6 +36,8 @@ export function parseProject(text) {
   const value = JSON.parse(text);
   if (!value || typeof value !== "object" || Array.isArray(value) ||
       typeof value.gene !== "string" || !["ko", "pm", "ct", "nt", "it"].includes(value.editType) ||
+      (value.fairPassports != null && !Array.isArray(value.fairPassports)) ||
+      (value.qcRunProvenance != null && (typeof value.qcRunProvenance !== "object" || Array.isArray(value.qcRunProvenance))) ||
       (value.qcResults != null && !Array.isArray(value.qcResults)) ||
       (value.designResult != null && (typeof value.designResult !== "object" || Array.isArray(value.designResult))) ||
       (value.options != null && (typeof value.options !== "object" || Array.isArray(value.options))) ||

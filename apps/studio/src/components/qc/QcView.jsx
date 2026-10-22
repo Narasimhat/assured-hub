@@ -28,7 +28,7 @@ export function QcView({ currentProject, onUpdateProject }) {
         frame.current.contentWindow.postMessage({ type: "assured:qc:design", design: currentDesign.current }, qcOrigin);
       }
       if (event.data?.type === "assured:qc:results" && Array.isArray(event.data.results)) {
-        update.current({ qcResults: event.data.results, ...(typeof event.data.designText === "string" ? { qcImportedDesignText: event.data.designText, qcDesignSource: event.data.designName } : {}) });
+        update.current({ qcResults: event.data.results, qcRunProvenance: event.data.provenance || null, ...(typeof event.data.designText === "string" ? { qcImportedDesignText: event.data.designText, qcDesignSource: event.data.designName } : {}) });
       }
     };
     window.addEventListener("message", receive);

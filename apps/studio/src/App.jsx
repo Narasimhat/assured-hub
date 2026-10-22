@@ -1,3 +1,5 @@
+import { WorkflowPassport } from './components/provenance/WorkflowPassport.jsx';
+import { validateStoredPassports } from './services/passportWorkflow.js';
 import { QuickStart } from "./components/common/QuickStart.jsx";
 import React, { useState, useEffect } from "react";
 import { Header } from "./components/layout/Header.jsx";
@@ -112,7 +114,7 @@ export function App() {
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
-        const parsed = parseProject(event.target.result);
+        const parsed = await validateStoredPassports(parseProject(event.target.result));
         await saveProject(parsed);
         setCurrentProject(parsed);
         setActiveStep("design");
@@ -193,6 +195,8 @@ export function App() {
             onUpdateProject={handleUpdateProject}
           />
         </div>
+
+        {activeStep === "passport" && <WorkflowPassport currentProject={currentProject} onUpdateProject={handleUpdateProject} />}
 
         {activeStep === "decision" && (
           <DecisionView currentProject={currentProject} />

@@ -1,3 +1,4 @@
+import { captureRunProvenance } from './runProvenance.js';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { classifyFiles, buildPairs, readDesign, planTasks, runPool } from "./quick.js";
 import { parseCodingFields } from "./coding.js";
@@ -45,7 +46,7 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
   useEffect(() => {
     if (!outcome && previousOutcome.current && onResults) onResults({ results: [] });
     previousOutcome.current = outcome;
-    if (outcome && onResults) onResults({ results: withRecommendations(outcome.results, panel ? { panel } : {}), designText, designName });
+    if (outcome && onResults) onResults({ results: withRecommendations(outcome.results, panel ? { panel } : {}), designText, designName, provenance: outcome.provenance });
   }, [outcome, panel, onResults]);
 
   const addFiles = async (list) => {
@@ -125,7 +126,11 @@ export default function QuickStart({ initialDesign = null, onResults } = {}) {
       const size = Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 4) - 1));
       const results = await runPool({ tasks, size, spawn: () => new Worker(new URL("./worker.js", import.meta.url), { type: "module" }), onProgress: setProgress,
         payload: (task, index) => ({ task: { ...task, index, controls: task.controls.map((n) => ({ name: n, buffer: buffers.current.get(n).slice(0) })), edited: task.edited.map((n) => ({ name: n, buffer: buffers.current.get(n).slice(0) })) } }) });
-      setOutcome({ results, tasks, problems: [...built.problems, ...problems], workflow: tasks[0].workflow });
+      const provenance = onResults ? await captureRunProvenance(tasks, buffers.current, {
+        nuclease, guides, donor: cleanDonor, customSequenceMode, sampleType: typeOverride, goal,
+        genbank: geneText, codingOptions: coding.options, sampleSheet: sheetText,
+      }) : null;
+      setOutcome({ results, tasks, provenance, problems: [...built.problems, ...problems], workflow: tasks[0].workflow });
     } catch (e) { setError(e.message || String(e)); }
     setRunning(false); setProgress(null);
   };

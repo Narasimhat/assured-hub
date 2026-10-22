@@ -36,3 +36,7 @@ node tools/evaluate-plates.mjs <platesDir> <out.csv>   # QC readout vs simulated
 
 `node_modules` are not included. `npm ci` at the root creates the workspace links.
 Simulator parameters are illustrative teaching defaults, not measured values.
+
+## FAIR workflow edition
+
+The FAIR feature branch adds a fifth **FAIR Passport** step to Bench and shared provenance tools to Design and QC. Bench connects the active design, captured QC settings and original-input hashes to clone lineage, checks reattached originals, and retains passport history in saved/exported experiments. See [FAIR workflow and next releases](docs/FAIR_WORKFLOW.md). Records remain self-issued and unanchored; metadata completeness is not FAIR certification or biological validation. Deploy the FAIR edition as a separate Vercel project, leaving the original Hub's `main` unchanged.

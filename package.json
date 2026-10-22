@@ -12,7 +12,7 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "npm test -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy-core -w assured-studio && npm run test:contract && npm run test:ui",
+    "test": "npm test -w @assured/provenance -w @assured/spec -w @assured/rules -w assured-qc -w assured-crispr-designer -w assured-academy-core -w assured-studio && npm run test:contract && npm run test:ui",
     "test:contract": "node --test tests/contract/*.test.js",
     "test:studio": "npm test -w assured-studio",
     "build": "npm run build:qc && npm run build:design && npm run build:ui && npm run build:studio && node scripts/build-hub.mjs",

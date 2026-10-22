@@ -5,6 +5,7 @@ const steps = [
   { id: "order", title: "Plan reagents", text: "Review guides, donor, and primers, complete the listed checks, and export your reagent sheet." },
   { id: "qc", title: "Trace Analysis", text: "Upload the parental control and edited AB1 traces, check the detected control and clone counts, then click Analyse." },
   { id: "decision", title: "Reports", text: "Inspect QC results and candidate reasons, compare clones, and download the screening CSV." },
+  { id: "passport", title: "FAIR Passport", text: "After Design and Trace Analysis, link clone lineage and original-file fingerprints; save or export the evidence passport." },
 ];
 
 export function QuickStart({ onNavigate, onDesignExample, isLoadingExample }) {
