@@ -1,0 +1,11 @@
+# Sample catalogue fingerprints must describe the same bytes on every checkout.
+apps/academy-core/data/**/*.json text eol=lf
+apps/academy-core/data/**/*.csv text eol=lf
+apps/academy-core/data/*.csv text eol=lf
+apps/academy-core/references/*.gb text eol=lf
+apps/academy-ui/public/sample_data/**/*.json text eol=lf
+apps/academy-ui/public/sample_data/**/*.csv text eol=lf
+apps/academy-ui/public/sample_data/**/*.gb text eol=lf
+# ABI traces are binary evidence; never apply newline conversion.
+*.ab1 binary
+*.abi binary
