@@ -15,6 +15,7 @@ import { DESIGN_TYPES } from "./designTypes.js";
 import { getDonorReleaseStatus, getReleaseVerdict, getReleaseVerdictSections } from "./releaseVerdict.js";
 import { describeDonorFormat } from "./donorFormat.js";
 import { buildDesignSchemeCaption, buildDesignSchemeFilename, buildDesignSchemeSvg, supportsDesignScheme } from "./designScheme.js";
+import { complementBase, genomicAt, isReverse } from "./genomicCoords.js";
 
 const CODON_TABLE = {
   TTT: "F", TTC: "F", TTA: "L", TTG: "L", CTT: "L", CTC: "L", CTA: "L", CTG: "L",
@@ -607,7 +608,7 @@ function describeDonorFormatSummary(format) {
 export function buildDesignReadinessChecks(result) {
   if (!result) return [];
   if (result.type === "genomic-snv") return [
-    {label:"Reference allele",status:"pass",detail:`${result.input.assembly} chr${result.input.chromosome}:${result.input.position} ${result.input.ref}→${result.input.alt}; reference base verified.`},
+    {label:"Reference allele",status:"pass",detail:`${result.input.assembly} chr${result.input.chromosome}:${result.input.position} ${result.input.ref}→${result.input.alt}${isReverse(result.input) ? ` (forward strand; ${complementBase(result.input.ref)}→${complementBase(result.input.alt)} on the transcript)` : ""}; reference base verified.`},
     {label:"Exact nucleotide change",status:result.os.length ? "pass" : "warn",detail:"Each emitted donor contains the requested substitution and only its documented, policy-permitted blocking changes."},
     {label:"Re-cutting protection",status:"warn",detail:result.blockers.join(' ') || "Review matched guide/donor protection before ordering."},
     ...result.candidates.map(c=>({label:`${c.name} sequence QC`,status:c.qc.warnings.length ? "warn" : "pass",detail:c.qc.warnings.join(' ') || "No local guide-sequence warnings; specificity untested."})),
@@ -775,7 +776,7 @@ export function buildReportSnapshotItems(result) {
   if (!result) return [];
   if (result.type === "genomic-snv") return [
     {label:"Edit class",value:"Genomic SNP",tone:"accent"},
-    {label:"Target",value:`${result.input.position} ${result.input.ref}→${result.input.alt}`,tone:"default"},
+    {label:"Target",value:`${result.input.position} ${result.input.ref}→${result.input.alt}${isReverse(result.input) ? " (reverse-strand gene)" : ""}`,tone:"default"},
     {label:"Guides",value:String(result.gs.length),tone:"default"},
     {label:"Primers",value:result.amp || "Pending",tone:"warm"},
   ];
@@ -948,7 +949,7 @@ export function buildLocusMapItems(result, window) {
       });
     }
   });
-  if (result.type === "genomic-snv" && Number.isFinite(result.gp)) pushItem({ label:"Edit", detail:`${result.input.ref}→${result.input.alt}`, start:result.gp, end:result.gp+1, color:"#D97706", kind:"target" });
+  if (result.type === "genomic-snv" && Number.isFinite(result.gp)) pushItem({ label:"Edit", detail:isReverse(result.input) ? `${complementBase(result.input.ref)}→${complementBase(result.input.alt)}` : `${result.input.ref}→${result.input.alt}`, start:result.gp, end:result.gp+1, color:"#D97706", kind:"target" });
   if (result.type === "pm" && Number.isFinite(result.gp)) {
     pushItem({ label: "Edit", detail: `${result.wA}${result.an}${result.mA}`, start: result.gp, end: result.gp + 3, color: "#D97706", kind: "target" });
   }
@@ -1296,7 +1297,7 @@ function buildReleaseVerdictHtml(result) {
 }
 
 function buildGenomicBlockingComparisonHtml(result) {
-  const at=p=>result.input.referenceStart+p;
+  const at=p=>genomicAt(result.input,p);
   const screen=s=>!s?'unassessed':`${s.risk}; ${s.junctionChanges.length} junction changes, ${s.nearby.length} proximity flags, ${s.motifChanges.length} GT/AG motif changes${s.motifChanges.length ? ' ('+s.motifChanges.map(m=>at(m.gp)+': '+m.before+' to '+m.after).join('; ')+')' : ''}. Splice-strength prediction: unassessed.`;
   return `<h2>Blocking alternatives and splice screen</h2><p>Policy: ${result.input.blockingPolicy || 'none'}. Synonymous coding changes preserve amino acids relative to the requested-edit allele; noncoding changes are not silent.</p><p>Compare the intended effect (WT to requested edit) separately from added effects (requested edit to final donor). This is a local sequence screen, not a prediction of exon skipping, intron retention or cryptic-site use.</p>${result.candidates.map(c=>{
     const comp=c.comparison;
@@ -1304,22 +1305,6 @@ function buildGenomicBlockingComparisonHtml(result) {
     const intended=comp.requestedSplice;
     return `<h3>${c.name}</h3><p>${comp.recommendation}</p><p><strong>Requested edit vs WT:</strong> ${screen(intended)} ${intended.junctionChanges.map(j=>`${j.kind} ${at(j.start)}: ${j.before} to ${j.after}`).join('; ')}</p><table>${tableHtml([['Alternative','Added changes (1-based genomic)','Protection / residual CFD','Added splice-screen signals','Selected']],true)}${tableHtml(comp.variants.map(v=>[v.id,v.changes.map(m=>`${at(m.gp)} ${result.gb.genomicSequence[m.gp]}>${m.nb} (${m.mt==='silent'?'synonymous coding':'noncoding'})`).join('; ')||'None',`${v.protection.tier} / ${Number.isFinite(v.protection.cfd)?v.protection.cfd.toFixed(4):'unscored'}`,screen(v.splice),v.id===comp.selected.id?'Yes':'No']))}</table>`;
   }).join('')}<p>Local screening uses annotated junction dinucleotides, a conservative 20-bp proximity flag and GT/AG motif changes. No local flags does not establish splice safety. Branch points, enhancers, silencers and alternative transcripts remain unassessed.</p>`;
-}
-
-export function buildGuideAlternativesHtml(result) {
-  const search = result?.guideAlternatives;
-  if (!search) return "";
-  const esc = value => escapeSchemeHtml(String(value));
-  const rows = (search.candidates || []).map(g => `<tr>
-    <td class="mono">${esc(g.sp)}</td><td>${esc(g.pm)}</td><td>${esc(g.str)}</td>
-    <td>${Math.abs(g.d)} bp ${g.d < 0 ? "upstream" : g.d > 0 ? "downstream" : "at insertion"}</td>
-    <td><b>${esc(g.protection)}</b><br>${esc(g.reason)}</td>
-    <td>${g.byInsertion ? "Target disrupted by insertion" : Number.isFinite(g.cfd) ? g.cfd.toFixed(4) : "Not assessed"}</td>
-  </tr>`).join("");
-  return `<h3>Alternative gRNAs within ±${search.radius} bp</h3>
-    <p>${result.gs.length} selected guide(s) from the ${search.selectedWindow} bp search window. ${esc(search.note)}</p>
-    ${rows ? `<table><thead><tr><th>Spacer (5′ → 3′)</th><th>PAM</th><th>Strand</th><th>Cut distance</th><th>Protection with current donor</th><th>CFD residual</th></tr></thead><tbody>${rows}</tbody></table>`
-      : `<p>No additional candidates passed the existing PAM and spacer filters within ±${search.radius} bp.</p>`}`;
 }
 
 export function buildReportHtml(meta, result, fileName, historicalContext, reviewItems, brunelloLibrary = null) {
@@ -1423,7 +1408,6 @@ details.fold>.body{padding:8px 12px 10px 12px}
   ${result.type === "genomic-snv" ? `<p class="mono">${result.context.before}[${result.input.ref}→${result.input.alt}]${result.context.after}</p><p>${result.context.nearestExonBoundary ? `Nearest annotated boundary: ${result.context.nearestExonBoundary.label}, ${result.context.nearestExonBoundary.edge}; offset ${result.context.nearestExonBoundary.distance} bp.` : "Exon boundary context unavailable."}</p>` : ""}
   <h2>2. gRNA Sequences</h2>
   <table>${tableHtml([["Name", "Sequence", "Strand", "GC", "Notes"]], true)}${tableHtml(guideRows)}</table>
-  ${buildGuideAlternativesHtml(result)}
   <h2>3. Recommended Primers</h2>
   ${buildPrimerSummaryHtml(result)}
   <p class="sub">${primerMeta}</p>

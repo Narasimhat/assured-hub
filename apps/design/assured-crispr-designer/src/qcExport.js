@@ -11,8 +11,7 @@
 // The optional `coding` block carries the gene region (coding.sequence, starting at coding.offset in the same uploaded reference) and the coding exons as
 // [start, end) pairs inside it, for the QC app's functional knockout assessment.
 
-import { QC_SPEC_SCHEMA } from "@assured/spec";
-export { QC_SPEC_SCHEMA }; // the contract lives in @assured/spec, shared with Assured QC
+export const QC_SPEC_SCHEMA = "assured-qc-design/1";
 
 const COMPLEMENT = { A: "T", C: "G", G: "C", T: "A" };
 const reverseComplement = (sequence) => [...String(sequence)].reverse().map((base) => COMPLEMENT[base] || "N").join("");
