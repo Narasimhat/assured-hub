@@ -20,7 +20,7 @@ Auditor mode accepts a downloaded passport, or a record from the experiment's hi
 
 `packages/assured-provenance` is used by `apps/studio`, `apps/qc` and `apps/design/assured-crispr-designer`. It supplies metadata screening, canonical JSON hashing, the `assured-ipsc-passport/1` envelope and Creator/Auditor UI. Its engine originated from the tested standalone FAIR apps. Passport envelope compatibility is retained; workflow snapshots are ordinary `design` and `analysis` evidence entries.
 
-`apps/qc/src/runProvenance.js` captures worker-input fingerprints. `apps/studio/src/services/passportWorkflow.js` selects snapshots and checks attached originals against them. There is no server-side storage, issuer identity, external timestamp or blockchain transaction. A user who replaces both the data and the entire self-issued record can create another internally consistent record. Preserve an independently trusted original to make comparison meaningful.
+`apps/qc/src/runProvenance.js` captures worker-input fingerprints. `apps/studio/src/services/passportWorkflow.js` selects snapshots and checks attached originals against them. There is no managed server-side storage or verified issuer identity. The optional Sepolia integration adds independently checked hash anchors and separate proofs; see [Sepolia anchoring](SEPOLIA_ANCHORING.md). A user who replaces both the data and the entire self-issued record can create another internally consistent record. Preserve an independently trusted original to make comparison meaningful.
 
 ## Limits
 
@@ -34,7 +34,7 @@ Limits remain 20 attachments, 50 MB per file, 200 MB total. Three automatic work
 2. Add a complete evidence ZIP export, bulk manifest verification, and versioned schemas/migrations, with a shared test corpus covering standalone and Hub passports.
 3. Add lab-specific QC policies, explicit assay methods and acceptance criteria, dated reviewer decisions, and validation against known outcomes. Keep teaching/simulated datasets visibly separate from experimental records.
 4. Add organization identity, access controls and managed record retention after deciding where sensitive sequence data may be hosted. Browser-local persistence is not a managed audit archive.
-5. Add signed issuer records and independently verified timestamp/ledger receipts. Only then expose persistent registry/QR links or externally verifiable provenance claims. Anchor only hashes, never raw sequences or identifiable metadata.
+5. Pilot the implemented Sepolia ledger receipts, add trusted issuer identities and a reviewed production-network policy, then expose persistent registry/QR links. Anchor only hashes, never raw sequences or identifiable metadata.
 6. Add a CoA/PDF export with qualified claims, then subscriptions and facility administration once the pilot workflow is validated.
 
 ## Validation

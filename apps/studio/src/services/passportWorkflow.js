@@ -1,4 +1,5 @@
 import { canonical, sha256 } from '@assured/provenance';
+import { validateChainProofShape } from '@assured/provenance/blockchain';
 import { checkPassport } from '@assured/provenance/passport';
 import { buildQcDesignSpec } from '../engine/design/qcExport.js';
 
@@ -57,5 +58,13 @@ export async function validateWorkflowEvidence(project, attachments, input) {
 }
 export async function validateStoredPassports(project) {
   for (const cert of project.fairPassports || []) await checkPassport(cert);
+  for (const proof of project.fairChainProofs || []) {
+    const cert = (project.fairPassports || []).find(cert => cert.recordSha256 === proof?.recordSha256);
+    if (!cert) throw new Error('Stored chain proof has no matching passport.');
+    validateChainProofShape(cert, proof); // Schema only; loaded proofs remain unverified until an explicit RPC check.
+  }
+  for (const [digest, hash] of Object.entries(project.fairAnchorSubmissions || {})) {
+    if (!/^[a-f0-9]{64}$/.test(digest) || typeof hash !== 'string' || !/^0x[a-fA-F0-9]{64}$/.test(hash)) throw new Error('Invalid stored transaction reference.');
+  }
   return project;
 }

@@ -41,7 +41,7 @@ export function App() {
 
   const handleUpdateProject = (fields) => {
     const projectId = currentProject.id;
-    setCurrentProject(prev => prev.id === projectId ? updateProject(prev, fields) : prev);
+    setCurrentProject(prev => prev.id === projectId ? updateProject(prev, typeof fields === 'function' ? fields(prev) : fields) : prev);
   };
 
   const handleSave = async () => {

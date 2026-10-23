@@ -1,11 +1,16 @@
 import React, { useMemo } from 'react';
 import ProvenancePanel from '@assured/provenance/ui';
+import BlockchainPanel from '@assured/provenance/blockchain-ui';
 import { passportReadiness, workflowDefaults, workflowSnapshots, validateWorkflowEvidence } from '../../services/passportWorkflow.js';
 
 function downloadSnapshot(snapshot) {
   const url = URL.createObjectURL(new Blob([snapshot.text], { type: 'application/json' }));
   const a = document.createElement('a'); a.href = url; a.download = snapshot.name;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function historyWith(project, certificate) {
+  const history = project.fairPassports || [];
+  return history.some(c => c.recordSha256 === certificate.recordSha256) ? history : [...history, certificate];
 }
 export function WorkflowPassport({ currentProject, onUpdateProject }) {
   const missing = passportReadiness(currentProject);
@@ -23,7 +28,18 @@ export function WorkflowPassport({ currentProject, onUpdateProject }) {
     <ProvenancePanel key={currentProject.id} source="Assured Hub Bench" passportOptions={{
       defaults: workflowDefaults(currentProject), initialPassports: currentProject.fairPassports || [],
       workflowAttachments: attachments, validateEvidence: (files, input) => validateWorkflowEvidence(currentProject, files, input),
-      onPassportCreated: cert => onUpdateProject({ fairPassports: [...(currentProject.fairPassports || []), cert] }),
+      renderAnchor: certificate => <BlockchainPanel key={certificate.recordSha256} certificate={certificate}
+        initialProofs={currentProject.fairChainProofs || []}
+        initialSubmission={currentProject.fairAnchorSubmissions?.[certificate.recordSha256] || ''}
+        onSubmitted={hash => onUpdateProject(project => ({
+          fairPassports: historyWith(project, certificate),
+          fairAnchorSubmissions: { ...(project.fairAnchorSubmissions || {}), [certificate.recordSha256]: hash },
+        }))}
+        onProofCreated={proof => onUpdateProject(project => ({
+          fairPassports: historyWith(project, certificate),
+          fairChainProofs: [...(project.fairChainProofs || []).filter(p => p.recordSha256 !== proof.recordSha256), proof],
+        }))} />,
+      onPassportCreated: cert => onUpdateProject(project => ({ fairPassports: historyWith(project, cert) })),
     }} />
     <p>Save retains passport history in this browser’s experiment storage. Export carries history in the portable .assured file. Historical passports describe their original snapshots and never silently update after a design or QC change. Keep snapshot downloads with each passport.</p>
   </section>;

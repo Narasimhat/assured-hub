@@ -14,7 +14,9 @@ export function createProject() {
     designResult: null,
     qcResults: [],
     qcRunProvenance: null,
-    fairPassports: []
+    fairPassports: [],
+    fairChainProofs: [],
+    fairAnchorSubmissions: {}
   };
 }
 
@@ -36,6 +38,8 @@ export function parseProject(text) {
   const value = JSON.parse(text);
   if (!value || typeof value !== "object" || Array.isArray(value) ||
       typeof value.gene !== "string" || !["ko", "pm", "ct", "nt", "it"].includes(value.editType) ||
+      (value.fairChainProofs != null && !Array.isArray(value.fairChainProofs)) ||
+      (value.fairAnchorSubmissions != null && (typeof value.fairAnchorSubmissions !== "object" || Array.isArray(value.fairAnchorSubmissions))) ||
       (value.fairPassports != null && !Array.isArray(value.fairPassports)) ||
       (value.qcRunProvenance != null && (typeof value.qcRunProvenance !== "object" || Array.isArray(value.qcRunProvenance))) ||
       (value.qcResults != null && !Array.isArray(value.qcResults)) ||

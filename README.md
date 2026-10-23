@@ -40,3 +40,5 @@ Simulator parameters are illustrative teaching defaults, not measured values.
 ## FAIR workflow edition
 
 The FAIR feature branch adds a fifth **FAIR Passport** step to Bench and shared provenance tools to Design and QC. Bench connects the active design, captured QC settings and original-input hashes to clone lineage, checks reattached originals, and retains passport history in saved/exported experiments. See [FAIR workflow and next releases](docs/FAIR_WORKFLOW.md). Records remain self-issued and unanchored; metadata completeness is not FAIR certification or biological validation. Deploy the FAIR edition as a separate Vercel project, leaving the original Hub's `main` unchanged.
+
+The FAIR branch also supports optional [ASSUREDChain Sepolia anchoring](docs/SEPOLIA_ANCHORING.md) through a connected wallet, with a separate independently checked proof. Base passports remain self-issued; proof verification establishes a wallet transaction, not biological or regulatory approval.

@@ -3,7 +3,7 @@ import { checkPassport, evidenceRoles, mintPassport, strategies, verifyEvidence,
 
 const initial = { cloneId: '', parentalLine: '', targetLocus: '', assembly: '', strategy: strategies[0],
   spacer: '', target: '', efficiency: '', zygosity: zygosities[0], tool: '', toolVersion: '', parameters: '{}' };
-export default function PassportPanel({ metadata, source, defaults = {}, initialPassports = [], workflowAttachments = [], validateEvidence, onPassportCreated }) {
+export default function PassportPanel({ metadata, source, defaults = {}, initialPassports = [], workflowAttachments = [], validateEvidence, onPassportCreated, renderAnchor }) {
   const id = useId();
   const [mode, setMode] = useState('create');
   const [input, setInput] = useState(() => ({ ...initial, ...defaults }));
@@ -89,6 +89,7 @@ export default function PassportPanel({ metadata, source, defaults = {}, initial
         </>}
       </>}
     </fieldset>
+    {certificate && renderAnchor && renderAnchor(certificate)}
     <p role="status" aria-live="polite" style={{ overflowWrap: 'anywhere' }}>{busy ? 'Processing passport…' : message}</p>
     <p>No biological identity, measured editing efficiency, zygosity, pluripotency, karyotype, or off-target claim is established by a matching hash. This is versioned JSON, not an established JSON-LD standard, immutable ledger, or independently signed certificate.</p>
   </section>;
