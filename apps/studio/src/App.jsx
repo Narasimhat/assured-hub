@@ -1,3 +1,4 @@
+import { AskAssured } from "./components/common/AskAssured.jsx";
 import { QuickStart } from "./components/common/QuickStart.jsx";
 import React, { useState, useEffect } from "react";
 import { Header } from "./components/layout/Header.jsx";
@@ -160,6 +161,7 @@ export function App() {
       )}
 
       <main className="app-container">
+        <AskAssured onNavigate={setActiveStep} />
         <QuickStart onNavigate={setActiveStep} onDesignExample={handleDesignExample} isLoadingExample={isLoadingExample} />
         <div className="project-context">
           <label htmlFor="experiment-name">Experiment name</label>
