@@ -5,7 +5,7 @@ import { fetchGeneGenbank } from "../../services/ensembl.js";
 import { downloadReportHtml, downloadDesignJson, downloadSchemeSvg } from "../../services/designExport.js";
 import { GuideAlternatives } from "./GuideAlternatives.jsx";
 import { GelSimulator } from "./GelSimulator.jsx";
-import { Search, Play, CheckCircle, AlertTriangle, XCircle, ArrowRight, Upload, Download, FileText, FlaskConical, ExternalLink } from "lucide-react";
+import { Search, Play, CheckCircle, AlertTriangle, XCircle, ArrowRight, Upload, Download, FileText, FlaskConical } from "lucide-react";
 
 export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, onProceedToQc, onOpenProtocol }) {
   const geneInput = currentProject.gene ?? "";
@@ -165,35 +165,6 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                 <span>{isLoadingGene ? "Fetching..." : "Fetch Gene"}</span>
               </button>
             </div>
-            
-            {/* Quick Presets */}
-            <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.4rem", alignItems: "center" }}>
-              <span style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>Examples:</span>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                style={{ padding: "0.15rem 0.45rem", fontSize: "0.75rem", borderRadius: "4px" }}
-                onClick={() => { setGeneInput("APOE"); setEditType("pm"); setMutation("R154S"); }}
-              >
-                APOE (R154S)
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                style={{ padding: "0.15rem 0.45rem", fontSize: "0.75rem", borderRadius: "4px" }}
-                onClick={() => { setGeneInput("SCN5A"); setEditType("ko"); setMutation(""); }}
-              >
-                SCN5A (Knockout)
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                style={{ padding: "0.15rem 0.45rem", fontSize: "0.75rem", borderRadius: "4px" }}
-                onClick={() => { setGeneInput("TP53"); setEditType("ct"); setTag("SD40-V5"); }}
-              >
-                TP53 (Tag)
-              </button>
-            </div>
 
             {geneMeta && (
               <p style={{ fontSize: "0.8rem", color: "var(--success)", marginTop: "0.4rem" }}>
@@ -316,20 +287,6 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             {error}
           </div>
         )}
-
-        <div style={{ marginTop: "1.25rem", paddingTop: "0.85rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
-          <span>Need batch multi-gene targeting or custom vendor sheets?</span>
-          <a
-            href="/design/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "var(--primary)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 600 }}
-            title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
-          >
-            <ExternalLink size={13} />
-            <span>Open Standalone Designer ↗</span>
-          </a>
-        </div>
       </div>
 
       {/* Results Display */}
@@ -378,13 +335,8 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                 <span>Bench Protocol</span>
               </button>
 
-              <button className="btn btn-secondary" onClick={onProceedToOrder}>
-                <span>Order Reagents</span>
-                <ArrowRight size={16} />
-              </button>
-
-              <button className="btn btn-primary" onClick={onProceedToQc}>
-                <span>Proceed to Trace Analysis</span>
+              <button className="btn btn-primary" onClick={onProceedToOrder}>
+                <span>Proceed to Order</span>
                 <ArrowRight size={16} />
               </button>
             </div>
@@ -466,20 +418,6 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
                   ))}
                 </tbody>
               </table>
-
-              <div style={{ marginTop: "0.85rem", paddingTop: "0.6rem", borderTop: "1px dashed var(--border-color)", fontSize: "0.8rem", color: "var(--text-muted)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
-                <span>Need batch multi-gene targeting or custom vendor sheets?</span>
-                <a
-                  href="/design/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--primary)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.25rem", fontWeight: 600 }}
-                  title="Open standalone ASSURED CRISPR Designer (dual-guide, ssODN donors, vendor sheets)"
-                >
-                  <ExternalLink size={12} />
-                  <span>Open Standalone Designer ↗</span>
-                </a>
-              </div>
             </div>
 
             {/* Donor Repair Template Card */}
@@ -522,12 +460,26 @@ export function DesignView({ currentProject, onUpdateProject, onProceedToOrder, 
             </div>
           </div>
 
-          <div className="card" hidden={!designResult.guideAlternatives}>
-            <GuideAlternatives result={designResult} />
-          </div>
+          {designResult.guideAlternatives && (
+            <details className="card" style={{ marginTop: "1rem" }}>
+              <summary style={{ cursor: "pointer", fontWeight: 600, color: "var(--text-main)", userSelect: "none" }}>
+                Advanced: Guide Alternatives &amp; Off-Target Rankings
+              </summary>
+              <div style={{ marginTop: "1rem" }}>
+                <GuideAlternatives result={designResult} />
+              </div>
+            </details>
+          )}
 
           {/* In-Silico PCR Agarose Gel Simulator */}
-          <GelSimulator designResult={designResult} currentProject={currentProject} />
+          <details className="card" style={{ marginTop: "1rem" }}>
+            <summary style={{ cursor: "pointer", fontWeight: 600, color: "var(--text-main)", userSelect: "none" }}>
+              Advanced: In-Silico PCR &amp; Agarose Gel Simulator
+            </summary>
+            <div style={{ marginTop: "1rem" }}>
+              <GelSimulator designResult={designResult} currentProject={currentProject} />
+            </div>
+          </details>
         </>
       )}
     </div>

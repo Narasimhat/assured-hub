@@ -1,4 +1,3 @@
-import { QuickStart } from "./components/common/QuickStart.jsx";
 import React, { useState, useEffect } from "react";
 import { Header } from "./components/layout/Header.jsx";
 import { DesignView } from "./components/design/DesignView.jsx";
@@ -133,6 +132,7 @@ export function App() {
         activeStep={activeStep}
         setActiveStep={setActiveStep}
         currentProject={currentProject}
+        onUpdateProject={handleUpdateProject}
         onNewProject={handleNewProject}
         onSaveProject={handleSave}
         onOpenProjects={() => setShowProjectsModal(true)}
@@ -160,13 +160,6 @@ export function App() {
       )}
 
       <main className="app-container">
-        <QuickStart onNavigate={setActiveStep} onDesignExample={handleDesignExample} isLoadingExample={isLoadingExample} />
-        <div className="project-context">
-          <label htmlFor="experiment-name">Experiment name</label>
-          <input id="experiment-name" value={currentProject.name || ""}
-            onChange={e => handleUpdateProject({ name: e.target.value })} />
-          <span>Save keeps your work on this device. Export makes a portable backup.</span>
-        </div>
         {activeStep === "design" && (
           <DesignView
             key={currentProject.id}

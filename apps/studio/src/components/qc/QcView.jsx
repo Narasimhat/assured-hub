@@ -51,7 +51,6 @@ export function QcView({ currentProject, onUpdateProject }) {
             <button className="btn btn-secondary" onClick={() => downloadReportHtml(currentProject, currentProject.designResult)}>Download design HTML</button>
             <button className="btn btn-secondary" onClick={() => downloadDesignJson(currentProject, currentProject.designResult)}>Download Design JSON</button>
           </>}
-          <a className="btn btn-secondary" href="./demo_traces/apoe_qc_practice.zip" download>Download practice ZIP</a>
         </div>
       </div>
 

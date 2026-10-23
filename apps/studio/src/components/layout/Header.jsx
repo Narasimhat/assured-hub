@@ -1,10 +1,11 @@
 import React from "react";
-import { Dna, Save, FolderOpen, Download, Upload, Plus, FlaskConical } from "lucide-react";
+import { Dna, Save, FolderOpen, Download, Upload, Plus } from "lucide-react";
 
 export function Header({
   activeStep,
   setActiveStep,
   currentProject,
+  onUpdateProject,
   onNewProject,
   onSaveProject,
   onOpenProjects,
@@ -21,13 +22,55 @@ export function Header({
 
   return (
     <header className="app-header">
-      <div className="brand">
-        <div className="brand-icon">
-          <Dna size={20} />
+      <div className="brand" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <div className="brand-icon">
+            <Dna size={20} />
+          </div>
+          <div>
+            <a className="brand-title" href="/" title="ASSURED home" style={{ textDecoration: "none" }}>ASSURED Bench</a>
+            <span className="brand-badge">v1.0</span>
+          </div>
         </div>
-        <div>
-          <a className="brand-title" href="/" title="ASSURED home" style={{ textDecoration: "none" }}>ASSURED Bench</a>
-          <span className="brand-badge">v1.0</span>
+
+        {/* Inline Project Identity */}
+        <div className="header-project-pill" style={{
+          display: "flex",
+          alignItems: "center",
+          background: "rgba(0, 20, 48, 0.55)",
+          border: "1px solid rgba(255, 255, 255, 0.25)",
+          borderRadius: "8px",
+          padding: "0.2rem 0.6rem",
+          gap: "0.5rem"
+        }}>
+          <label htmlFor="experiment-name" style={{
+            color: "#93c5fd",
+            fontSize: "0.8rem",
+            fontWeight: 600,
+            letterSpacing: "0.02em",
+            textTransform: "uppercase"
+          }}>
+            Project:
+          </label>
+          <input
+            id="experiment-name"
+            type="text"
+            value={currentProject?.name || ""}
+            onChange={e => onUpdateProject && onUpdateProject({ name: e.target.value })}
+            placeholder="Untitled Experiment"
+            aria-label="Experiment name"
+            style={{
+              background: "#ffffff",
+              color: "#003366",
+              border: "1px solid rgba(255, 255, 255, 0.6)",
+              borderRadius: "5px",
+              padding: "0.25rem 0.55rem",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              width: "180px",
+              outline: "none"
+            }}
+          />
         </div>
       </div>
 
@@ -48,26 +91,6 @@ export function Header({
 
       {/* Project Controls */}
       <div className="project-controls">
-        <a
-          href="/academy/"
-          className="btn btn-secondary"
-          title="Learn stem cell genome engineering in ASSURED Academy"
-          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", background: "rgba(16, 185, 129, 0.25)", color: "#ffffff", borderColor: "rgba(52, 211, 153, 0.6)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem", fontWeight: 600 }}
-        >
-          <span>Academy</span>
-          <span style={{ fontSize: "0.75rem" }}>↗</span>
-        </a>
-
-        <button
-          className="btn btn-secondary"
-          onClick={onOpenProtocol}
-          title="View wet-lab bench protocol and pipetting checklist"
-          style={{ padding: "0.45rem 0.85rem", fontSize: "0.85rem", background: "rgba(255, 255, 255, 0.16)", color: "#ffffff", borderColor: "rgba(255, 255, 255, 0.45)", fontWeight: 600 }}
-        >
-          <FlaskConical size={16} />
-          <span>Bench Protocol</span>
-        </button>
-
         <button
           className="btn btn-secondary"
           onClick={onNewProject}

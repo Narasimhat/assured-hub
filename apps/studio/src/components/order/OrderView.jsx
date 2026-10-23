@@ -125,7 +125,14 @@ export function OrderView({ currentProject, onProceedToQc, onOpenProtocol }) {
       </div>
 
       {/* In-Silico PCR Agarose Gel Simulator */}
-      <GelSimulator designResult={currentProject?.designResult} currentProject={currentProject} />
+      <details className="card" style={{ marginTop: "1rem" }}>
+        <summary style={{ cursor: "pointer", fontWeight: 600, color: "var(--text-main)", userSelect: "none" }}>
+          Optional: In-Silico PCR &amp; Agarose Gel Simulator
+        </summary>
+        <div style={{ marginTop: "1rem" }}>
+          <GelSimulator designResult={currentProject?.designResult} currentProject={currentProject} />
+        </div>
+      </details>
     </div>
   );
 }
