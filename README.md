@@ -36,3 +36,21 @@ node tools/evaluate-plates.mjs <platesDir> <out.csv>   # QC readout vs simulated
 
 `node_modules` are not included. `npm ci` at the root creates the workspace links.
 Simulator parameters are illustrative teaching defaults, not measured values.
+
+## Enzyme support in the Hub
+
+The bundled **Bench** (`/studio/`) and **Design** (`/design/`) apps support SpCas9,
+AsCas12a, LbCas12a and Mad7 with the same modification workflow: paired knockouts,
+nearby point edits, matched donors, primers, reports and exports. This synchronizes
+Assured_CRISPR_Design PR #24 and assured-bench PR #2 into the Hub's local copies.
+Enzyme records (config 1.1.0) live in `@assured/spec/enzyme-config`; both design
+engines and the shared QC validator consume those records. The standalone QC
+and Bench QC entry points use the same enzyme-aware validator, including
+reverse-read PAM and staggered-cut geometry.
+
+Cas9 remains the default. Cas12a/Mad7 activity and CFD scores are uncalibrated;
+canonical-PAM findings are categorical. Full crRNA ordering requires a verified
+repeat and documentation, and vendor compatibility must be checked. Nominal cut
+offsets, repeat documentation, reference-tool comparisons and genome-wide
+specificity still require validation. Academy's existing teaching presets remain
+illustrative and do not establish experimental performance for the new enzymes.
