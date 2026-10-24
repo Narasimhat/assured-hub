@@ -54,3 +54,14 @@ repeat and documentation, and vendor compatibility must be checked. Nominal cut
 offsets, repeat documentation, reference-tool comparisons and genome-wide
 specificity still require validation. Academy's existing teaching presets remain
 illustrative and do not establish experimental performance for the new enzymes.
+
+## Enzyme-aware trace analysis
+
+QC 0.6.0 is bundled in `/qc/` and Bench `/studio/`. Mad7, AsCas12a and
+LbCas12a imports and manual entry use the shared nuclease registry and validator.
+Indels, adaptive larger events and paired deletions model the staggered cut span;
+alignment uses both strand boundaries. Existing HDR/partial-conversion, genotype,
+clone-ranking and report workflows are retained. Reports/CSV record the enzyme,
+config, analysis model and both predicted cuts. Computational fixtures and browser
+AB1 checks cover the added paths; enzyme-specific laboratory calibration remains
+pending. See `apps/qc/README.md` for assumptions and limitations.
