@@ -9,3 +9,7 @@ export function reverseComplement(sequence) {
 export function isDna(sequence) {
   return /^[ACGT]+$/.test(String(sequence || ""));
 }
+
+export function cleanDna(sequence) {
+  return String(sequence || "").toUpperCase().replace(/U/g, "T").replace(/[^ACGTN]/g, "");
+}
