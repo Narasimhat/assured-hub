@@ -5,7 +5,8 @@
   "type": "module",
   "description": "The assured-qc-design/1 hand-off schema: constants and validator shared by Assured CRISPR Design, Assured QC and the Academy grader.",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./enzyme-config": "./src/enzymeConfig.js"
   },
   "main": "./src/index.js",
   "scripts": {
