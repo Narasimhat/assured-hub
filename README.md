@@ -82,3 +82,13 @@ on the opposite side of the nominal target-strand cut. This mirrors the referenc
 layout for 5′-PAM Cas12a/Mad7 while retaining Cas9's 3′-PAM behavior. The policy is
 a computational design heuristic; enzyme-specific HDR and strand preferences
 still require experimental validation.
+
+### Workflow agent
+
+In Bench's Design screen, fetch or upload a reference, choose the modification and fill its details, then use **Workflow agent → Compare enzymes and recommend**. Select the enzymes available in your lab and choose protection-first, closest-cut, or fewer-blocking-changes priority. The agent runs the existing design engine for each enzyme in a cancellable Web Worker, with no remote model calls. The full knockout, protein-substitution, internal-tag and terminal-tag tools supply the calculations.
+
+Blocked or incomplete designs cannot be recommended. Configured release gates precede the chosen priority; exact ties remain ties, with alphabetical display only. Cut distance, computed guide–donor protection, documented blocking changes and primer checks explain the ranking. This is a rule-based decision agent, not a calibrated predictor of experimental efficiency. It does not compare base editing, prime editing or genomic SNP workflows in this version. Missing genome-wide specificity or activity evidence stays unknown. SpRY PAM-only substitutions do not become blocking protection.
+
+**Use [enzyme] design** adopts the computed result into the normal report, Order and QC path. The agent records its version, enzyme-config version, priority, compared/excluded enzymes, reference/input SHA-256, reasoning and limitations. Recommendation JSON and the applied design's HTML/QC JSON retain that record; saved Bench projects retain it too. Changing design inputs clears the recommendation and previous QC, and cancels a running comparison. Guide sequences, direct-repeat verification and prior weak-protection acknowledgements are not transferred between enzymes.
+
+The next-step checklist explains donor/pair use and screening. Existing AssuredQC clone decisions and ranking remain the source for downstream clone selection; final clones still need independent confirmation. Comparison does not send orders, change delivery conditions, or choose an unsupported editing technology.
