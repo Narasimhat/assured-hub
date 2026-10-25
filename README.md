@@ -65,3 +65,14 @@ clone-ranking and report workflows are retained. Reports/CSV record the enzyme,
 config, analysis model and both predicted cuts. Computational fixtures and browser
 AB1 checks cover the added paths; enzyme-specific laboratory calibration remains
 pending. See `apps/qc/README.md` for assumptions and limitations.
+
+## Shared SNP donor policy
+
+All enzymes now use the Cas9-style SNP donor policy: exactly 127 nt, asymmetric
+36/91 cut-centered reference windows (with the same sequence-end handling), and
+opposite-guide ordering. Stale tag format, arm-length or strand settings do not
+change a SNP donor. Matched donors retain shared blockers for co-delivery where
+feasible; otherwise the design falls back or flags the incompatible geometry.
+Synonymous PAM disruption is preferred. If unavailable, synonymous PAM-proximal
+seed changes are proposed with full protein/splice checks and an explicit
+unscored-protection warning. Tag format/arm controls remain available for tags.
