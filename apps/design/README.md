@@ -1,5 +1,16 @@
 # ASSURED CRISPR Designer
 
+**Enzyme selection:** fetch a gene or upload GenBank in Workspace, select SpCas9,
+AsCas12a, LbCas12a or Mad7, and choose the modification. Cas12a/Mad7 now construct
+two-guide knockout and HDR designs through the same reports, primers, ordering
+and QC exports as Cas9. SNP donors use the same 127-nt asymmetric window and
+opposite-guide ordering, with enzyme-aware synonymous PAM blocking and an unscored
+synonymous seed fallback. See [ENZYME_DONORS.md](./ENZYME_DONORS.md) for review requirements.
+SpCas9 retains its existing workflow. An advanced Sequence
+Scan tab also provides configurable whole-sequence discovery.
+See [ENZYME_GUIDES.md](./ENZYME_GUIDES.md) for usage and validation limits.
+SpCas9 CFD remains SpCas9-specific; no trained Cas12a scoring model is bundled.
+
 Hosted browser app for CRISPR design review and ordering-ready exports.
 
 Version 1.0.0. See [RELEASE_NOTES.md](./RELEASE_NOTES.md) for what changed and, more
@@ -60,13 +71,30 @@ error, not a risk - and it is unavailable under co-delivery.
 
 - Guide selection does not yet calculate a genome-wide CFD/MIT specificity score or a full off-target candidate list.
 - Guide GC content is reported, but a calibrated on-target efficiency model is not yet applied to every design mode. Reference KO guides may carry source-library scores when available.
-- Uploaded transcript identifiers are recorded, but MANE Select matching is not yet automatic. Confirm the intended transcript—especially the terminal coding exon for N- and C-terminal tagging—before sign-off.
+- Uploaded transcript identifiers are recorded, but MANE Select matching is not automatic for uploads (a fetched reference uses MANE Select; see below). Confirm the intended transcript—especially the terminal coding exon for N- and C-terminal tagging—before sign-off.
 - Remote primer specificity is an approximation and is not a substitute for a locally indexed, assembly-specific in-silico PCR result.
 - `strong` blocking means predicted residual activity at or below 0.023, not zero. Only a fully destroyed PAM makes a site uncuttable.
 - CFD is SpCas9-only, was fitted on off-target cleavage in a single screen, and estimates relative activity rather than a probability. It says nothing about repair outcome. It is the best published proxy for re-cutting of a repaired allele, not a measurement of it.
 - Stacked blocking changes lower HDR efficiency and make the edited allele harder to read. Sequence the whole amplicon, not only the edited codon: a re-cut allele can carry the intended edit plus a nearby indel, which a codon-specific assay scores as a success.
 - The design engine returns a terse internal result shape with no schema. Reports, exports and the CLI consume it by convention, so a change to that shape is not caught by validation.
 - The 26 archived 2026_GE designs have not been re-derived against the current engine. The audit's claims *about this application* are executable; its per-project findings are not.
+
+## Knockout designs: guides chosen by predicted protein loss
+
+A frameshift is not a knockout if the cell makes the protein anyway. For a knockout the engine therefore simulates a panel of
+frameshift indels at each candidate guide's cut, finds the premature stop, and applies the same exon-junction rules as the Assured QC engine:
+no nonsense-mediated decay for a stop in the last coding exon, within 55 nt of the last exon junction, within 150 nt of the start codon, or in a coding
+exon longer than 407 nt. A pair is offered only if each guide qualifies on its own (either can cut alone) and the deletion between the cuts does too.
+
+- `koAssessment` on the result: tier (robust, marginal, truncation, escape), per-guide shares of outcomes, nearest stop to the last junction,
+  and the isoforms of the record that some edit leaves undisrupted. The report prints it and the release verdict raises a review warning
+  below robust.
+- It is a prediction from sequence: roughly a third of premature stops that the 55-nt rule calls NMD-triggering still escape. Confirm loss of protein.
+- `koAware: false` in the design options restores the geometry-only choice.
+- **Repair-outcome ranking (SpCas9).** The browser app also loads a JavaScript port of Lindel (`src/lindel/`, MIT, 6.5 MB asset fetched on first use) and chooses, among pairs of the
+  same tier, the pair whose weaker guide is predicted to give the larger share of loss-of-function alleles. A guide with T or A at spacer position 17 (the base just 5' of the cut)
+  tends to make +1 insertions, and microhomology deletions are part of the same model. The report shows the predicted shares; a guide predicted under 60% raises a review warning.
+  On-target cutting efficiency and off-targets are not part of the estimate. Details and checks: `assured-crispr-designer/tools/ko-rank/README.md`.
 
 ## Point-mutation designs: two guides and intronic blockers
 
@@ -80,11 +108,12 @@ The point-mutation designer offers two guides whenever two exist within 30 bp of
 ## Genomic SNP mode
 
 Use the **Genomic SNP** tab for exact single-base edits, including intronic and
-splice-site substitutions. Upload a forward-oriented genomic GenBank reference,
-then enter assembly, chromosome, reference start, edit position (all coordinates
+splice-site substitutions. Look up a ClinVar variant (the reference is fetched for you),
+fetch a gene, or upload a forward-oriented genomic GenBank reference. For a file,
+enter assembly, chromosome, reference start, edit position (all coordinates
 1-based), and forward-strand reference/alternate bases. Ensembl `Location:` metadata
 fills the reference mapping automatically; conflicting coordinates and reference-base
-mismatches are rejected. A CDS is optional. Reverse-oriented input records are rejected.
+mismatches are rejected. A CDS is optional. A gene on the reverse strand is written along its transcript (`Location: ...:-1`, as in Ensembl and Benchling exports); see below.
 
 This mode reuses the guide, ssODN, primer and CFD functions, but validates the exact
 nucleotide substitution rather than requiring an amino-acid change. In the form it designs two guides and two ssODNs
@@ -93,6 +122,29 @@ or **REVIEW REQUIRED**, never ordering approval. Guides lacking strong repaired-
 protection, splice effects, parental genotype and genome-wide specificity need review.
 These results have their own downloads; they are not included in the protein-workspace
 batch ordering or Assured QC exports.
+
+## Fetching a reference instead of uploading one
+
+Both the design-request rows (protein workspace) and the Genomic SNP tab can fetch the reference from Ensembl or NCBI instead of reading a GenBank file. `src/geneFetch.js` builds the same record a Benchling "Import from genome" export contains: the sequence in sense orientation, gene, exon and CDS features, and an Ensembl-style `Location:` comment. Everything downstream (parsers, designers, reports, the Location check) sees an ordinary GenBank file, and the fetched text is saved with the project like an upload.
+
+- **Gene.** Gene symbol (aliases resolved through Ensembl cross-references), Ensembl transcript or gene ID, transcript name such as `PTPRO-201`, RefSeq accession (`NM_…`) or NCBI Gene ID. A symbol resolves to the MANE Select transcript, else the Ensembl canonical one, else the longest coding transcript. The record is the gene span plus 1 kb on each side (6 kb in the Genomic SNP tab, so the optional SpliceAI check has its context); a reverse-strand gene is written reverse-complemented, as Benchling does. Ensembl IDs are always answered by Ensembl and RefSeq accessions by NCBI; the source selector matters for symbols. Species: human, mouse, rat, zebrafish.
+- **ClinVar variant** (Genomic SNP tab). Variation ID, VCV accession, rsID, HGVS name (`NM_030667.3:c.2829+1G>A`) or `GENE c.…`. Only a record that is itself a single-base substitution is designable; haplotypes and other types are listed with the reason. The designer takes the ClinVar GRCh38 position and alleles, fetches the gene's MANE Select transcript from Ensembl, and refuses to continue if the reference base differs from ClinVar's. It reports the variant's cDNA position on the fetched transcript and warns when ClinVar names a different one. The design then runs exactly as for an upload (two guides, two ssODNs, blocking changes as set in the form), and the report's Reference row names the ClinVar record and the Ensembl transcript. The fetched reference can be downloaded from the tab; `scripts/splice_check.py` reads it (it also reads a reverse-oriented reference and scores the gene on its own strand).
+- **Reverse-strand genes.** Coordinates and alleles stay on the forward genomic strand (as ClinVar and VCF give them), but the reference record is written along the transcript. The designer maps the position from the `Location` annotation (index *i* is coordinate `referenceEnd − i`), complements the alleles, and then designs in the record's own space, so a reverse design equals the design of the same record read as a forward one (tested on a synthetic locus and on MYD88 read as a mirror gene). Positions, blocking-change alleles, guide spans, the splice-check request and the sequence export are mapped back to forward coordinates and say so; guide and donor strands (+/−), primers and cut offsets stay relative to the transcript, which the design warns about. A reverse record without a `Location` annotation is refused (coordinates cannot be mapped), as is any record whose Location, assembly, chromosome or start disagrees with the form.
+- **Where it runs.** Requests go from the browser to Ensembl REST, NCBI Datasets and NCBI E-utilities, which all allow cross-origin reads, so it works on Vercel and GitHub Pages alike and nothing but the identifier you type is sent. The Vercel deployment's Content-Security-Policy (`vercel.json`) lists exactly these three origins in `connect-src` besides `'self'`; a browser blocks any other origin and reports only "Failed to fetch", so a new host must be added there (a test compares the header with the origins the module requests). Public Ensembl and NCBI services rate-limit and occasionally return errors; the module retries transient failures and otherwise says which service failed. Benchling's own API is not used: it needs a per-user key and does not allow browser requests.
+- **Tests.** `test/genomic-reverse.test.js` checks the mirror equivalence, the HBB sickle-cell design (c.20A>T installs T on the transcript strand and turns E7 into V, silent blockers map to the right forward bases) and the forward-coordinate outputs. `test/gene-fetch.test.js` replays recorded Ensembl, NCBI and ClinVar responses (`test/fixtures/gene-fetch/responses.json`: MYD88 on the forward strand, HBB on the reverse strand, three ClinVar records). It checks that Ensembl and NCBI give identical exons, coding sequence and bases, that reverse-strand records translate correctly, and that a fetched ClinVar reference is accepted by the Genomic SNP designer. Against a Benchling import of PTPRO-201 the fetched record (gene span, no flank) had identical sequence, 27 exons and CDS, and the F942E design output was byte-identical.
+
+### Gene-fetch service outages
+
+For a gene symbol such as **TP53**, the source selector is the preferred provider.
+The app retries transient failures and automatically tries NCBI if Ensembl is
+unavailable (or Ensembl if NCBI is unavailable). The summary warns about the
+switch and records the actual transcript/assembly; the GenBank COMMENT records
+the recovery source and reason. Review the selected transcript before designing.
+Requests time out after 15 seconds per attempt.
+
+Exact Ensembl IDs/transcript names and RefSeq accessions retain their provider;
+they are never silently replaced by a transcript from the other service. If
+both services fail, the error reports both failures and offers GenBank upload.
 
 ## Local development
 
@@ -200,3 +252,9 @@ splice-site predictor; a pass does not validate splicing. For a prediction, down
 wild type, the edit and the edit with each ssODN's blocking changes and writes a result file; attach that file in the app to update the recommendation. The largest score
 change caused by the blocking changes on the edited allele (the worst ssODN allele) is judged: <= 0.05 supports them, up to 0.2 asks for review, above 0.2 advises against
 them (the tool's own thresholds). Limits: forward-strand references only; genome-wide specificity is not checked; RNA outcomes still need validation in the edited clones.
+
+SNP donor policy 2 places the 91 nt flank toward the PAM and the 36 nt flank
+on the opposite side of the nominal target-strand cut. This mirrors the reference
+layout for 5′-PAM Cas12a/Mad7 while retaining Cas9's 3′-PAM behavior. The policy is
+a computational design heuristic; enzyme-specific HDR and strand preferences
+still require experimental validation.
